@@ -1,0 +1,122 @@
+Menu dau tien:
+0 - Thoat
+1 - Dang nhap
+Lua chon cua ban (0-1):
+
+Menu cua sv:
+0 - Quay ve truoc
+1 - Diem danh
+2 - Xem diem danh
+3 - Xem TKB
+4 - Xem diem
+Lua chon cua ban (0-4): 
+
+KHONG CO chuc nang tao / dang ki tai khoan
+- Staff: developer tao 3 tai khoan
+- Lecturer: tai khoan se duoc he thong tao khi gv day 1 mon hoc
+- Student: tai khon se duoc he thong tao khi them sv moi
+
+Change password:
+- Hoi lai password cu 1 lan
+- Nhap password 2 lan
+
+struct Student{
+    int id;
+    string password;
+    string fullname;
+    Date dob;
+    int type; // 0: staff; 1: lecturer; 2: student
+};
+
+Manually add a new student to a class.
+Class:
+1 - 19APCS1
+2 - 19APCS2
+3 - 19CLC1
+4 - 19CLC2
+5 - 19CLC3
+Lua chon cua ban: 12
+(19CLC10)
+ID: 19127999
+Full name: Super Star
+DoB: 2020 04 01
+
+// 19CLC10,19127999,Super Star,2020 04 01 (Cach nhanh)
+
+
+// 07/2019
+Import students of a class (CSV (giao vu) -> text / binary (app))
+Class: 19APCS1
+CSV file: D:/19APCS1-Student.csv
+Import successfully
+Success: 9
+Fail: 1
+
+Edit an existing student
+Class:
+1 - 19APCS1
+2 - 19APCS2
+3 - 19CLC1
+4 - 19CLC2
+5 - 19CLC3
+Lua chon cua ban: 7
+Enter student ID: 19127002
+>>> Full name: Do Vuong Phuc
+>>> DoB: 2001-01-01
+You want to edit this student? 1
+Full name: Do Vuong Phuc Hoi Nhieu
+DoB: 2001 01 01
+Update student info successfully
+(Student password has been reset!!!)
+
+
+Remove a student
+Class:
+1 - 19APCS1
+2 - 19APCS2
+3 - 19CLC1
+4 - 19CLC2
+5 - 19CLC3
+Lua chon cua ban: 1
+Enter student ID: 19126001
+>>> Full name: Trinh Van Minh
+>>> DoB: 2001-04-01
+You want to remove this student? 1
+This student has been removed
+
+View list of classes.
+// App mở và hiển thị ds lớp trong file Class.txt
+
+View list of students in a class.
+Class:
+1 - 19APCS1
+2 - 19APCS2
+3 - 19CLC1
+4 - 19CLC2
+5 - 19CLC3
+Lua chon cua ban: 1
+
+
+Create / update / delete / view academic years (2018-2019), and semesters (Fall).
+Years: 2019-2020
+Semester: HK2
+
+
+From a semester, import schedule
+Enter academic year: 2019-2020
+Enter semester: HK2
+Enter class: 19APCS1
+Enter file: D:/19APCS1-Schedule.csv
+Import successfully!!!
+
+Students in 19APCS1: 3: Minh, 1, 2
+Students in 19APCS1-CS162: 4: Minh, 1, 2, Thang
+
+Search and view the scoreboard of a course.
+Enter class: 19APCS1
+Enter course: CS162
+
+Student
+Check in
+now()
+2020 06 01 14 01 00 // C++ current time
