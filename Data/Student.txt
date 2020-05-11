@@ -1,6 +1,7 @@
 3
+
 19126001
-20010401    // Password
+20010401
 Trinh Van Minh
 2001 04 01
 19APCS1
@@ -9,7 +10,7 @@ Trinh Van Minh
 19127002
 20020101
 Do Vuong Phuc Hoi Nhieu
-20020101
+2002 01 01
 19CLC5
 1
 

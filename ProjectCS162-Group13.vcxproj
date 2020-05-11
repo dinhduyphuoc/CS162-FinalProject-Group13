@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="functions.h" />
+    <ClInclude Include="menu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lecturers.cpp" />

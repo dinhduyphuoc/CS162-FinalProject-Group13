@@ -10,34 +10,35 @@ struct DOB {
 	int year, month, day;
 };
 
-struct staff {
+struct Staff {
 	string username;
-	string passwrd;
+	string password;
 	string fullName;
 	bool gender;
 };
 
-struct lecturer {
+struct Lecturer {
 	string username;
-	string passwrd;
+	string password;
 	string fullName;
 	string education;
 	bool gender;
 };
 
-struct student {
+struct Student {
 	string id; 
-	string passwrd;
+	string password;
 	string fullName;
 	DOB birthday;
 	string Class;
 	bool gender;
 };
 
+//Staff section
+void AddStudentManually(Student & student1, Student & student2);
+
+//Lecturer section
+
+//Student section
 
 
-//Staffs section
-
-//Lecturers Section
-
-//Students section
