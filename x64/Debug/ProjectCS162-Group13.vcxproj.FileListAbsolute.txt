@@ -1,0 +1,2 @@
+D:\HỌC LẬP TRÌNH\CS162-FinalProject-Group13\x64\Debug\ProjectCS162-Group13.exe
+D:\HỌC LẬP TRÌNH\CS162-FinalProject-Group13\x64\Debug\ProjectCS162-Group13.pdb
