@@ -7,11 +7,11 @@ int main() {
 	int nStaff, nLecturer, nStudent;
 
 	Staff* staff;
-	Staff* staffTmp;
+	Staff staffTmp;
 	Lecturer* lecturer;
-	Lecturer* lecturerTmp;
+	Lecturer lecturerTmp;
 	Student* student;
-	Student* studentTmp;
+	Student studentTmp;
 
 	fin1.open("Data/Staff.txt");
 	if (!fin1.is_open()) {
@@ -47,6 +47,11 @@ int main() {
 	}
 
 	Login(staff, staffTmp, lecturer, lecturerTmp, student, studentTmp, nStaff, nLecturer, nStudent);
+
+
+	delete[] staff;
+	delete[] student;
+	delete[] lecturer;
 
 	return 0;
 }

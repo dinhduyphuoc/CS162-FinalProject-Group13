@@ -36,7 +36,7 @@ void LoadStudent(ifstream& fin, Student* &student, int n) {
 		fin >> student[i].gender;
 	}
 }
-int Login(Staff* &staff, Staff* &staffTmp, Lecturer* &lecturer, Lecturer*& lecturerTmp, Student* &student, Student*& studentTmp, int nStaff, int nLecturer, int nStudent) {
+int Login(Staff* &staff, Staff& staffTmp, Lecturer* &lecturer, Lecturer& lecturerTmp, Student* &student, Student& studentTmp, int nStaff, int nLecturer, int nStudent) {
 	string username;
 	string password;
 	cout << "Username: ";
@@ -46,16 +46,16 @@ int Login(Staff* &staff, Staff* &staffTmp, Lecturer* &lecturer, Lecturer*& lectu
 
 	for (int i = 0; i < nStudent; i++) {
 		if (student[i].id == username && student[i].password == password) {
+			studentTmp.id = student[i].id;
+			studentTmp.password = student[i].password;
+			studentTmp.fullName = student[i].fullName;
+			studentTmp.birthday = student[i].birthday;
+			studentTmp.Class = student[i].Class;
+			studentTmp.gender = student[i].gender;
 			system("CLS");
 			cout << "Logged in successfully" << endl << flush;
 			cout << "Welcome back, " << student[i].fullName << "! \n" << endl;
-			mainMenu(student);
-			studentTmp->id = student[i].id;
-			studentTmp->password = student[i].password;
-			studentTmp->fullName = student[i].fullName;
-			studentTmp->birthday = student[i].birthday;
-			studentTmp->Class = student[i].Class;
-			studentTmp->gender = student[i].gender;
+			mainMenu(studentTmp);
 			return 1;
 		}
 
@@ -63,29 +63,29 @@ int Login(Staff* &staff, Staff* &staffTmp, Lecturer* &lecturer, Lecturer*& lectu
 
 	for (int i = 0; i < nStaff; i++) {
 		if (staff[i].username == username && staff[i].password == password) {
+			staffTmp.username = staff[i].username;
+			staffTmp.password = staff[i].password;
+			staffTmp.fullName = staff[i].fullName;
+			staffTmp.gender = staff[i].gender;
 			system("CLS");
 			cout << "Logged in successfully" << endl << flush;
 			cout << "Welcome back, " << staff[i].fullName << "! \n" << endl;
-			mainMenu(staff);
-			staffTmp->username = staff[i].username;
-			staffTmp->password = staff[i].password;
-			staffTmp->fullName = staff[i].fullName;
-			staffTmp->gender = staff[i].gender;
+			mainMenu(staffTmp);
 			return 2;
 		}
 	}
 
 	for (int i = 0; i < nLecturer; i++) {
 		if (lecturer[i].username == username && lecturer[i].password == password) {
+			lecturerTmp.username = lecturer[i].username;
+			lecturerTmp.password = lecturer[i].password;
+			lecturerTmp.fullName = lecturer[i].fullName;
+			lecturerTmp.education = lecturer[i].education;
+			lecturerTmp.gender = lecturer[i].gender;
 			system("CLS");
 			cout << "Logged in successfully" << endl << flush;
 			cout << "Welcome back, " << staff[i].fullName << "! \n" << endl;
-			mainMenu(lecturer);
-			lecturerTmp->username = lecturer[i].username;
-			lecturerTmp->password = lecturer[i].password;
-			lecturerTmp->fullName = lecturer[i].fullName;
-			lecturerTmp->education = lecturer[i].education;
-			lecturerTmp->gender = lecturer[i].gender;
+			mainMenu(lecturerTmp);
 			return 3;
 		}
 
@@ -96,6 +96,67 @@ int Login(Staff* &staff, Staff* &staffTmp, Lecturer* &lecturer, Lecturer*& lectu
 	return 0;
 }
 
+//Change password
+void ChangePasswdStaff(Staff& staff) {
+
+}
+
+//View info 
+void ViewInfo(Staff& staff) {
+	cout << "PROFILE INFORMATION" << endl;
+	cout << endl;
+	cout << "Username: ";
+	cout << staff.username << endl;
+	cout << "Fullname: ";
+	cout << staff.fullName << endl;
+	cout << "Gender: ";
+	if (!staff.gender) cout << "Male" << endl;
+	else cout << "Female" << endl;
+	cout << endl;
+	cout << "Press any key to return to menu..." << endl;
+	cout << endl;
+	system("pause");
+	system("CLS");
+}
+void ViewInfo(Lecturer& lecturer) {
+	cout << "PROFILE INFORMATION" << endl;
+	cout << endl;
+	cout << "Username: ";
+	cout << lecturer.username << endl;
+	cout << "Fullname: ";
+	cout << lecturer.fullName << endl;
+	cout << "Gender: ";
+	if (!lecturer.gender) cout << "Male" << endl;
+	else cout << "Female" << endl;
+	cout << "Education: ";
+	cout << lecturer.education << endl;
+	cout << endl;
+	cout << "Press any key to return to menu..." << endl;
+	cout << endl;
+	system("pause");
+	system("CLS");
+}
+void ViewInfo(Student& student) {
+	cout << "PROFILE INFORMATION" << endl;
+	cout << endl;
+	cout << "Student ID: ";
+	cout << student.id << endl;
+	cout << "Fullname: ";
+	cout << student.fullName << endl;
+	cout << "Date of birth: ";
+	cout << student.birthday.day << "/" << student.birthday.month << "/" << student.birthday.year << endl;
+	cout << "Class: ";
+	cout << student.Class;
+	cout << "Gender: ";
+	if (!student.gender) cout << "Male" << endl;
+	else cout << "Female" << endl;
+	cout << endl;
+	cout << "Press any key to return to menu..." << endl;
+	cout << endl;
+	system("pause");
+	system("CLS");
+}
+
 //Log out section
 void Logout() {
 	cout << "You have successfully logged out." << endl;
@@ -103,9 +164,10 @@ void Logout() {
 }
 
 //Main menu
-void mainMenu(Lecturer* &lecturer) {
+void mainMenu(Lecturer& lecturer) {
 	int option;
 	cout << "MAIN MENU" << endl;
+	cout << endl;
 	cout << "0. Show menu" << endl;
 	cout << "1. View profile info" << endl;
 	cout << "2. Change password" << endl;
@@ -120,7 +182,7 @@ void mainMenu(Lecturer* &lecturer) {
 		break;
 	case 1:
 		system("CLS");
-		//function
+		ViewInfo(lecturer);
 		break;
 	case 2:
 		system("CLS");
@@ -135,9 +197,10 @@ void mainMenu(Lecturer* &lecturer) {
 		break;
 	}
 }
-void mainMenu(Student* &student) {
+void mainMenu(Student& student) {
 	int option;
 	cout << "MAIN MENU" << endl;
+	cout << endl;
 	cout << "0. Show menu" << endl;
 	cout << "1. View profile info" << endl;
 	cout << "2. Change password" << endl;
@@ -152,7 +215,8 @@ void mainMenu(Student* &student) {
 		break;
 	case 1:
 		system("CLS");
-		//function
+		ViewInfo(student);
+		mainMenu(student);
 		break;
 	case 2:
 		system("CLS");
@@ -167,9 +231,10 @@ void mainMenu(Student* &student) {
 		break;
 	}
 }
-void mainMenu(Staff* &staff){
+void mainMenu(Staff& staff){
 	int option;
 	cout << "MAIN MENU" << endl;
+	cout << endl;
 	cout << "0. Show menu" << endl;
 	cout << "1. View profile info" << endl;
 	cout << "2. Change password" << endl;
@@ -184,7 +249,8 @@ void mainMenu(Staff* &staff){
 		break;
 	case 1:
 		system("CLS");
-		//function
+		ViewInfo(staff);
+		mainMenu(staff);
 		break;
 	case 2:
 		system("CLS");
@@ -201,9 +267,10 @@ void mainMenu(Staff* &staff){
 }
 
 //Lecturers
-void LecturerMenu(Lecturer* &lecturer) {
+void LecturerMenu(Lecturer& lecturer) {
 	int option;
 	cout << "LECTURER MENU: " << endl;
+	cout << endl;
 	cout << "0. Return to main menu" << endl;
 	cout << "1. View list of courses in the current semester" << endl;
 	cout << "2. View list of students of a course" << endl;
@@ -254,7 +321,7 @@ void LecturerMenu(Lecturer* &lecturer) {
 }
 
 //Students
-void StudentMenu(Student* &student) {
+void StudentMenu(Student& student) {
 	int option;
 	cout << "STUDENT MENU: " << endl;
 	cout << "0. Return to main menu" << endl;
@@ -293,9 +360,10 @@ void StudentMenu(Student* &student) {
 }
 
 //Staffs
-void StaffMenu(Staff* &staff) {
+void StaffMenu(Staff& staff) {
 	int option;
 	cout << "STAFF MENU: " << endl;
+	cout << endl;
 	cout << "0. Return to main menu" << endl;
 	cout << "1. Class management" << endl;
 	cout << "2. Course management" << endl;
@@ -330,9 +398,10 @@ void StaffMenu(Staff* &staff) {
 		break;
 	}
 }
-void StaffMenuClass(Staff* &staff) {
+void StaffMenuClass(Staff& staff) {
 	int option;
 	cout << "STAFF MENU - CLASS MANAGEMENT: " << endl;
+	cout << endl;
 	cout << "0. Return to main menu" << endl;
 	cout << "1. Return to option menu" << endl;
 	cout << "2. Import tudents of a class from a csv file" << endl;
@@ -361,7 +430,8 @@ void StaffMenuClass(Staff* &staff) {
 		break;
 	case 3:
 		system("CLS");
-		//function
+		AddStudentManually();
+		StaffMenu(staff);
 		break;
 	case 4:
 		system("CLS");
@@ -388,9 +458,10 @@ void StaffMenuClass(Staff* &staff) {
 		break;
 	}
 }
-void StaffMenuCourse(Staff* &staff) {
+void StaffMenuCourse(Staff& staff) {
 	int option;
 	cout << "STAFF MENU - COURSE MANAGEMENT: " << endl;
+	cout << endl;
 	cout << "0. Return to main menu" << endl;
 	cout << "1. Return to option menu" << endl;
 	cout << "2. Create/update/delete/view academic years (2018-2019) & semesters (Fall)" << endl;
@@ -465,9 +536,10 @@ void StaffMenuCourse(Staff* &staff) {
 		break;
 	}
 }
-void StaffMenuScoreboard(Staff* &staff) {
+void StaffMenuScoreboard(Staff& staff) {
 	int option;
 	cout << "STAFF MENU - COURSE MANAGEMENT: " << endl;
+	cout << endl;
 	cout << "0. Return to main menu" << endl;
 	cout << "1. Return to option menu" << endl;
 	cout << "2. Search and view the scoreboard of a course" << endl;
@@ -497,9 +569,10 @@ void StaffMenuScoreboard(Staff* &staff) {
 		break;
 	}
 }
-void StaffMenuAttendance(Staff* &staff) {
+void StaffMenuAttendance(Staff& staff) {
 	int option;
 	cout << "STAFF MENU - COURSE MANAGEMENT: " << endl;
+	cout << endl;
 	cout << "0. Return to main menu" << endl;
 	cout << "1. Return to option menu" << endl;
 	cout << "2. Search and view the scoreboard of a course" << endl;

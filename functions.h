@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -35,7 +36,8 @@ struct Student {
 };
 
 //Staff section
-void AddStudentManually(Student & student1, Student & student2);
+void ImportStudents();
+void AddStudentManually();
 
 //Lecturer section
 
