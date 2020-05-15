@@ -3,14 +3,15 @@
 ntmphuc
 123456
 Nguyen Thi Minh Phuc
-1 // Female
+1
 
 hatu
-123456
+hello
 Hoang Anh Tu
-1 // Female
+1
 
 ltathao
 654321
 Le Thi Anh Thao
-1 // Female
+1
+

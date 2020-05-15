@@ -30,7 +30,7 @@ void LoadStudent(ifstream& fin, Student* &student, int n) {
 		getline(fin, student[i].id);
 		getline(fin, student[i].password);
 		getline(fin, student[i].fullName);
-		fin >> student->birthday.year >> student->birthday.month >> student->birthday.day;
+		fin >> student[i].birthday.year >> student[i].birthday.month >> student[i].birthday.day;
 		fin.ignore(1000, '\n');
 		getline(fin, student[i].Class);
 		fin >> student[i].gender;
@@ -55,7 +55,7 @@ int Login(Staff* &staff, Staff& staffTmp, Lecturer* &lecturer, Lecturer& lecture
 			system("CLS");
 			cout << "Logged in successfully" << endl << flush;
 			cout << "Welcome back, " << student[i].fullName << "! \n" << endl;
-			mainMenu(studentTmp);
+			mainMenu(student, studentTmp);
 			return 1;
 		}
 
@@ -70,7 +70,7 @@ int Login(Staff* &staff, Staff& staffTmp, Lecturer* &lecturer, Lecturer& lecture
 			system("CLS");
 			cout << "Logged in successfully" << endl << flush;
 			cout << "Welcome back, " << staff[i].fullName << "! \n" << endl;
-			mainMenu(staffTmp);
+			mainMenu(staff, staffTmp);
 			return 2;
 		}
 	}
@@ -85,7 +85,7 @@ int Login(Staff* &staff, Staff& staffTmp, Lecturer* &lecturer, Lecturer& lecture
 			system("CLS");
 			cout << "Logged in successfully" << endl << flush;
 			cout << "Welcome back, " << staff[i].fullName << "! \n" << endl;
-			mainMenu(lecturerTmp);
+			mainMenu(lecturer, lecturerTmp);
 			return 3;
 		}
 
@@ -97,8 +97,148 @@ int Login(Staff* &staff, Staff& staffTmp, Lecturer* &lecturer, Lecturer& lecture
 }
 
 //Change password
-void ChangePasswdStaff(Staff& staff) {
+void ChangePasswdStaff(Staff* &staff, Staff& staffTmp) {
+	string password;
+	cin.ignore(1000, '\n');
+	cout << "Enter old password: ";
+	getline(cin, password, '\n');
+	while (password.compare(staffTmp.password) != 0) {
+		cout << "Your typed password doesn't match your old password, please try again" << endl;
+		cout << "Enter old password: ";
+		cin >> password;
+	}
+	cout << "Enter new password: ";
+	cin >> password;
 
+	ifstream fin;
+	ofstream fout;
+	int n;
+	fin.open("Data/Staff.txt");
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!" << endl;
+		return;
+	}
+	fin >> n;
+	fin.close();
+	for (int i = 0; i < n; i++) {
+		if (staffTmp.username == staff[i].username && staffTmp.password == staff[i].password) {
+			staff[i].password = password;
+		}
+	}
+	fout.open("Data/Staff.txt");
+	if (!fout.is_open()) {
+		cout << "Cannot open the file!" << endl;
+	}
+	fout << n << endl;
+	fout << endl;
+	for (int i = 0; i < n; i++) {
+		fout << staff[i].username << endl;
+		fout << staff[i].password << endl;
+		fout << staff[i].fullName << endl;
+		fout << staff[i].gender << endl;
+		fout << endl;
+	}
+	fout.close();
+	cout << endl;
+	cout << "Password changed successfully!" << endl;
+	system("pause");
+	system("CLS");
+}
+void ChangePasswdLecturer(Lecturer*& lecturer, Lecturer& lecturerTmp) {
+	string password;
+	cin.ignore(1000, '\n');
+	cout << "Enter old password: ";
+	getline(cin, password, '\n');
+	while (password.compare(lecturerTmp.password) != 0) {
+		cout << "Your typed password doesn't match your old password, please try again" << endl;
+		cout << "Enter old password: ";
+		cin >> password;
+	}
+	cout << "Enter new password: ";
+	cin >> password;
+
+	ifstream fin;
+	ofstream fout;
+	int n;
+	fin.open("Data/Lecturer.txt");
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!" << endl;
+		return;
+	}
+	fin >> n;
+	fin.close();
+	for (int i = 0; i < n; i++) {
+		if (lecturerTmp.username == lecturer[i].username && lecturerTmp.password == lecturer[i].password) {
+			lecturer[i].password = password;
+		}
+	}
+	fout.open("Data/Lecturer.txt");
+	if (!fout.is_open()) {
+		cout << "Cannot open the file!" << endl;
+	}
+	fout << n << endl;
+	fout << endl;
+	for (int i = 0; i < n; i++) {
+		fout << lecturer[i].username << endl;
+		fout << lecturer[i].password << endl;
+		fout << lecturer[i].fullName << endl;
+		fout << lecturer[i].gender << endl;
+		fout << endl;
+	}
+	fout.close();
+	cout << endl;
+	cout << "Password changed successfully!" << endl;
+	system("pause");
+	system("CLS");
+}
+void ChangePasswdStudent(Student*& student, Student& studentTmp) {
+	string password;
+	cin.ignore(1000, '\n');
+	cout << "Enter old password: ";
+	getline(cin, password, '\n');
+	while (password.compare(studentTmp.password) != 0) {
+		cout << "Your typed password doesn't match your old password, please try again" << endl;
+		cout << "Enter old password: ";
+		cin >> password;
+	}
+	cout << "Enter new password: ";
+	cin >> password;
+
+	ifstream fin;
+	ofstream fout;
+	int n;
+	fin.open("Data/Student.txt");
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!" << endl;
+		return;
+	}
+	fin >> n;
+	fin.close();
+	for (int i = 0; i < n; i++) {
+		if (studentTmp.id == student[i].id && studentTmp.password == student[i].password) {
+			student[i].password = password;
+		}
+	}
+	fout.open("Data/Studenttmp.txt");
+	if (!fout.is_open()) {
+		cout << "Cannot open the file!" << endl;
+	}
+	fout << n << endl;
+	fout << endl;
+	for (int i = 0; i < n; i++) {
+		fout << student[i].id << endl;
+		fout << password << endl;
+		fout << student[i].fullName << endl;
+		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
+		fout << student[i].Class << endl;
+		fout << student[i].gender;
+		fout << endl;
+	}
+	fout.close();
+	cout << endl;
+	cout << "Password changed successfully!" << endl;
+	system("pause");
+	system("CLS");
 }
 
 //View info 
@@ -143,7 +283,7 @@ void ViewInfo(Student& student) {
 	cout << student.id << endl;
 	cout << "Fullname: ";
 	cout << student.fullName << endl;
-	cout << "Date of birth: ";
+	cout << "Date of birth: " << endl;
 	cout << student.birthday.day << "/" << student.birthday.month << "/" << student.birthday.year << endl;
 	cout << "Class: ";
 	cout << student.Class;
@@ -164,7 +304,7 @@ void Logout() {
 }
 
 //Main menu
-void mainMenu(Lecturer& lecturer) {
+void mainMenu(Lecturer*& lecturer, Lecturer& lecturerTmp) {
 	int option;
 	cout << "MAIN MENU" << endl;
 	cout << endl;
@@ -178,15 +318,17 @@ void mainMenu(Lecturer& lecturer) {
 	switch (option) {
 	case 0:
 		system("CLS");
-		LecturerMenu(lecturer);
+		LecturerMenu(lecturer, lecturerTmp);
 		break;
 	case 1:
 		system("CLS");
-		ViewInfo(lecturer);
+		ViewInfo(lecturerTmp);
+		mainMenu(lecturer, lecturerTmp);
 		break;
 	case 2:
 		system("CLS");
-		//function
+		ChangePasswdLecturer(lecturer, lecturerTmp);
+		mainMenu(lecturer, lecturerTmp);
 		break;
 	case 3:
 		system("CLS");
@@ -197,7 +339,7 @@ void mainMenu(Lecturer& lecturer) {
 		break;
 	}
 }
-void mainMenu(Student& student) {
+void mainMenu(Student*& student, Student& studentTmp) {
 	int option;
 	cout << "MAIN MENU" << endl;
 	cout << endl;
@@ -211,16 +353,17 @@ void mainMenu(Student& student) {
 	switch (option) {
 	case 0:
 		system("CLS");
-		StudentMenu(student);
+		StudentMenu(student, studentTmp);
 		break;
 	case 1:
 		system("CLS");
-		ViewInfo(student);
-		mainMenu(student);
+		ViewInfo(studentTmp);
+		mainMenu(student, studentTmp);
 		break;
 	case 2:
 		system("CLS");
-		//function
+		ChangePasswdStudent(student, studentTmp);
+		mainMenu(student, studentTmp);
 		break;
 	case 3:
 		system("CLS");
@@ -231,7 +374,7 @@ void mainMenu(Student& student) {
 		break;
 	}
 }
-void mainMenu(Staff& staff){
+void mainMenu(Staff*& staff, Staff& staffTmp){
 	int option;
 	cout << "MAIN MENU" << endl;
 	cout << endl;
@@ -245,16 +388,17 @@ void mainMenu(Staff& staff){
 	switch (option) {
 	case 0:
 		system("CLS");
-		StaffMenu(staff);
+		StaffMenu(staff, staffTmp);
 		break;
 	case 1:
 		system("CLS");
-		ViewInfo(staff);
-		mainMenu(staff);
+		ViewInfo(staffTmp);
+		mainMenu(staff, staffTmp);
 		break;
 	case 2:
 		system("CLS");
-		//function
+		ChangePasswdStaff(staff, staffTmp);
+		mainMenu(staff, staffTmp);
 		break;
 	case 3:
 		system("CLS");
@@ -267,7 +411,7 @@ void mainMenu(Staff& staff){
 }
 
 //Lecturers
-void LecturerMenu(Lecturer& lecturer) {
+void LecturerMenu(Lecturer*& lecturer, Lecturer& lecturerTmp) {
 	int option;
 	cout << "LECTURER MENU: " << endl;
 	cout << endl;
@@ -285,7 +429,7 @@ void LecturerMenu(Lecturer& lecturer) {
 	switch (option) {
 	case 0:
 		system("CLS");
-		mainMenu(lecturer);
+		mainMenu(lecturer, lecturerTmp);
 		break;
 	case 1:
 		system("CLS");
@@ -321,7 +465,7 @@ void LecturerMenu(Lecturer& lecturer) {
 }
 
 //Students
-void StudentMenu(Student& student) {
+void StudentMenu(Student*& student, Student& studentTmp) {
 	int option;
 	cout << "STUDENT MENU: " << endl;
 	cout << "0. Return to main menu" << endl;
@@ -335,7 +479,7 @@ void StudentMenu(Student& student) {
 	switch (option) {
 	case 0:
 		system("CLS");
-		mainMenu(student);
+		mainMenu(student, studentTmp);
 		break;
 	case 1:
 		system("CLS");
@@ -360,7 +504,7 @@ void StudentMenu(Student& student) {
 }
 
 //Staffs
-void StaffMenu(Staff& staff) {
+void StaffMenu(Staff*& staff, Staff& staffTmp) {
 	int option;
 	cout << "STAFF MENU: " << endl;
 	cout << endl;
@@ -375,30 +519,30 @@ void StaffMenu(Staff& staff) {
 	switch (option) {
 	case 0:
 		system("CLS");
-		mainMenu(staff);
+		mainMenu(staff, staffTmp);
 		break;
 	case 1:
 		system("CLS");
-		StaffMenuClass(staff);
+		StaffMenuClass(staff, staffTmp);
 		break;
 	case 2:
 		system("CLS");
-		StaffMenuCourse(staff);
+		StaffMenuCourse(staff, staffTmp);
 		break;
 	case 3:
 		system("CLS");
-		StaffMenuScoreboard(staff);
+		StaffMenuScoreboard(staff, staffTmp);
 		break;
 	case 4:
 		system("CLS");
-		StaffMenuAttendance(staff);
+		StaffMenuAttendance(staff, staffTmp);
 		break;
 	default:
 		cout << "ERROR!";
 		break;
 	}
 }
-void StaffMenuClass(Staff& staff) {
+void StaffMenuClass(Staff*& staff, Staff& staffTmp) {
 	int option;
 	cout << "STAFF MENU - CLASS MANAGEMENT: " << endl;
 	cout << endl;
@@ -417,11 +561,11 @@ void StaffMenuClass(Staff& staff) {
 	switch (option) {
 	case 0:
 		system("CLS");
-		mainMenu(staff);
+		mainMenu(staff, staffTmp);
 		break;
 	case 1:
 		system("CLS");
-		StaffMenu(staff);
+		StaffMenu(staff, staffTmp);
 		break;
 
 	case 2:
@@ -431,7 +575,7 @@ void StaffMenuClass(Staff& staff) {
 	case 3:
 		system("CLS");
 		AddStudentManually();
-		StaffMenu(staff);
+		StaffMenu(staff, staffTmp);
 		break;
 	case 4:
 		system("CLS");
@@ -458,7 +602,7 @@ void StaffMenuClass(Staff& staff) {
 		break;
 	}
 }
-void StaffMenuCourse(Staff& staff) {
+void StaffMenuCourse(Staff*& staff, Staff& staffTmp) {
 	int option;
 	cout << "STAFF MENU - COURSE MANAGEMENT: " << endl;
 	cout << endl;
@@ -481,11 +625,11 @@ void StaffMenuCourse(Staff& staff) {
 	switch (option) {
 	case 0:
 		system("CLS");
-		mainMenu(staff);
+		mainMenu(staff, staffTmp);
 		break;
 	case 1:
 		system("CLS");
-		StaffMenu(staff);
+		StaffMenu(staff, staffTmp);
 		break;
 	case 2:
 		system("CLS");
@@ -536,7 +680,7 @@ void StaffMenuCourse(Staff& staff) {
 		break;
 	}
 }
-void StaffMenuScoreboard(Staff& staff) {
+void StaffMenuScoreboard(Staff*& staff, Staff& staffTmp) {
 	int option;
 	cout << "STAFF MENU - COURSE MANAGEMENT: " << endl;
 	cout << endl;
@@ -550,11 +694,11 @@ void StaffMenuScoreboard(Staff& staff) {
 	switch (option) {
 	case 0:
 		system("CLS");
-		mainMenu(staff);
+		mainMenu(staff, staffTmp);
 		break;
 	case 1:
 		system("CLS");
-		StaffMenu(staff);
+		StaffMenu(staff, staffTmp);
 		break;
 	case 2:
 		system("CLS");
@@ -569,7 +713,7 @@ void StaffMenuScoreboard(Staff& staff) {
 		break;
 	}
 }
-void StaffMenuAttendance(Staff& staff) {
+void StaffMenuAttendance(Staff*& staff, Staff& staffTmp) {
 	int option;
 	cout << "STAFF MENU - COURSE MANAGEMENT: " << endl;
 	cout << endl;
@@ -583,11 +727,11 @@ void StaffMenuAttendance(Staff& staff) {
 	switch (option) {
 	case 0:
 		system("CLS");
-		mainMenu(staff);
+		mainMenu(staff, staffTmp);
 		break;
 	case 1:
 		system("CLS");
-		StaffMenu(staff);
+		StaffMenu(staff,staffTmp);
 		break;
 	case 2:
 		system("CLS");

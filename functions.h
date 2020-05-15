@@ -33,6 +33,15 @@ struct Student {
 	DOB birthday;
 	string Class;
 	bool gender;
+	bool isActive;
+};
+
+struct Course {
+	string code;
+	string courseName;
+	string Class;
+	string Short;
+	string lectName;
 };
 
 //Staff section
