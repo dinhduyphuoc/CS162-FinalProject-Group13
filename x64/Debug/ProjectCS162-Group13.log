@@ -1,7 +1,2 @@
-﻿  lecturers.cpp
-  main.cpp
-  menu.cpp
-  staffs.cpp
-  students.cpp
-  Generating Code...
-  ProjectCS162-Group13.vcxproj -> C:\Users\ADMIN\Documents\GitHub\CS162-FinalProject-Group13\x64\Debug\ProjectCS162-Group13.exe
+﻿  staffs.cpp
+C:\Users\ADMIN\Documents\GitHub\CS162-FinalProject-Group13\staffs.cpp(96,6): error C2059: syntax error: '=='
