@@ -84,7 +84,7 @@ int Login(Staff* &staff, Staff& staffTmp, Lecturer* &lecturer, Lecturer& lecture
 			lecturerTmp.gender = lecturer[i].gender;
 			system("CLS");
 			cout << "Logged in successfully" << endl << flush;
-			cout << "Welcome back, " << staff[i].fullName << "! \n" << endl;
+			cout << "Welcome back, " << lecturer[i].fullName << "! \n" << endl;
 			mainMenu(lecturer, lecturerTmp);
 			return 3;
 		}

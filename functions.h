@@ -36,13 +36,7 @@ struct Student {
 	bool isActive;
 };
 
-struct Course {
-	string code;
-	string courseName;
-	string Class;
-	string Short;
-	string lectName;
-};
+
 
 //Staff section
 void ImportStudents();
