@@ -219,7 +219,7 @@ void ChangePasswdStudent(Student*& student, Student& studentTmp) {
 			student[i].password = password;
 		}
 	}
-	fout.open("Data/Studenttmp.txt");
+	fout.open("Data/Student.txt");
 	if (!fout.is_open()) {
 		cout << "Cannot open the file!" << endl;
 	}
@@ -227,11 +227,11 @@ void ChangePasswdStudent(Student*& student, Student& studentTmp) {
 	fout << endl;
 	for (int i = 0; i < n; i++) {
 		fout << student[i].id << endl;
-		fout << password << endl;
+		fout << student[i].password << endl;
 		fout << student[i].fullName << endl;
 		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
 		fout << student[i].Class << endl;
-		fout << student[i].gender;
+		fout << student[i].gender << endl;
 		fout << endl;
 	}
 	fout.close();
