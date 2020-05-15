@@ -84,7 +84,7 @@ int Login(Staff* &staff, Staff& staffTmp, Lecturer* &lecturer, Lecturer& lecture
 			lecturerTmp.gender = lecturer[i].gender;
 			system("CLS");
 			cout << "Logged in successfully" << endl << flush;
-			cout << "Welcome back, " << staff[i].fullName << "! \n" << endl;
+			cout << "Welcome back, " << lecturer[i].fullName << "! \n" << endl;
 			mainMenu(lecturer, lecturerTmp);
 			return 3;
 		}
@@ -227,7 +227,7 @@ void ChangePasswdStudent(Student*& student, Student& studentTmp) {
 	fout << endl;
 	for (int i = 0; i < n; i++) {
 		fout << student[i].id << endl;
-		fout << password << endl;
+		fout << student[i].password << endl;
 		fout << student[i].fullName << endl;
 		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
 		fout << student[i].Class << endl;

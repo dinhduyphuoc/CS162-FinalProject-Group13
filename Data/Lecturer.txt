@@ -3,22 +3,20 @@
 dbtien
 abcdef
 Dinh Ba Tien
-Tien si
 0
 
 nmhuy
 abcdef
 Nguyen Minh Huy
-Thac si
 0
 
 nhminh
 abcdef
 Nguyen Hai Minh
-1
+0
 
-dnvu
-dnvu
-Duong Nguyen Vu
-GS
-1
+
+
+
+205
+
