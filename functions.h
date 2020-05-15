@@ -43,7 +43,7 @@ void ImportStudents();
 void AddStudentManually();
 void deletearr(Student arr[], int& n, int pos);
 void appendarr(Student arr[], int& n, Student val, int pos);
-void changeClass(Student*& student);
+void changeClass();
 //Lecturer section
 
 //Student section

@@ -587,7 +587,8 @@ void StaffMenuClass(Staff*& staff, Staff& staffTmp) {
 		break;
 	case 6:
 		system("CLS");
-		//function
+		changeClass();
+		StaffMenu(staff, staffTmp);
 		break;
 	case 7:
 		system("CLS");
