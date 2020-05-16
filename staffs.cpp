@@ -181,23 +181,31 @@ void changeClass(/*Student*& student*/) {
 				fin.ignore(1000, '\n');
 				getline(fin, studenttemp[i].Class);
 				fin >> studenttemp[i].isActive;
-				appendarr(studenttemp, n, temp, i);
 			}
+			n++;
 			fin.close();
 			fout.open("Data/Classes/Student-" + temp.Class + ".txt");
 			if (!fout.is_open()) {
 				cout << "Cannot open the file!" << endl;
 			}
 			fout << n << endl;
-			for (int i = 0; i < n; i++) {
+			fout << endl;
+			for (int i = 0; i < n-1; i++) {
 				fout << studenttemp[i].id << endl;
 				fout << studenttemp[i].password << endl;
 				fout << studenttemp[i].fullName << endl;
-				fout << studenttemp[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
+				fout << studenttemp[i].birthday.year << " " << setw(2) << setfill('0') << studenttemp[i].birthday.month << " " << setw(2) << setfill('0') << studenttemp[i].birthday.day << endl;
 				fout << studenttemp[i].Class << endl;
 				fout << studenttemp[i].isActive << endl;
 				fout << endl;
 			}
+			fout << temp.id << endl;
+			fout << temp.password << endl;
+			fout << temp.fullName << endl;
+			fout << temp.birthday.year << " " << setw(2) << setfill('0') << temp.birthday.month << " " << setw(2) << setfill('0') << temp.birthday.day << endl;
+			fout << temp.Class << endl;
+			fout << temp.isActive << endl;
+			fout << endl;
 			fout << endl;
 			fout.close();
 
@@ -218,10 +226,8 @@ void changeClass(/*Student*& student*/) {
 		fin.ignore(1000, '\n');
 		getline(fin, studenttemp1[i].Class, '\n');
 		fin >> studenttemp1[i].isActive;
-		if (studenttemp1[i].id == temp.id) {
-			deletearr(studenttemp1, n, i);
-		}
 	}
+	--n;
 	fin.close();
 	
 	fout.open("Data/Classes/Student-" + classtemp + ".txt");
@@ -230,14 +236,16 @@ void changeClass(/*Student*& student*/) {
 	}
 	fout << n << endl;
 	fout << endl;
-	for (int i = 0; i < n; i++) {
-		fout << studenttemp[i].id << endl;
-		fout << studenttemp[i].password << endl;
-		fout << studenttemp[i].fullName << endl;
-		fout << studenttemp[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << studenttemp[i].Class << endl;
-		fout << studenttemp[i].gender << endl;
-		fout << endl;
+	for (int i = 0; i < n+1; i++) {
+		if (studenttemp1[i].id != temp.id) {
+			fout << studenttemp1[i].id << endl;
+			fout << studenttemp1[i].password << endl;
+			fout << studenttemp1[i].fullName << endl;
+			fout << studenttemp1[i].birthday.year << " " << setw(2) << setfill('0') << studenttemp[i].birthday.month << " " << setw(2) << setfill('0') << studenttemp[i].birthday.day << endl;
+			fout << studenttemp1[i].Class << endl;
+			fout << studenttemp1[i].gender << endl;
+			fout << endl;
+		}
 	}
 	fout << endl;
 	fout.close();
@@ -246,32 +254,4 @@ void changeClass(/*Student*& student*/) {
 	system("pause");
 	system("CLS");
 	delete[] student;
-}
-void deletearr(Student arr[], int& n,int pos){
-	if (n <= 0) {
-		return;
-	}
-	if (pos < 0) {
-		pos = 0;
-	}
-	else if (pos >= n) {
-		pos = n - 1;
-	}
-	for (int i = pos; i < n - 1; i++) {
-		arr[i] = arr[i + 1];
-	}
-	--n;
-}
-void appendarr(Student arr[], int& n, Student val, int pos) {
-	if (pos < 0) {
-		pos = 0;
-	}
-	else if (pos > n) {
-		pos = n;
-	}
-	for (int i = n; i > pos; i--) {
-		arr[i] = arr[i - 1];
-	}
-	arr[pos] = val;
-	++n;
 }
