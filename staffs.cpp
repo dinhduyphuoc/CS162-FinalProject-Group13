@@ -23,8 +23,8 @@ void ImportStudents() {
 	}
 
 	fin >> n;
-	
-	
+
+
 	fin.close();
 }
 void AddStudentManually() {
@@ -123,6 +123,7 @@ void AddStudentManually() {
 	}
 
 	fout << n + 1;
+
 	for (int i = 0; i < n; i++) {
 		fout << endl;
 		fout << endl;
@@ -205,7 +206,7 @@ void changeClass(/*Student*& student*/) {
 	}
 	fout.close();
 	fin.open("Data/Classes/Student-" + temp.Class + ".txt");
-	
+
 	if (!fin.is_open()) {
 		cout << "Cannot open the file!" << endl;
 
@@ -213,35 +214,35 @@ void changeClass(/*Student*& student*/) {
 	}
 	fin >> n;
 	Student* studenttemp = new Student[n];
-			for (int i = 0; i < n; i++) {
-				fin.ignore(1000, '\n');
-				fin.get();
-				getline(fin, studenttemp[i].id);
-				getline(fin, studenttemp[i].password);
-				getline(fin, studenttemp[i].fullName);
-				fin >> studenttemp[i].birthday.year >> studenttemp[i].birthday.month >> studenttemp[i].birthday.day;
-				fin.ignore(1000, '\n');
-				getline(fin, studenttemp[i].Class);
-				fin >> studenttemp[i].isActive;
-				appendarr(studenttemp, n, temp, i);
-			}
-			fin.close();
-			fout.open("Data/Classes/Student-" + temp.Class + ".txt");
-			if (!fout.is_open()) {
-				cout << "Cannot open the file!" << endl;
-			}
-			fout << n << endl;
-			for (int i = 0; i < n; i++) {
-				fout << studenttemp[i].id << endl;
-				fout << studenttemp[i].password << endl;
-				fout << studenttemp[i].fullName << endl;
-				fout << studenttemp[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
-				fout << studenttemp[i].Class << endl;
-				fout << studenttemp[i].isActive << endl;
-				fout << endl;
-			}
-			fout << endl;
-			fout.close();
+	for (int i = 0; i < n; i++) {
+		fin.ignore(1000, '\n');
+		fin.get();
+		getline(fin, studenttemp[i].id);
+		getline(fin, studenttemp[i].password);
+		getline(fin, studenttemp[i].fullName);
+		fin >> studenttemp[i].birthday.year >> studenttemp[i].birthday.month >> studenttemp[i].birthday.day;
+		fin.ignore(1000, '\n');
+		getline(fin, studenttemp[i].Class);
+		fin >> studenttemp[i].isActive;
+		appendarr(studenttemp, n, temp, i);
+	}
+	fin.close();
+	fout.open("Data/Classes/Student-" + temp.Class + ".txt");
+	if (!fout.is_open()) {
+		cout << "Cannot open the file!" << endl;
+	}
+	fout << n << endl;
+	for (int i = 0; i < n; i++) {
+		fout << studenttemp[i].id << endl;
+		fout << studenttemp[i].password << endl;
+		fout << studenttemp[i].fullName << endl;
+		fout << studenttemp[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
+		fout << studenttemp[i].Class << endl;
+		fout << studenttemp[i].isActive << endl;
+		fout << endl;
+	}
+	fout << endl;
+	fout.close();
 
 	fin.open("Data/Classes/Student-" + classtemp + ".txt");
 	if (!fin.is_open()) {
@@ -265,7 +266,7 @@ void changeClass(/*Student*& student*/) {
 		}
 	}
 	fin.close();
-	
+
 	fout.open("Data/Classes/Student-" + classtemp + ".txt");
 	if (!fout.is_open()) {
 		cout << "Cannot open the file!" << endl;
@@ -289,7 +290,7 @@ void changeClass(/*Student*& student*/) {
 	system("CLS");
 	delete[] student;
 }
-void deletearr(Student arr[], int& n,int pos) {
+void deletearr(Student arr[], int& n, int pos) {
 	if (n <= 0) {
 		return;
 	}
