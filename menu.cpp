@@ -129,14 +129,14 @@ void ChangePasswdStaff(Staff* &staff, Staff& staffTmp) {
 	if (!fout.is_open()) {
 		cout << "Cannot open the file!" << endl;
 	}
-	fout << n << endl;
-	fout << endl;
+	fout << n;
 	for (int i = 0; i < n; i++) {
+		fout << endl;
+		fout << endl;
 		fout << staff[i].username << endl;
 		fout << staff[i].password << endl;
 		fout << staff[i].fullName << endl;
-		fout << staff[i].gender << endl;
-		fout << endl;
+		fout << staff[i].gender;
 	}
 	fout.close();
 	cout << endl;
@@ -176,14 +176,14 @@ void ChangePasswdLecturer(Lecturer*& lecturer, Lecturer& lecturerTmp) {
 	if (!fout.is_open()) {
 		cout << "Cannot open the file!" << endl;
 	}
-	fout << n << endl;
-	fout << endl;
+	fout << n;
 	for (int i = 0; i < n; i++) {
+		fout << endl;
+		fout << endl;
 		fout << lecturer[i].username << endl;
 		fout << lecturer[i].password << endl;
 		fout << lecturer[i].fullName << endl;
-		fout << lecturer[i].gender << endl;
-		fout << endl;
+		fout << lecturer[i].gender;
 	}
 	fout.close();
 	cout << endl;
@@ -223,16 +223,16 @@ void ChangePasswdStudent(Student*& student, Student& studentTmp) {
 	if (!fout.is_open()) {
 		cout << "Cannot open the file!" << endl;
 	}
-	fout << n << endl;
-	fout << endl;
+	fout << n;
 	for (int i = 0; i < n; i++) {
+		fout << endl;
+		fout << endl;
 		fout << student[i].id << endl;
 		fout << student[i].password << endl;
 		fout << student[i].fullName << endl;
 		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
 		fout << student[i].Class << endl;
-		fout << student[i].gender << endl;
-		fout << endl;
+		fout << student[i].gender;
 	}
 	fout.close();
 	cout << endl;
