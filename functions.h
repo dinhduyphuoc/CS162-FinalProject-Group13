@@ -42,7 +42,6 @@ struct Student {
 void ImportStudents();
 void AddStudentManually();
 void deletearr(Student arr[], int& n, int pos);
-void appendarr(Student arr[], int& n, Student val, int pos);
 void changeClass();
 //Lecturer section
 

@@ -1,4 +1,4 @@
-#include "functions.h"
+﻿#include "functions.h"
 
 void ImportStudents() {
 	cout << "Enter new class name: ";
@@ -254,4 +254,5 @@ void changeClass(/*Student*& student*/) {
 	system("pause");
 	system("CLS");
 	delete[] student;
+	//con đĩ
 }
