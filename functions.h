@@ -32,7 +32,6 @@ struct Student {
 	string fullName;
 	DOB birthday;
 	string Class;
-	bool gender;
 	bool isActive;
 };
 
@@ -41,8 +40,7 @@ struct Student {
 //Staff section
 void ImportStudents();
 void AddStudentManually();
-void deletearr(Student arr[], int& n, int pos);
-void changeClass();
+void ChangeClass();
 //Lecturer section
 
 //Student section
