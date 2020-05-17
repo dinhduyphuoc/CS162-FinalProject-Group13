@@ -2,9 +2,6 @@
 #include "menu.h"
 
 void ImportStudents() {
-	cout << "Import students of a class from a text file" << endl;
-	cout << endl;
-
 	int nImport, n;
 	ifstream fin;
 	ofstream fout;
@@ -13,6 +10,11 @@ void ImportStudents() {
 	Student* studentImport;
 	Student* student;
 
+	//FUNCTION NAME
+	cout << "Import students of a class from a text file" << endl;
+	cout << endl;
+
+	//COUT CLASSES LIST
 	cout << "Class: ";
 	cin.ignore(1000, '\n');
 	getline(cin, Class, '\n');
@@ -21,15 +23,60 @@ void ImportStudents() {
 	fin.open(address);
 	if (!fin.is_open()) {
 		cout << "Cannot open the file!";
+		return;
 	}
 	fin >> nImport;
 	studentImport = new Student[nImport];
 	LoadStudent(fin, studentImport, nImport);
 	fin.close();
 
+	//READ STUDENTS FILE FROM GIVING CLASS
 	fin.open("Data/Classes/Student-" + Class + ".txt");
 	if (!fin.is_open()) {
 		cout << "Cannot open the file!";
+		return;
+	}
+	fin >> n;
+	student = new Student[n + nImport];
+	LoadStudent(fin, student, n);
+	fin.close();
+
+	//MERGE OLD AND NEW STUDENTS
+	for (int i = n; i < n + nImport; i++) {
+		int j = 0;
+		student[i].id = studentImport[j].id;
+		student[i].password = studentImport[j].password;
+		student[i].fullName = studentImport[j].fullName;
+		student[i].birthday = studentImport[j].birthday;
+		student[i].Class = studentImport[j].Class;
+		student[i].isActive = studentImport[j].isActive;
+		j++;
+	}
+
+	//WRITE NEW STUDENTS LIST TO THE CLASS FILE
+	fout.open("Data/Classes/Student-" + Class + ".txt");
+	if (!fout.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fout << n + nImport;
+	for (int i = 0; i < n + nImport; i++) {
+		fout << endl;
+		fout << endl;
+		fout << student[i].id << endl;
+		fout << student[i].birthday.year << setw(2) << setfill('0') << student[i].birthday.month << setw(2) << setfill('0') << student[i].birthday.day << endl;
+		fout << student[i].fullName << endl;
+		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
+		fout << student[i].Class << endl;
+		fout << student[i].isActive;
+	}
+	fout.close();
+
+	//READ STUDENT LOGIN FILE
+	fin.open("Data/Student.txt");
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
 	}
 	fin >> n;
 	student = new Student[n + nImport];
@@ -45,9 +92,12 @@ void ImportStudents() {
 		student[i].isActive = studentImport[j].isActive;
 		j++;
 	}
-	fout.open("Data/Classes/Student-" + Class + ".txt");
+
+	//WRITE NEW STUDENTS LIST TO THE STUDENT LOGIN FILE
+	fout.open("Data/Student.txt");
 	if (!fout.is_open()) {
 		cout << "Cannot open the file!";
+		return;
 	}
 	fout << n + nImport;
 	for (int i = 0; i < n + nImport; i++) {
@@ -61,7 +111,7 @@ void ImportStudents() {
 		fout << student[i].isActive;
 	}
 	fout.close();
-	cout << endl;
+
 	cout << endl;
 	cout << "Imported successfully!" << endl;
 	system("pause");
@@ -73,19 +123,20 @@ void AddStudentManually() {
 
 	Student studentTmp;
 	Student* student;
-
-	cout << "Manually add a student to a class" << endl;
-	cout << endl;
-
 	ifstream fin;
 	ofstream fout;
 	int n;
 
-	cout << "Classes list: " << endl;
+	//FUNCTION NAME
+	cout << "Manually add a student to a class" << endl;
+	cout << endl;
 
+	//COUT CLASSES LIST
+	cout << "Classes list: " << endl;
 	fin.open("Data/Classes/Class.txt");
 	if (!fin.is_open()) {
 		cout << "Cannot open the file!" << endl;
+		return;
 	}
 	fin >> n;
 	string* tmp = new string[n];
@@ -95,15 +146,18 @@ void AddStudentManually() {
 	}
 	fin.close();
 
+	//READ STUDENTS LOGIN FILE
 	fin.open("Data/Student.txt");
 	if (!fin.is_open()) {
 		cout << "Cannot open the file!";
+		return;
 	}
 	fin >> n;
 	student = new Student[n + 1];
 	LoadStudent(fin, student, n);
 	fin.close();
 
+	//LET USER INPUT NEW STUDENT PROFILE
 	cin.ignore();
 	cout << "Enter student's class: ";
 	getline(cin, studentTmp.Class, '\n');
@@ -121,51 +175,61 @@ void AddStudentManually() {
 	cout << "Date of birth (yyyy/mm/dd): ";
 	cin >> studentTmp.birthday.year >> studentTmp.birthday.month >> studentTmp.birthday.day;
 
+	//WRITE NEW STUDENT PROFILE TO STUDENT LOGIN FILE
 	fout.open("Data/Student.txt");
 	if (!fout.is_open()) {
 		cout << "Cannot open the file!";
+		return;
 	}
 	fout << n + 1;
-	for (int i = 0; i < n; i++) {
+	if (n >= 2) {
+		for (int i = 0; i < n; i++) {
+			fout << endl;
+			fout << endl;
+			fout << student[i].id << endl;
+			fout << student[i].birthday.year << setw(2) << setfill('0') << student[i].birthday.month << setw(2) << setfill('0') << student[i].birthday.day << endl;
+			fout << student[i].fullName << endl;
+			fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
+			fout << student[i].Class << endl;
+			fout << student[i].isActive;
+		}
 		fout << endl;
 		fout << endl;
-		fout << student[i].id << endl;
-		fout << student[i].birthday.year << setw(2) << setfill('0') << student[i].birthday.month << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].fullName << endl;
-		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].Class << endl;
-		fout << student[i].isActive;
+		fout << studentTmp.id << endl;
+		fout << studentTmp.birthday.year << setw(2) << setfill('0') << studentTmp.birthday.month << setw(2) << setfill('0') << studentTmp.birthday.day << endl;
+		fout << studentTmp.fullName << endl;
+		fout << studentTmp.birthday.year << " " << setw(2) << setfill('0') << studentTmp.birthday.month << " " << setw(2) << setfill('0') << studentTmp.birthday.day << endl;
+		fout << studentTmp.Class << endl;
+		fout << 1;
 	}
-	fout << endl;
-	fout << endl;
-	fout << studentTmp.id << endl;
-	fout << studentTmp.birthday.year << setw(2) << setfill('0') << studentTmp.birthday.month << setw(2) << setfill('0') << studentTmp.birthday.day << endl;
-	fout << studentTmp.fullName << endl;
-	fout << studentTmp.birthday.year << " " << setw(2) << setfill('0') << studentTmp.birthday.month << " " << setw(2) << setfill('0') << studentTmp.birthday.day << endl;
-	fout << studentTmp.Class << endl;
-	fout << 1;
-
+	else {
+		fout << endl;
+		fout << endl;
+		fout << studentTmp.id << endl;
+		fout << studentTmp.birthday.year << setw(2) << setfill('0') << studentTmp.birthday.month << setw(2) << setfill('0') << studentTmp.birthday.day << endl;
+		fout << studentTmp.fullName << endl;
+		fout << studentTmp.birthday.year << " " << setw(2) << setfill('0') << studentTmp.birthday.month << " " << setw(2) << setfill('0') << studentTmp.birthday.day << endl;
+		fout << studentTmp.Class << endl;
+	}
 	fout.close();
 
+	//READ STUDENT CLASS FILE
 	fin.open("Data/Classes/Student-" + studentTmp.Class + ".txt");
 	if (!fin.is_open()) {
 		cout << "Cannot open the file!";
+		return;
 	}
-
 	fin >> n;
-
 	student = new Student[n + 1];
-
 	LoadStudent(fin, student, n);
 	fin.close();
 
+	//WRITE NEW STUDENT PROFILE TO THE STUDENT CLASS FILE
 	fout.open("Data/Classes/Student-" + studentTmp.Class + ".txt");
 	if (!fout.is_open()) {
 		cout << "Cannot open the file!";
 	}
-
 	fout << n + 1;
-
 	for (int i = 0; i < n; i++) {
 		fout << endl;
 		fout << endl;
@@ -185,6 +249,7 @@ void AddStudentManually() {
 	fout << studentTmp.Class << endl;
 	fout << 1;
 
+	//END THE FUNCTION
 	cout << endl;
 	cout << "Student added successfully!" << endl;
 	system("pause");
@@ -192,17 +257,246 @@ void AddStudentManually() {
 	delete[] tmp;
 	delete[] student;
 }
+void EditStudent() {
+	string ID;
+	Student* student;
+	Student studentTmp;
+	ifstream fin;
+	ofstream fout;
+	int n;
+
+	//FUNCTION NAME
+	cout << "Edit an existing student" << endl;
+	cout << endl;
+
+	//COUT CLASSES LIST
+	//cout << "Classes list: " << endl;
+	//fin.open("Data/Classes/Class.txt");
+	//if (!fin.is_open()) {
+	//	cout << "Cannot open the file!" << endl;
+	//}
+	//fin >> n;
+	//string* tmp = new string[n];
+	//for (int i = 0; i < n; i++) {
+	//	fin >> tmp[i];
+	//	cout << i + 1 << " " << tmp[i] << endl;
+	//}
+	//fin.close();
+
+	//LET USER INPUT EXISTING STUDENT
+	cin.ignore();
+	cout << "Enter student ID: ";
+	getline(cin, studentTmp.id, '\n');
+	
+	//READ AND COUT STUDENT INFO
+	fin.open("Data/Student.txt");
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fin >> n;
+	student = new Student[n];
+	LoadStudent(fin, student, n);
+	fin.close();
+	for (int i = 0; i < n; i++) {
+		if (student[i].id == studentTmp.id) {
+			cout << "Student name: ";
+			cout << student[i].fullName << endl;
+			cout << "Student birth date: ";
+			cout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
+			cout << endl;
+		}
+	}
+
+	//CHECK IF USER WANT TO EDIT PROFILE
+	bool isAgree;
+	cout << "Do you want to edit this student? (1-yes / 0-no): ";
+	cin >> isAgree;
+	if (!isAgree) {
+		cout << "Returning to menu..." << endl;
+		system("pause");
+		system("CLS");
+	}
+
+	//EDIT PROFILE ON STUDENTS LOGIN FILE
+	cin.ignore(1000, '\n');
+	cout << "Enter new full name: ";
+	getline(cin, studentTmp.fullName, '\n');
+	cout << "Enter new birth date (yyyy/mm/dd): ";
+	cin >> studentTmp.birthday.year >> studentTmp.birthday.month >> studentTmp.birthday.day;
+	for (int i = 0; i < n; i++) {
+		if (student[i].id == studentTmp.id) {
+			student[i].fullName = studentTmp.fullName;
+			student[i].birthday = studentTmp.birthday;
+			studentTmp.Class = student[i].Class;
+		}
+	}
+	fout.open("Data/Student.txt");
+	if (!fout.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fout << n;
+	for (int i = 0; i < n; i++) {
+		fout << endl;
+		fout << endl;
+		fout << student[i].id << endl;
+		fout << student[i].birthday.year << setw(2) << setfill('0') << student[i].birthday.month << setw(2) << setfill('0') << student[i].birthday.day << endl;
+		fout << student[i].fullName << endl;
+		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
+		fout << student[i].Class << endl;
+		fout << student[i].isActive;
+	}
+	fout.close();
+	
+	//EDIT PROFILE ON STUDENTS CLASS FILE
+	fout.open("Data/Classes/Student-" + studentTmp.Class + ".txt");
+	if (!fout.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fout << n;
+	for (int i = 0; i < n; i++) {
+		fout << endl;
+		fout << endl;
+		fout << student[i].id << endl;
+		fout << student[i].birthday.year << setw(2) << setfill('0') << student[i].birthday.month << setw(2) << setfill('0') << student[i].birthday.day << endl;
+		fout << student[i].fullName << endl;
+		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
+		fout << student[i].Class << endl;
+		fout << student[i].isActive;
+	}
+	fout.close();
+
+	//END THE FUNCTION
+	cout << endl;
+	cout << "Student edited successfully!" << endl;
+	system("pause");
+	system("CLS");
+
+	//delete[] tmp; //	=>Uncomment this line if you want to cout classes list
+	delete[] student;
+}
+void RemoveStudent()
+{
+	int n;
+	Student* student;
+	string id;
+	string Class;
+	ifstream fin;
+	ofstream fout;
+
+	//READ STUDENT LOGIN FILE
+	fin.open("Data/Student.txt");
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!" << endl;
+		return;
+	}
+	fin >> n;
+	student = new Student[n];
+	LoadStudent(fin, student, n);
+	fin.close();
+
+	//LET USER ENTER STUDENT ID
+	cin.ignore(1000, '\n');
+	cout << "Enter student ID to remove: ";
+	getline(cin, id, '\n');
+	int count = 0;;
+	for (int i = 0; i < n; i++) {
+		if (id.compare(student[i].id) != 0)
+			count++;
+		else {
+			count = 0;
+			break;
+		}
+	}
+	while (count != 0) {
+		cout << "ID doesn't exist, please try again: ";
+		getline(cin, id, '\n');
+		count = 0;
+		for (int i = 0; i < n; i++) {
+			if (id.compare(student[i].id) != 0)
+				count++;
+			else {
+				count = 0;
+				break;
+			}
+		}
+	}
+	
+	//CHANGE STUDENT STATUS
+	for (int i = 0; i < n; i++)
+	{
+		if (student[i].id == id) {
+			student[i].isActive = 0;
+			Class = student[i].Class;
+		}
+	}
+
+	//WRITE STUDENT LOGIN FILE
+	fout.open("Data/Student.txt");
+	if (!fout.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fout << n;
+	for (int i = 0; i < n; i++) {
+		fout << endl;
+		fout << endl;
+		fout << student[i].id << endl;
+		fout << student[i].birthday.year << setw(2) << setfill('0') << student[i].birthday.month << setw(2) << setfill('0') << student[i].birthday.day << endl;
+		fout << student[i].fullName << endl;
+		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
+		fout << student[i].Class << endl;
+		fout << student[i].isActive;
+	}
+	fout.close();
+
+	//WRITE STUDENT CLASS FILE
+	fout.open("Data/Classes/Student-" + Class + ".txt");
+	if (!fout.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fout << n;
+	for (int i = 0; i < n; i++) {
+		fout << endl;
+		fout << endl;
+		fout << student[i].id << endl;
+		fout << student[i].birthday.year << setw(2) << setfill('0') << student[i].birthday.month << setw(2) << setfill('0') << student[i].birthday.day << endl;
+		fout << student[i].fullName << endl;
+		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
+		fout << student[i].Class << endl;
+		fout << student[i].isActive;
+	}
+	fout.close();
+
+	//END THE FUNCTION
+	cout << endl;
+	cout << "Student removed successfully!" << endl;
+	system("pause");
+	system("CLS");
+	delete[] student;
+}
 void ChangeClass() {
 	string ID, Class, classtemp;
 	Student temp;
+	ifstream fin;
+	ofstream fout;
+	int n;
+
+	//FUNCTION NAME
+	cout << "Change student from class A to B" << endl;
+	cout << endl;
+
+	//LET USER ENTER STUDENT ID
 	cout << "Enter student's ID: ";
 	cin.ignore();
 	getline(cin, ID, '\n');
 	cout << "Enter new class: ";
 	getline(cin, Class, '\n');
-	ifstream fin;
-	ofstream fout;
-	int n;
+
+	//READ STUDENT LOGIN FILE
 	fin.open("Data/Student.txt");
 	if (!fin.is_open()) {
 		cout << "Cannot open the file!" << endl;
@@ -364,7 +658,9 @@ void viewclass() {
 	for (int i = 0; i < n; i++) {
 		cout << Classes[i] << endl;
 	}
-	
+	cout << endl;
+	system("pause");
+	system("CLS");
 }
 void viewStudent() {
 	ifstream fin;
@@ -408,6 +704,7 @@ void viewStudent() {
 			}
 			fin.close();
 			system("CLS");
+			cout << "Students in class " + temp + ": " << endl;
 			for (int i = 0; i < n; i++) {
 				cout << studenttemp[i].id << endl;
 				cout << studenttemp[i].password << endl;
@@ -418,18 +715,6 @@ void viewStudent() {
 				cout << endl;
 			}
 		}
-	}
-	int choose;
-	cout << "Select 0 to return to Classes list" << endl;
-	cout << "Select -1 to return to STAFF MENU: " << endl;
-	cin >> choose;
-	if (choose == 0) { 
-		system("CLS");
-		viewStudent();
-	}
-	else if (choose == -1) {
-		system("CLS");
-		return;
 	}
 	system("pause");
 	system("CLS");

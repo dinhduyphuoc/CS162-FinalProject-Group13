@@ -253,8 +253,6 @@ void ViewInfo(Staff& staff) {
 	if (!staff.gender) cout << "Male" << endl;
 	else cout << "Female" << endl;
 	cout << endl;
-	cout << "Press any key to return to menu..." << endl;
-	cout << endl;
 	system("pause");
 	system("CLS");
 }
@@ -270,8 +268,6 @@ void ViewInfo(Lecturer& lecturer) {
 	else cout << "Female" << endl;
 	cout << "Education: ";
 	cout << lecturer.education << endl;
-	cout << endl;
-	cout << "Press any key to return to menu..." << endl;
 	cout << endl;
 	system("pause");
 	system("CLS");
@@ -290,8 +286,6 @@ void ViewInfo(Student& student) {
 	cout << "Gender: ";
 	if (!student.isActive) cout << "Male" << endl;
 	else cout << "Female" << endl;
-	cout << endl;
-	cout << "Press any key to return to menu..." << endl;
 	cout << endl;
 	system("pause");
 	system("CLS");
@@ -548,7 +542,7 @@ void StaffMenuClass(Staff*& staff, Staff& staffTmp) {
 	cout << endl;
 	cout << "0. Return to main menu" << endl;
 	cout << "1. Return to option menu" << endl;
-	cout << "2. Import tudents of a class from a csv file" << endl;
+	cout << "2. Import students of a class from file" << endl;
 	cout << "3. Add a new student to a class manually" << endl;
 	cout << "4. Edit an existing student" << endl;
 	cout << "5. Remove a student" << endl;
@@ -571,7 +565,7 @@ void StaffMenuClass(Staff*& staff, Staff& staffTmp) {
 	case 2:
 		system("CLS");
 		ImportStudents();
-		mainMenu(staff, staffTmp);
+		StaffMenu(staff, staffTmp);
 		break;
 	case 3:
 		system("CLS");
@@ -580,11 +574,12 @@ void StaffMenuClass(Staff*& staff, Staff& staffTmp) {
 		break;
 	case 4:
 		system("CLS");
-		//function
-		break;
+		EditStudent();
+		StaffMenu(staff, staffTmp);
 	case 5:
 		system("CLS");
-		//function
+		RemoveStudent();
+		StaffMenu(staff, staffTmp);
 		break;
 	case 6:
 		system("CLS");

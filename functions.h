@@ -41,7 +41,9 @@ struct Student {
 //Staff section
 void ImportStudents();
 void AddStudentManually();
-void changeClass();
+void ChangeClass();
+void EditStudent();
+void RemoveStudent();
 void viewclass();
 void viewStudent();
 //Lecturer section
