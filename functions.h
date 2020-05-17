@@ -41,8 +41,9 @@ struct Student {
 //Staff section
 void ImportStudents();
 void AddStudentManually();
-void deletearr(Student arr[], int& n, int pos);
 void changeClass();
+void viewclass();
+void viewStudent();
 //Lecturer section
 
 //Student section

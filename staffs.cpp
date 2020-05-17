@@ -256,3 +256,92 @@ void changeClass(/*Student*& student*/) {
 	delete[] student;
 	//con đĩ
 }
+void viewclass() {
+	ifstream fin;
+	ofstream fout;
+	int n = 0;
+	fin.open("Data/Classes/Class.txt");
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!" << endl;
+		return;
+	}
+	fin >> n;
+	string* Classes = new string[n];
+	for (int i = 0; i < n; i++) {
+		fin >> Classes[i];
+	}
+	fin.close();
+	cout << "Classes list: " << endl;
+	for (int i = 0; i < n; i++) {
+		cout << Classes[i] << endl;
+	}
+	
+}
+void viewStudent() {
+	ifstream fin;
+	ofstream fout;
+	int n = 0;
+	fin.open("Data/Classes/Class.txt");
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!" << endl;
+		return;
+	}
+	fin >> n;
+	string* Classes = new string[n];
+	for (int i = 0; i < n; i++) {
+		fin >> Classes[i];
+	}
+	fin.close();
+	string temp;
+	viewclass();
+	cout << "Which class do you want to view ?: ";
+	cin >> temp;
+	for (int i = 0; i < n; i++) {
+		if (temp == Classes[i]) {
+			fin.open("Data/Classes/Student-" + temp + ".txt");
+			if (!fin.is_open()) {
+				cout << "Cannot open the file!" << endl;
+
+				return;
+			}
+			fin >> n;
+			Student* studenttemp = new Student[n];
+			for (int i = 0; i < n; i++) {
+				fin.ignore(1000, '\n');
+				fin.get();
+				getline(fin, studenttemp[i].id);
+				getline(fin, studenttemp[i].password);
+				getline(fin, studenttemp[i].fullName);
+				fin >> studenttemp[i].birthday.year >> studenttemp[i].birthday.month >> studenttemp[i].birthday.day;
+				fin.ignore(1000, '\n');
+				getline(fin, studenttemp[i].Class);
+				fin >> studenttemp[i].isActive;
+			}
+			fin.close();
+			system("CLS");
+			for (int i = 0; i < n; i++) {
+				cout << studenttemp[i].id << endl;
+				cout << studenttemp[i].password << endl;
+				cout << studenttemp[i].fullName << endl;
+				cout << studenttemp[i].birthday.year << " " <<  studenttemp[i].birthday.month << " " << studenttemp[i].birthday.day << endl;
+				cout << studenttemp[i].Class << endl;
+				cout << studenttemp[i].isActive << endl;
+				cout << endl;
+			}
+		}
+	}
+	int choose;
+	cout << "Select 0 to return to Classes list" << endl;
+	cout << "Select -1 to return to STAFF MENU: " << endl;
+	cin >> choose;
+	if (choose == 0) { 
+		system("CLS");
+		viewStudent();
+	}
+	else if (choose == -1) {
+		system("CLS");
+		return;
+	}
+	system("pause");
+	system("CLS");
+}
