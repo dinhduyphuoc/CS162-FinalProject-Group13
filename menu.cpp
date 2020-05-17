@@ -33,7 +33,7 @@ void LoadStudent(ifstream& fin, Student* &student, int n) {
 		fin >> student[i].birthday.year >> student[i].birthday.month >> student[i].birthday.day;
 		fin.ignore(1000, '\n');
 		getline(fin, student[i].Class);
-		fin >> student[i].gender;
+		fin >> student[i].isActive;
 	}
 }
 int Login(Staff* &staff, Staff& staffTmp, Lecturer* &lecturer, Lecturer& lecturerTmp, Student* &student, Student& studentTmp, int nStaff, int nLecturer, int nStudent) {
@@ -51,7 +51,7 @@ int Login(Staff* &staff, Staff& staffTmp, Lecturer* &lecturer, Lecturer& lecture
 			studentTmp.fullName = student[i].fullName;
 			studentTmp.birthday = student[i].birthday;
 			studentTmp.Class = student[i].Class;
-			studentTmp.gender = student[i].gender;
+			studentTmp.isActive = student[i].isActive;
 			system("CLS");
 			cout << "Logged in successfully" << endl << flush;
 			cout << "Welcome back, " << student[i].fullName << "! \n" << endl;
@@ -232,7 +232,7 @@ void ChangePasswdStudent(Student*& student, Student& studentTmp) {
 		fout << student[i].fullName << endl;
 		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
 		fout << student[i].Class << endl;
-		fout << student[i].gender;
+		fout << student[i].isActive;
 	}
 	fout.close();
 	cout << endl;
@@ -288,7 +288,7 @@ void ViewInfo(Student& student) {
 	cout << "Class: ";
 	cout << student.Class;
 	cout << "Gender: ";
-	if (!student.gender) cout << "Male" << endl;
+	if (!student.isActive) cout << "Male" << endl;
 	else cout << "Female" << endl;
 	cout << endl;
 	cout << "Press any key to return to menu..." << endl;
@@ -570,7 +570,8 @@ void StaffMenuClass(Staff*& staff, Staff& staffTmp) {
 
 	case 2:
 		system("CLS");
-		//function
+		ImportStudents();
+		mainMenu(staff, staffTmp);
 		break;
 	case 3:
 		system("CLS");
@@ -587,7 +588,7 @@ void StaffMenuClass(Staff*& staff, Staff& staffTmp) {
 		break;
 	case 6:
 		system("CLS");
-		changeClass();
+		ChangeClass();
 		StaffMenu(staff, staffTmp);
 		break;
 	case 7:
