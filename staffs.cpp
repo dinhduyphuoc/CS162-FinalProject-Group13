@@ -765,3 +765,134 @@ void ImportCourses() {
 	//cout << endl;
 
 }
+
+
+//EDIT AN EXISTING COURSE
+void EditCourse() {
+	Course* course;
+	Course courseTmp;
+	/*DOB startDate;
+	DOB endDate;
+	int day;
+	Time startTime;
+	Time endTime;
+	string room;*/
+	int n;
+	ifstream fin;
+	ofstream fout;
+	//FUNCTION NAME
+	cout << "Edit an existing course" << endl;
+	cout << endl;
+	//LET USER INPUT EXISTING COURSE
+	cin.ignore();
+	cout << "Enter Course ID: ";
+	getline(cin, courseTmp.course, '\n');
+	//READ AND COUT COURSE INFO
+	fin.open("Data/Courses/2019-2020-HK2-Schedule-19APCS1.txt");
+	if (!fin.is_open()) {
+		cout << "Can not open this file! " << endl;
+		return;
+	}
+	fin >> n;
+	course = new Course[n];
+	LoadCourse(fin, course, n);
+	fin.close();
+
+	for (int i = 0; i < n; ++i) {
+		if (course[i].course == courseTmp.course)
+		{
+			cout << "Course name: ";
+			cout << course[i].courseName << endl;
+			cout << "Class: ";
+			cout << course[i].Class << endl;
+			cout << "Lecturer user: ";
+			cout << course[i].lecturerUser << endl;
+			cout << "Lecturer degree: ";
+			cout << course[i].education << endl;
+			cout << "Lecturer gender: ";
+			cout << course[i].gender << endl;
+			cout << "StartDate: ";
+			cout << course[i].startDate.year << " " << setw(2) << setfill('0') << course[i].startDate.month << " " << setw(2) << setfill('0') << course[i].startDate.day << endl;
+			cout << "EndDate: ";
+			cout << course[i].endDate.year << " " << setw(2) << setfill('0') << course[i].endDate.month << " " << setw(2) << setfill('0') << course[i].endDate.day << endl;
+			cout << "Day of week: ";
+			cout << course[i].day << endl;
+			cout << "StartTime: ";
+			cout << course[i].startTime.hour << " " << setw(2) << setfill('0') << course[i].startTime.minute << endl;
+			cout << "EndTime: ";
+			cout << course[i].endTime.hour << " " << setw(2) << setfill('0') << course[i].endTime.minute << endl;
+			cout << "Room: ";
+			cout << course[i].room << endl;
+			cout << endl;
+		}
+	}
+	//CHECK IF USER WANT TO EDIT PROFILE
+	bool isAgree;
+	cout << "Do you want to edit this course ? (1-yes / 0-no): ";
+	cin >> isAgree;
+	if (!isAgree) {
+		cout << "Returning to menu.... " << endl;
+		system("pause");
+		system("CLS");
+	}
+	//EDIT PROFILE OF THE COURSE IN SCHEDULE FILE
+	cin.ignore(1000, '\n');
+	cout << "Enter new start Date: ";
+	cin >> courseTmp.startDate.year >> courseTmp.startDate.month >> courseTmp.startDate.day;
+	cout << endl;
+	cout << "Enter new end Date: ";
+	cin >> courseTmp.endDate.year >> courseTmp.endDate.month >> courseTmp.endDate.day;
+	cout << endl;
+	cout << "Enter the new day of week: ";
+	cin >> courseTmp.day;
+	cout << endl;
+	cout << "Enter new start time: ";
+	cin >> courseTmp.startTime.hour >> courseTmp.startTime.minute;
+	cout << endl;
+	cout << "Enter new end time: ";
+	cin >> courseTmp.endTime.hour >> courseTmp.endTime.minute;
+	cout << endl;
+	for (int i = 0; i < n; ++i) {
+		if (course[i].course == courseTmp.course) {
+			course[i].startDate.year = courseTmp.startDate.year;
+			course[i].startDate.month = courseTmp.startDate.month;
+			course[i].startDate.day = courseTmp.startDate.day;
+			course[i].endDate.year = courseTmp.endDate.year;
+			course[i].endDate.month = courseTmp.endDate.month;
+			course[i].endDate.day = courseTmp.endDate.day;
+			course[i].day = courseTmp.day;
+			course[i].startTime.hour = courseTmp.startTime.hour;
+			course[i].startTime.minute = courseTmp.startTime.minute;
+		}
+	}
+	fout.open("Data/Courses/2019-2020-HK2-Schedule-19APCS1.txt");
+	if (!fout.is_open()) {
+		cout << "Can not open this file!" << endl;
+		return;
+	}
+	fout << n;
+	for (int i = 0; i < n; ++i) {
+		fout << endl;
+		fout << endl;
+		fout << course[i].course << endl;
+		fout << course[i].courseName << endl;
+		fout << course[i].Class << endl;
+		fout << course[i].lecturerUser << endl;
+		fout << course[i].lecturerName << endl;
+		fout << course[i].education << endl;
+		fout << course[i].gender << endl;
+		fout << course[i].startDate.year << " " << setw(2) << setfill('0') << course[i].startDate.month << " " << setw(2) << setfill('0') << course[i].startDate.day << endl;
+		fout << course[i].endDate.year << " " << setw(2) << setfill('0') << course[i].endDate.month << " " << setw(2) << setfill('0') << course[i].endDate.day << endl;
+		fout << course[i].day;
+		fout << course[i].startTime.hour << " " << setw(2) << setfill('0') << course[i].startTime.minute << endl;
+		fout << course[i].endTime.hour << " " << setw(2) << setfill('0') << course[i].endTime.minute << endl;
+		fout << course[i].room;
+	}
+	fout.close();
+	//END THE FUNCTION
+	cout << endl;
+	cout << "Course edited successfully!" << endl;
+	system("pause");
+	system("CLS");
+	delete[]course;
+}
