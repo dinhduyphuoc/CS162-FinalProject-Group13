@@ -11,6 +11,11 @@ struct DOB {
 	int year, month, day;
 };
 
+struct Time {
+	int hour;
+	int minute;
+};
+
 struct Staff {
 	string username;
 	string password;
@@ -27,15 +32,35 @@ struct Lecturer {
 };
 
 struct Student {
-	string id; 
+	string id;
 	string password;
 	string fullName;
 	DOB birthday;
 	string Class;
-	bool gender;
 	bool isActive;
 };
 
+struct Course {
+	string course;
+	string courseName;
+	string Class;
+	string lecturerUser;
+	string lecturerName;
+	string education;
+	bool gender;
+	DOB startDate;
+	DOB endDate;
+	int day;
+	Time startTime;
+	Time endTime;
+	string room;
+};
+
+struct AYear {
+	int startYear;
+	int endYear;
+	string semester;
+};
 
 
 //Staff section
@@ -46,6 +71,9 @@ void EditStudent();
 void RemoveStudent();
 void viewclass();
 void viewStudent();
+
+void EditAcademicYears();
+void ImportCourses();
 //Lecturer section
 
 //Student section

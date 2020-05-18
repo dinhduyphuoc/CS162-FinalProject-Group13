@@ -2,7 +2,7 @@
 #include "menu.h"
 
 //Login section
-void LoadStaff(ifstream& fin, Staff* &staff, int n) {
+void LoadStaff(ifstream& fin, Staff*& staff, int n) {
 	for (int i = 0; i < n; i++) {
 		fin.ignore(1000, '\n');
 		fin.get();
@@ -12,7 +12,7 @@ void LoadStaff(ifstream& fin, Staff* &staff, int n) {
 		fin >> staff[i].gender;
 	}
 }
-void LoadLecturer(ifstream& fin, Lecturer* &lecturer, int n) {
+void LoadLecturer(ifstream& fin, Lecturer*& lecturer, int n) {
 	for (int i = 0; i < n; i++) {
 		fin.ignore(1000, '\n');
 		fin.get();
@@ -23,7 +23,7 @@ void LoadLecturer(ifstream& fin, Lecturer* &lecturer, int n) {
 		fin >> lecturer[i].gender;
 	}
 }
-void LoadStudent(ifstream& fin, Student* &student, int n) {
+void LoadStudent(ifstream& fin, Student*& student, int n) {
 	for (int i = 0; i < n; i++) {
 		fin.ignore(1000, '\n');
 		fin.get();
@@ -36,7 +36,7 @@ void LoadStudent(ifstream& fin, Student* &student, int n) {
 		fin >> student[i].isActive;
 	}
 }
-int Login(Staff* &staff, Staff& staffTmp, Lecturer* &lecturer, Lecturer& lecturerTmp, Student* &student, Student& studentTmp, int nStaff, int nLecturer, int nStudent) {
+int Login(Staff*& staff, Staff& staffTmp, Lecturer*& lecturer, Lecturer& lecturerTmp, Student*& student, Student& studentTmp, int nStaff, int nLecturer, int nStudent) {
 	string username;
 	string password;
 	cout << "Username: ";
@@ -97,7 +97,7 @@ int Login(Staff* &staff, Staff& staffTmp, Lecturer* &lecturer, Lecturer& lecture
 }
 
 //Change password
-void ChangePasswdStaff(Staff* &staff, Staff& staffTmp) {
+void ChangePasswdStaff(Staff*& staff, Staff& staffTmp) {
 	string password;
 	cin.ignore(1000, '\n');
 	cout << "Enter old password: ";
@@ -368,7 +368,7 @@ void mainMenu(Student*& student, Student& studentTmp) {
 		break;
 	}
 }
-void mainMenu(Staff*& staff, Staff& staffTmp){
+void mainMenu(Staff*& staff, Staff& staffTmp) {
 	int option;
 	cout << "MAIN MENU" << endl;
 	cout << endl;
@@ -634,7 +634,8 @@ void StaffMenuCourse(Staff*& staff, Staff& staffTmp) {
 		break;
 	case 2:
 		system("CLS");
-		//function
+		EditAcademicYears();
+		StaffMenu(staff, staffTmp);
 		break;
 	case 3:
 		system("CLS");
@@ -732,7 +733,7 @@ void StaffMenuAttendance(Staff*& staff, Staff& staffTmp) {
 		break;
 	case 1:
 		system("CLS");
-		StaffMenu(staff,staffTmp);
+		StaffMenu(staff, staffTmp);
 		break;
 	case 2:
 		system("CLS");
