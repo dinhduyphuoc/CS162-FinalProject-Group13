@@ -834,6 +834,7 @@ void EditCourse() {
 		cout << "Returning to menu.... " << endl;
 		system("pause");
 		system("CLS");
+		return;
 	}
 	//EDIT PROFILE OF THE COURSE IN SCHEDULE FILE
 	cin.ignore(1000, '\n');
