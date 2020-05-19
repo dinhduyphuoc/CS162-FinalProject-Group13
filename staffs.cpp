@@ -811,15 +811,15 @@ void EditCourse() {
 			cout << course[i].education << endl;
 			cout << "Lecturer gender: ";
 			cout << course[i].gender << endl;
-			cout << "StartDate: ";
+			cout << "Start date: ";
 			cout << course[i].startDate.year << " " << setw(2) << setfill('0') << course[i].startDate.month << " " << setw(2) << setfill('0') << course[i].startDate.day << endl;
-			cout << "EndDate: ";
+			cout << "End date: ";
 			cout << course[i].endDate.year << " " << setw(2) << setfill('0') << course[i].endDate.month << " " << setw(2) << setfill('0') << course[i].endDate.day << endl;
 			cout << "Day of week: ";
 			cout << course[i].day << endl;
-			cout << "StartTime: ";
+			cout << "Start time: ";
 			cout << course[i].startTime.hour << " " << setw(2) << setfill('0') << course[i].startTime.minute << endl;
-			cout << "EndTime: ";
+			cout << "End time: ";
 			cout << course[i].endTime.hour << " " << setw(2) << setfill('0') << course[i].endTime.minute << endl;
 			cout << "Room: ";
 			cout << course[i].room << endl;
@@ -840,19 +840,14 @@ void EditCourse() {
 	cin.ignore(1000, '\n');
 	cout << "Enter new start Date: ";
 	cin >> courseTmp.startDate.year >> courseTmp.startDate.month >> courseTmp.startDate.day;
-	cout << endl;
 	cout << "Enter new end Date: ";
 	cin >> courseTmp.endDate.year >> courseTmp.endDate.month >> courseTmp.endDate.day;
-	cout << endl;
 	cout << "Enter the new day of week: ";
 	cin >> courseTmp.day;
-	cout << endl;
 	cout << "Enter new start time: ";
 	cin >> courseTmp.startTime.hour >> courseTmp.startTime.minute;
-	cout << endl;
 	cout << "Enter new end time: ";
 	cin >> courseTmp.endTime.hour >> courseTmp.endTime.minute;
-	cout << endl;
 	for (int i = 0; i < n; ++i) {
 		if (course[i].course == courseTmp.course) {
 			course[i].startDate.year = courseTmp.startDate.year;
