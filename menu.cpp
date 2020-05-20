@@ -663,7 +663,8 @@ void StaffMenuCourse(Staff*& staff, Staff& staffTmp) {
 		break;
 	case 4:
 		system("CLS");
-		//function
+		AddCourseManually();
+		StaffMenu(staff, staffTmp);
 		break;
 	case 5:
 		system("CLS");
