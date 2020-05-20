@@ -765,9 +765,6 @@ void ImportCourses() {
 	//cout << endl;
 
 }
-
-
-//EDIT AN EXISTING COURSE
 void EditCourse() {
 	Course* course;
 	Course courseTmp;
@@ -891,4 +888,203 @@ void EditCourse() {
 	system("pause");
 	system("CLS");
 	delete[]course;
+}
+void AddCourseManually()
+{
+	ifstream fin;
+	ofstream fout;
+	Course* course;
+	Course courseTmp;
+	Student* studentImport{};
+	Student* student;
+	int n, nImport{};
+
+	cout << "Add course manually" << endl;
+	cout << endl;
+	fin.open("Data/Courses/2019-2020-HK2-Schedule-19APCS1.txt");
+	if (!fin.is_open())
+	{
+		cout << "Cannot open the file!";
+		return;
+	}
+	fin >> n;
+	course = new Course[n + 1];
+	LoadCourse(fin, course, n);
+	fin.close();
+	cin.ignore();
+	cout << "Enter course ID : ";
+	getline(cin, courseTmp.course, '\n');
+	cout << "Enter course name : ";
+	getline(cin, courseTmp.courseName, '\n');
+	cout << "Enter class: ";
+	getline(cin, courseTmp.Class, '\n');
+	cout << "Enter lecturer account : ";
+	getline(cin, courseTmp.lecturerUser, '\n');
+	cout << "Enter lecturer name: ";
+	getline(cin, courseTmp.lecturerName, '\n');
+	cout << "Enter lecturer's degree : ";
+	getline(cin, courseTmp.education, '\n');
+	cout << "Gender : ";
+	cin >> courseTmp.gender;
+	cout << "Start date(yyyy/mm/dd): ";
+	cin >> courseTmp.startDate.year >> courseTmp.startDate.month >> courseTmp.startDate.day;
+	cout << "End date (yyyy/mm/dd): ";
+	cin >> courseTmp.endDate.year >> courseTmp.endDate.month >> courseTmp.endDate.day;
+	cout << "Day of week: ";
+	cin >> courseTmp.day;
+	cout << "Start time: ";
+	cin >> courseTmp.startTime.hour >> courseTmp.startTime.minute;
+	cout << "End time: ";
+	cin >> courseTmp.endTime.hour >> courseTmp.endTime.minute;
+	cin.ignore(1000, '\n');
+	cout << "Enter room: ";
+	getline(cin, courseTmp.room, '\n');
+	fout.open("Data/Courses/2019-2020-HK2-Schedule-19APCS1.txt");
+	if (!fout.is_open())
+	{
+		cout << "Cannot open the file!";
+		return;
+	}
+	fout << n + 1;
+	if (n >= 2) {
+		for (int i = 0; i < n; i++) {
+			fout << endl;
+			fout << endl;
+			fout << course[i].course << endl;
+			fout << course[i].courseName << endl;
+			fout << course[i].Class << endl;
+			fout << course[i].lecturerUser << endl;
+			fout << course[i].lecturerName << endl;
+			fout << course[i].education << endl;
+			fout << course[i].gender << endl;
+			fout << course[i].startDate.year << setw(2) << setfill('0') << course[i].startDate.month << setw(2) << setfill('0') << course[i].startDate.day << endl;
+			fout << course[i].endDate.year << setw(2) << setfill('0') << course[i].endDate.month << setw(2) << setfill('0') << course[i].endDate.day << endl;
+			fout << course[i].startTime.hour << setw(2) << setfill('0') << course[i].startTime.minute << endl;
+			fout << course[i].endTime.hour << setw(2) << setfill('0') << course[i].endTime.minute << endl;
+			fout << course[i].room;
+			
+		}
+		fout << endl;
+		fout << endl;
+		fout << courseTmp.course << endl;
+		fout << courseTmp.courseName << endl;
+		fout << courseTmp.Class << endl;
+		fout << courseTmp.lecturerUser << endl;
+		fout << courseTmp.lecturerName << endl;
+		fout << courseTmp.education << endl;
+		fout << courseTmp.gender << endl;
+		fout << courseTmp.startDate.year << setw(2) << setfill('0') << courseTmp.startDate.month << setw(2) << setfill('0') << courseTmp.startDate.day << endl;
+		fout << courseTmp.endDate.year << setw(2) << setfill('0') << courseTmp.endDate.month << setw(2) << setfill('0') << courseTmp.endDate.day << endl;
+		fout << courseTmp.startTime.hour << setw(2) << setfill('0') << courseTmp.startTime.minute << endl;
+		fout << courseTmp.endTime.hour << setw(2) << setfill('0') << courseTmp.endTime.minute << endl;
+		fout << courseTmp.room;
+	}
+	else {
+		fout << endl;
+		fout << endl;
+		fout << courseTmp.course << endl;
+		fout << courseTmp.courseName << endl;
+		fout << courseTmp.Class << endl;
+		fout << courseTmp.lecturerUser << endl;
+		fout << courseTmp.lecturerName << endl;
+		fout << courseTmp.education << endl;
+		fout << courseTmp.gender << endl;
+		fout << courseTmp.startDate.year << setw(2) << setfill('0') << courseTmp.startDate.month << setw(2) << setfill('0') << courseTmp.startDate.day << endl;
+		fout << courseTmp.endDate.year << setw(2) << setfill('0') << courseTmp.endDate.month << setw(2) << setfill('0') << courseTmp.endDate.day << endl;
+		fout << courseTmp.startTime.hour << setw(2) << setfill('0') << courseTmp.startTime.minute << endl;
+		fout << courseTmp.endTime.hour << setw(2) << setfill('0') << courseTmp.endTime.minute << endl;
+		fout << courseTmp.room;
+	}
+	fout.close();
+	
+	fout.open("Data/Courses/2019-2020-HK2-" + courseTmp.Class + "-" + courseTmp.course + "-Student2.txt");
+	if (!fout.is_open())
+	{
+		cout << "Cannot open the file!";
+	}
+	fout << n + 1;
+	if (n >= 2) {
+		for (int i = 0; i < n; i++) {
+			fout << endl;
+			fout << endl;
+			fout << course[i].course << endl;
+			fout << course[i].courseName << endl;
+			fout << course[i].Class << endl;
+			fout << course[i].lecturerUser << endl;
+			fout << course[i].lecturerName << endl;
+			fout << course[i].education << endl;
+			fout << course[i].gender << endl;
+			fout << course[i].startDate.year << setw(2) << setfill('0') << course[i].startDate.month << setw(2) << setfill('0') << course[i].startDate.day << endl;
+			fout << course[i].endDate.year << setw(2) << setfill('0') << course[i].endDate.month << setw(2) << setfill('0') << course[i].endDate.day << endl;
+			fout << course[i].startTime.hour << setw(2) << setfill('0') << course[i].startTime.minute << endl;
+			fout << course[i].endTime.hour << setw(2) << setfill('0') << course[i].endTime.minute << endl;
+			fout << course[i].room;
+
+		}
+		fout << endl;
+		fout << endl;
+		fout << courseTmp.course << endl;
+		fout << courseTmp.courseName << endl;
+		fout << courseTmp.Class << endl;
+		fout << courseTmp.lecturerUser << endl;
+		fout << courseTmp.lecturerName << endl;
+		fout << courseTmp.education << endl;
+		fout << courseTmp.gender << endl;
+		fout << courseTmp.startDate.year << setw(2) << setfill('0') << courseTmp.startDate.month << setw(2) << setfill('0') << courseTmp.startDate.day << endl;
+		fout << courseTmp.endDate.year << setw(2) << setfill('0') << courseTmp.endDate.month << setw(2) << setfill('0') << courseTmp.endDate.day << endl;
+		fout << courseTmp.startTime.hour << setw(2) << setfill('0') << courseTmp.startTime.minute << endl;
+		fout << courseTmp.endTime.hour << setw(2) << setfill('0') << courseTmp.endTime.minute << endl;
+		fout << courseTmp.room;
+	}
+	else {
+		fout << endl;
+		fout << endl;
+		fout << courseTmp.course << endl;
+		fout << courseTmp.courseName << endl;
+		fout << courseTmp.Class << endl;
+		fout << courseTmp.lecturerUser << endl;
+		fout << courseTmp.lecturerName << endl;
+		fout << courseTmp.education << endl;
+		fout << courseTmp.gender << endl;
+		fout << courseTmp.startDate.year << setw(2) << setfill('0') << courseTmp.startDate.month << setw(2) << setfill('0') << courseTmp.startDate.day << endl;
+		fout << courseTmp.endDate.year << setw(2) << setfill('0') << courseTmp.endDate.month << setw(2) << setfill('0') << courseTmp.endDate.day << endl;
+		fout << courseTmp.startTime.hour << setw(2) << setfill('0') << courseTmp.startTime.minute << endl;
+		fout << courseTmp.endTime.hour << setw(2) << setfill('0') << courseTmp.endTime.minute << endl;
+		fout << courseTmp.room;
+	}
+	fout.close();
+	fin.open("Data/Classes/Student-" + courseTmp.Class + ".txt");
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fin >> n;
+	student = new Student[n + nImport];
+	LoadStudent(fin, student, n);
+	fin.close();
+	
+	fout.open("Data/Courses/2019-2020-HK2-" + courseTmp.Class + "-" + courseTmp.course + "-Student2.txt");
+	if (!fout.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fout << n + nImport;
+	for (int i = 0; i < n + nImport; i++) {
+		fout << endl;
+		fout << endl;
+		fout << student[i].id << endl;
+		fout << student[i].birthday.year << setw(2) << setfill('0') << student[i].birthday.month << setw(2) << setfill('0') << student[i].birthday.day << endl;
+		fout << student[i].fullName << endl;
+		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
+		fout << student[i].Class << endl;
+		fout << student[i].isActive;
+	}
+	fout.close();
+	cout << endl;
+	cout << "Course added successfully!" << endl;
+	system("pause");
+	system("CLS");
+	delete[] course;
+	delete[] studentImport;
+	delete[] student;
 }
