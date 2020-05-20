@@ -566,14 +566,13 @@ void ChangeClass() {
 		getline(fin, studenttemp[i].Class);
 		fin >> studenttemp[i].isActive;
 	}
-	n++;
 	fin.close();
 	fout.open("Data/Classes/Student-" + temp.Class + ".txt");
 	if (!fout.is_open()) {
 		cout << "Cannot open the file!" << endl;
 	}
 	fout << n;
-	for (int i = 0; i < n - 1; i++) {
+	for (int i = 0; i < n; i++) {
 		fout << endl;
 		fout << endl;
 		fout << studenttemp[i].id << endl;
@@ -583,6 +582,7 @@ void ChangeClass() {
 		fout << studenttemp[i].Class << endl;
 		fout << studenttemp[i].isActive;
 	}
+	n++;
 	fout << endl;
 	fout << endl;
 	fout << temp.id << endl;
@@ -611,7 +611,6 @@ void ChangeClass() {
 		getline(fin, studenttemp1[i].Class, '\n');
 		fin >> studenttemp1[i].isActive;
 	}
-	--n;
 	fin.close();
 
 	fout.open("Data/Classes/Student-" + classtemp + ".txt");
@@ -619,7 +618,7 @@ void ChangeClass() {
 		cout << "Cannot open the file!" << endl;
 	}
 	fout << n;
-	for (int i = 0; i < n + 1; i++) {
+	for (int i = 0; i < n; i++) {
 		if (studenttemp1[i].id != temp.id) {
 			fout << endl;
 			fout << endl;
@@ -631,6 +630,7 @@ void ChangeClass() {
 			fout << studenttemp1[i].isActive;
 		}
 	}
+	n--;
 	fout.close();
 	cout << endl;
 	cout << endl;
@@ -723,39 +723,170 @@ void viewStudent() {
 
 //COURSE MANAGEMENT
 void EditAcademicYears() {
-	//int n;
-	//AYear* ayear;
-	//ifstream fin;
-	//ofstream fout;
+	int n;
+	AYear* ayear;
+	ifstream fin;
+	ofstream fout;
 
-	////FUNCTION NAME
-	//cout << "Create / update / delete / view academic years, and semesters" << endl;
-	//cout << endl;
+	//FUNCTION NAME
+	cout << "Create / update / delete / view academic years, and semesters" << endl;
+	cout << endl;
 
-	////LET USER SELECT OPTION
-	//int selection;
-	//cout << "1. Create new academic year" << endl;
-	//cout << "2. Update academic year" << endl;
-	//cout << "3. Delete academic year" << endl;
-	//cout << "4. View academic year" << endl;
-	//cout << "Select option (1 - 4): ";
-	//cin >> selection;
-	//switch (selection) {
-	//case 1:
-	//	fin.open("Data/Courses/Academic-Years.txt");
-	//	if (!fin.is_open()) {
-	//		cout << "Cannot open the file!";
-	//		return;
-	//	}
-	//	fin >> n;
-	//	for (int i = 0; i < n; i++) {
-	//		fin.get();
-	//		fin >> ayear[i].startYear >> ayear[i].endYear;
-	//		fin.ignore(1000, '\n');
-	//		getline(fin, ayear[i].semester, '\n');
-	//		fin.close();
-	//	}
-	//}
+	//LET USER SELECT OPTION
+	int selection;
+	cout << "1. Create new academic year" << endl;
+	cout << "2. Update academic year" << endl;
+	cout << "3. Delete academic year" << endl;
+	cout << "4. View academic year" << endl;
+	cout << "Select option (1 - 4): ";
+	cin >> selection;
+	switch (selection) {
+	case 1:
+	{fin.open("Data/Courses/Academic-Years.txt");
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fin >> n;
+	for (int i = 0; i < n; i++) {
+		fin.get();
+		fin >> ayear[i].startYear >> ayear[i].endYear;
+		fin.ignore(1000, '\n');
+		getline(fin, ayear[i].semester, '\n');
+	}
+	fin.close();
+	AYear temp;
+	cout << "Enter starting year: ";
+	cin >> temp.startYear;
+	cout << "Enter ending year: ";
+	cin >> temp.endYear;
+	cout << "Enter semester: ";
+	cin >> temp.semester;
+	fin.open("Data/Courses/Academic-Years.txt");
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fout << n++;
+	for (int i = 0; i < n; i++) {
+		fout << endl;
+		fout << ayear[i].startYear << " " << ayear[i].endYear << endl;
+		fout << ayear[i].semester << endl;
+	}
+	n++;
+	fout << endl;
+	fout << temp.startYear << " " << temp.endYear << endl;
+	fout << temp.semester << endl;
+	break;
+	}
+	case 2:
+	{AYear temp, temp1;
+	cout << "Enter the information of the academic year that you want to update " << endl;
+	cout << "Enter starting year: ";
+	cin >> temp.startYear;
+	cout << "Enter ending year: ";
+	cin >> temp.endYear;
+	cout << "Enter semester: ";
+	cin >> temp.semester;
+	cout << "Enter updated information" << endl;
+	cout << "Enter starting year: ";
+	cin >> temp1.startYear;
+	cout << "Enter ending year: ";
+	cin >> temp1.endYear;
+	cout << "Enter semester: ";
+	cin >> temp1.semester;
+	{fin.open("Data/Courses/Academic-Years.txt");
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fin >> n;
+	for (int i = 0; i < n; i++) {
+		fin.get();
+		fin >> ayear[i].startYear >> ayear[i].endYear;
+		fin.ignore(1000, '\n');
+		getline(fin, ayear[i].semester, '\n');
+		if (ayear[i].startYear == temp.startYear && ayear[i].endYear == temp.endYear && ayear[i].semester == temp.semester) {
+			ayear[i].startYear = temp1.startYear;
+			ayear[i].endYear = temp1.endYear;
+			ayear[i].semester = temp1.semester;
+		}
+	}
+	fin.close();
+	fout.open("Data/Courses/Academic-Years.txt");
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fout << n;
+	for (int i = 0; i < n; i++) {
+		fout << endl;
+		fout << ayear[i].startYear << " " << ayear[i].endYear << endl;
+		fout << ayear[i].semester << endl;
+	}
+	}
+	break;
+	}
+	case 3:
+	{AYear temp;
+	cout << "Enter the information of the academic year that you want to delete" << endl;
+	cout << "Enter starting year: ";
+	cin >> temp.startYear;
+	cout << "Enter ending year: ";
+	cin >> temp.endYear;
+	cout << "Enter semester: ";
+	cin >> temp.semester;
+	{fin.open("Data/Courses/Academic-Years.txt");
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fin >> n;
+	for (int i = 0; i < n; i++) {
+		fin.get();
+		fin >> ayear[i].startYear >> ayear[i].endYear;
+		fin.ignore(1000, '\n');
+		getline(fin, ayear[i].semester, '\n');
+	}
+	fin.close();
+	fout.open("Data/Courses/Academic-Years.txt");
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fout << n--;
+	for (int i = 0; i < n; i++) {
+		if (ayear[i].startYear != temp.startYear && ayear[i].endYear != temp.endYear && ayear[i].semester != temp.semester) {
+			fout << endl;
+			fout << ayear[i].startYear << " " << ayear[i].endYear << endl;
+			fout << ayear[i].semester << endl;
+		}
+	}
+	n--;
+	}
+	break;
+	}
+	case 4:
+	{if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fin >> n;
+	for (int i = 0; i < n; i++) {
+		fin.get();
+		fin >> ayear[i].startYear >> ayear[i].endYear;
+		fin.ignore(1000, '\n');
+		getline(fin, ayear[i].semester, '\n');
+	}
+	fin.close();
+	cout << "List of academic years: " << endl;
+	for (int i = 0; i < n; i++) {
+		cout << endl;
+		cout << ayear[i].startYear << " " << ayear[i].endYear << endl;
+		cout << ayear[i].semester << endl;
+	}break;
+	}
+	}
 }
 void ImportCourses() {
 	//Course* course;
