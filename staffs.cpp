@@ -748,6 +748,7 @@ void EditAcademicYears() {
 		return;
 	}
 	fin >> n;
+	ayear = new AYear[n];
 	for (int i = 0; i < n; i++) {
 		fin.get();
 		fin >> ayear[i].startYear >> ayear[i].endYear;
@@ -762,21 +763,28 @@ void EditAcademicYears() {
 	cin >> temp.endYear;
 	cout << "Enter semester: ";
 	cin >> temp.semester;
-	fin.open("Data/Courses/Academic-Years.txt");
-	if (!fin.is_open()) {
+	fout.open("Data/Courses/Academic-Years.txt");
+	if (!fout.is_open()) {
 		cout << "Cannot open the file!";
 		return;
 	}
-	fout << n++;
+	fout << n + 1;
 	for (int i = 0; i < n; i++) {
 		fout << endl;
+		fout << endl;
 		fout << ayear[i].startYear << " " << ayear[i].endYear << endl;
-		fout << ayear[i].semester << endl;
+		fout << ayear[i].semester;
 	}
 	n++;
 	fout << endl;
+	fout << endl;
 	fout << temp.startYear << " " << temp.endYear << endl;
-	fout << temp.semester << endl;
+	fout << temp.semester;
+	fout.close();
+	cout << endl;
+	cout << "Added successfully!" << endl;
+	system("pause");
+	system("cls");
 	break;
 	}
 	case 2:
@@ -801,6 +809,7 @@ void EditAcademicYears() {
 		return;
 	}
 	fin >> n;
+	AYear* ayear = new AYear[n];
 	for (int i = 0; i < n; i++) {
 		fin.get();
 		fin >> ayear[i].startYear >> ayear[i].endYear;
@@ -842,6 +851,7 @@ void EditAcademicYears() {
 		return;
 	}
 	fin >> n;
+	AYear* ayear = new AYear[n];
 	for (int i = 0; i < n; i++) {
 		fin.get();
 		fin >> ayear[i].startYear >> ayear[i].endYear;
@@ -872,6 +882,7 @@ void EditAcademicYears() {
 		return;
 	}
 	fin >> n;
+	AYear* ayear = new AYear[n];
 	for (int i = 0; i < n; i++) {
 		fin.get();
 		fin >> ayear[i].startYear >> ayear[i].endYear;
