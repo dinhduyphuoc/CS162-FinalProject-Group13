@@ -1275,3 +1275,59 @@ void removeCourse() {
 	n - 1;
 	fout.close();
 }
+void viewCourse()
+{
+	ifstream fin;
+	ofstream fout;
+	int n = 0;
+	fin.open("Data/Courses/2019-2020-HK2-Schedule-19APCS1.txt");
+	if (!fin.is_open())
+	{
+		cout << "Cannot open the file!" << endl;
+		return;
+	}
+	fin >> n;
+	Course* Coursetmp = new Course[n];
+	for (int i = 0; i < n; i++)
+	{
+		fin.ignore(1000, '\n');
+		fin.get();
+		getline(fin, Coursetmp[i].course);
+		getline(fin, Coursetmp[i].courseName);
+		getline(fin, Coursetmp[i].Class);
+		getline(fin, Coursetmp[i].lecturerUser);
+		getline(fin, Coursetmp[i].lecturerName);
+		getline(fin, Coursetmp[i].education);
+		fin >> Coursetmp[i].gender;
+		fin >> Coursetmp[i].startDate.year >> Coursetmp[i].startDate.month >> Coursetmp[i].startDate.day;
+		fin >> Coursetmp[i].endDate.year >> Coursetmp[i].endDate.month >> Coursetmp[i].endDate.day;
+		fin >> Coursetmp[i].day;
+		fin >> Coursetmp[i].startTime.hour >> Coursetmp[i].startTime.minute;
+		fin >> Coursetmp[i].endTime.hour >> Coursetmp[i].endTime.minute;
+		fin.ignore(1000, '\n');
+		getline(fin, Coursetmp[i].room);
+	}
+	fin.close();
+	system("CLS");
+	cout << "List of courses: " << endl;
+	for (int i = 0; i < n; i++)
+	{
+		cout << Coursetmp[i].course << endl;
+		cout << Coursetmp[i].courseName << endl;
+		cout << Coursetmp[i].Class << endl;
+		cout << Coursetmp[i].lecturerUser << endl;
+		cout << Coursetmp[i].lecturerName << endl;
+		cout << Coursetmp[i].education << endl;
+		cout << Coursetmp[i].gender << endl;
+		cout << Coursetmp[i].startDate.year << " " << Coursetmp[i].startDate.month << " " << Coursetmp[i].startDate.day << endl;
+		cout << Coursetmp[i].endDate.year << " " << Coursetmp[i].endDate.month << " " << Coursetmp[i].endDate.day << endl;
+		cout << Coursetmp[i].day << endl;
+		cout << Coursetmp[i].startTime.hour << " " << Coursetmp[i].startTime.minute << endl;
+		cout << Coursetmp[i].endTime.hour << " " << Coursetmp[i].endTime.minute << endl;
+		cout << Coursetmp[i].room << endl;
+		cout << endl;
+	}
+	cout << endl;
+	system("pause");
+	system("CLS");
+}

@@ -76,6 +76,7 @@ void EditAcademicYears();
 void ImportCourses();
 void AddCourseManually();
 void EditCourse();
+void viewCourse();
 //Lecturer section
 
 //Student section
