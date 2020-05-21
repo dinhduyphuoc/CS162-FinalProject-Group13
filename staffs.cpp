@@ -1219,3 +1219,48 @@ void AddCourseManually()
 	delete[] studentImport;
 	delete[] student;
 }
+void removeCourse() {
+	ifstream fin;
+	ofstream fout;
+	Course* course;
+	string temp;
+	int n;
+	cout << "Enter name of the course that you want to remove: " << endl;
+	cin >> temp;
+	fin.open("Data/Courses/2019-2020-HK2-Schedule-19APCS1.txt");
+	if (!fin.is_open()) {
+		cout << "Can not open this file! " << endl;
+		return;
+	}
+	fin >> n;
+	course = new Course[n];
+	LoadCourse(fin, course, n);
+	fin.close();
+	fout.open("Data/Courses/2019-2020-HK2-Schedule-19APCS1.txt");
+	if (!fout.is_open()) {
+		cout << "Can not open this file!" << endl;
+		return;
+	}
+	fout << n-1;
+	for (int i = 0; i < n; ++i) {
+		if (course[i].course != temp) {
+			fout << endl;
+			fout << endl;
+			fout << course[i].course << endl;
+			fout << course[i].courseName << endl;
+			fout << course[i].Class << endl;
+			fout << course[i].lecturerUser << endl;
+			fout << course[i].lecturerName << endl;
+			fout << course[i].education << endl;
+			fout << course[i].gender << endl;
+			fout << course[i].startDate.year << " " << setw(2) << setfill('0') << course[i].startDate.month << " " << setw(2) << setfill('0') << course[i].startDate.day << endl;
+			fout << course[i].endDate.year << " " << setw(2) << setfill('0') << course[i].endDate.month << " " << setw(2) << setfill('0') << course[i].endDate.day << endl;
+			fout << course[i].day;
+			fout << course[i].startTime.hour << " " << setw(2) << setfill('0') << course[i].startTime.minute << endl;
+			fout << course[i].endTime.hour << " " << setw(2) << setfill('0') << course[i].endTime.minute << endl;
+			fout << course[i].room;
+		}
+	}
+	n - 1;
+	fout.close();
+}
