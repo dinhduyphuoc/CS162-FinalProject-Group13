@@ -1,6 +1,58 @@
 ﻿#include "functions.h"
 #include "menu.h"
 
+//ALTERNATIVE FUNCTIONS
+int noOfRows(string address) {
+	ifstream file(address);
+	string data;
+	int count = 0;
+	while (getline(file, data)) {
+		count++;
+	}
+	return count;
+} //COUNT NUMBERS OF ROW IN CSV FILE
+void importStudentCSV(ifstream& fin, Student* student, int n) {
+	string tmp;
+	string line;
+	int i = 0;
+	while (getline(fin, line)) {
+		stringstream ss(line);
+		getline(ss, student[i].id, ',');
+		getline(ss, student[i].fullName, ',');
+		getline(ss, tmp, '/');
+		student[i].birthday.day = stoi(tmp);
+		getline(ss, tmp, '/');
+		student[i].birthday.month = stoi(tmp);
+		getline(ss, tmp, ',');
+		student[i].birthday.year = stoi(tmp);
+		getline(ss, student[i].Class, ',');
+		getline(ss, tmp, '\n');
+		student[i].isActive = stoi(tmp);
+		i++;
+	}
+}
+void LoadCourse(ifstream& fin, Course*& course, int n) {
+	for (int i = 0; i < n; ++i) {
+		fin.ignore(1000, '\n');
+		fin.get();
+		getline(fin, course[i].course);
+		getline(fin, course[i].courseName);
+		getline(fin, course[i].Class);
+		getline(fin, course[i].lecturerUser);
+		getline(fin, course[i].lecturerName);
+		getline(fin, course[i].education);
+		fin >> course[i].gender;
+		fin >> course[i].startDate.year >> course[i].startDate.month >> course[i].startDate.day;
+		fin >> course[i].endDate.year >> course[i].endDate.month >> course[i].endDate.day;
+		fin >> course[i].day;
+		fin >> course[i].startTime.hour >> course[i].startTime.minute;
+		fin >> course[i].endTime.hour >> course[i].endTime.minute;
+		fin.ignore(1000, '\n');
+		getline(fin, course[i].room);
+		cin >> course[i].isActive;
+	}
+}
+
 //CLASS MANAGEMENT
 void ImportStudents() {
 	int nImport, n;
@@ -12,23 +64,25 @@ void ImportStudents() {
 	Student* student;
 
 	//FUNCTION NAME
-	cout << "Import students of a class from a text file" << endl;
+	cout << "Import students of a class (CSV file)" << endl;
 	cout << endl;
 
-	//COUT CLASSES LIST
+	//LET USER ENTER CLASSES LIST
 	cout << "Class: ";
 	cin.ignore(1000, '\n');
 	getline(cin, Class, '\n');
 	cout << "File address: ";
 	getline(cin, address, '\n');
 	fin.open(address);
+
+	//IMPORT FROM CSV FILE
 	if (!fin.is_open()) {
 		cout << "Cannot open the file!";
 		return;
 	}
-	fin >> nImport;
+	nImport = noOfRows(address);
 	studentImport = new Student[nImport];
-	LoadStudent(fin, studentImport, nImport);
+	importStudentCSV(fin, studentImport, nImport);
 	fin.close();
 
 	//READ STUDENTS FILE FROM GIVING CLASS
@@ -43,10 +97,9 @@ void ImportStudents() {
 	fin.close();
 
 	//MERGE OLD AND NEW STUDENTS
+	int j = 0;
 	for (int i = n; i < n + nImport; i++) {
-		int j = 0;
 		student[i].id = studentImport[j].id;
-		student[i].password = studentImport[j].password;
 		student[i].fullName = studentImport[j].fullName;
 		student[i].birthday = studentImport[j].birthday;
 		student[i].Class = studentImport[j].Class;
@@ -900,12 +953,11 @@ void EditAcademicYears() {
 	}
 }
 void ImportCourses() {
-	//Course* course;
+	//FUNCTION NAME
+	cout << "Import courses" << endl;
+	cout << endl;
 
-	////FUNCTION NAME
-	//cout << "Import courses from a file" << endl;
-	//cout << endl;
-
+	Course* course;
 }
 void EditCourse() {
 	Course* course;

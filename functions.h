@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <iomanip>
+#include <sstream>
 
 using namespace std;
 
@@ -41,6 +42,7 @@ struct Student {
 };
 
 struct Course {
+	Student student;
 	string course;
 	string courseName;
 	string Class;
@@ -54,6 +56,7 @@ struct Course {
 	Time startTime;
 	Time endTime;
 	string room;
+	bool isActive;
 };
 
 struct AYear {
