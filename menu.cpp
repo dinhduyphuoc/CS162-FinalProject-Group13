@@ -678,7 +678,8 @@ void StaffMenuCourse(Staff*& staff, Staff& staffTmp) {
 		break;
 	case 12:
 		system("CLS");
-		//function
+		viewAllLecturer();
+		StaffMenu(staff, staffTmp);
 		break;
 	default:
 		cout << "Invalid option, please select again: ";

@@ -1383,3 +1383,44 @@ void viewCourse()
 	system("pause");
 	system("CLS");
 }
+
+void viewAllLecturer()
+{
+	ifstream fin;
+	ofstream fout;
+	int n = 0;
+	fin.open("Data/Lecturer.txt");
+	if (!fin.is_open())
+	{
+		cout << "Cannot open the file!" << endl;
+		return;
+	}
+	fin >> n;
+	Lecturer* lecturerTmp = new Lecturer[n];
+	for (int i = 0; i < n; ++i) {
+		fin.ignore(1000, '\n');
+		fin.get();
+		getline(fin, lecturerTmp[i].username);
+		getline(fin, lecturerTmp[i].password);
+		getline(fin, lecturerTmp[i].fullName);
+		getline(fin, lecturerTmp[i].education);
+		fin >> lecturerTmp[i].gender;
+	}
+	fin.close();
+	system("CLS");
+	cout << "List of all lecturers: " << endl;
+	for (int i = 0; i < n; ++i)
+	{
+		cout << lecturerTmp[i].username << endl;
+		cout << lecturerTmp[i].password << endl;
+		cout << lecturerTmp[i].fullName << endl;
+		cout << lecturerTmp[i].education << endl;
+		if (lecturerTmp[i].gender == 0)
+			cout << "Male" << endl;
+		else cout << "Female" << endl;
+		cout << endl;
+	}
+	cout << endl;
+	system("pause");
+	system("CLS");
+}

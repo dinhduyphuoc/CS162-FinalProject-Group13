@@ -80,6 +80,7 @@ void ImportCourses();
 void AddCourseManually();
 void EditCourse();
 void viewCourse();
+void viewAllLecturer();
 //Lecturer section
 
 //Student section
