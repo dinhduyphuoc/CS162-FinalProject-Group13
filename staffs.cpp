@@ -1390,7 +1390,6 @@ void viewCourse()
 	system("pause");
 	system("CLS");
 }
-
 void viewAllLecturer()
 {
 	ifstream fin;
