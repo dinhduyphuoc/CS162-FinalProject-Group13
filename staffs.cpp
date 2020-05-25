@@ -961,12 +961,6 @@ void ImportCourses() {
 void EditCourse() {
 	Course* course;
 	Course courseTmp;
-	/*DOB startDate;
-	DOB endDate;
-	int day;
-	Time startTime;
-	Time endTime;
-	string room;*/
 	int n;
 	ifstream fin;
 	ofstream fout;
@@ -1420,6 +1414,21 @@ void viewAllLecturer()
 		cout << endl;
 	}
 	cout << endl;
-	system("pause");
+	system("pause");,
 	system("CLS");
+}
+
+void viewAttendanceList()
+{
+	Course* course;
+	Course courseTmp;
+	int n;
+	ifstream fin;
+	ofstream fout;
+	cout << "Enter the class: ";
+	getline(cin, courseTmp.Class, '\n');
+	cout << "Enter the course: ";
+	getline(cin, courseTmp.course, '\n');
+	fin.open("da")
+
 }

@@ -81,6 +81,7 @@ void AddCourseManually();
 void EditCourse();
 void viewCourse();
 void viewAllLecturer();
+void viewAttendanceList();
 //Lecturer section
 
 //Student section
