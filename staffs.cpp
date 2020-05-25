@@ -49,6 +49,7 @@ void LoadCourse(ifstream& fin, Course*& course, int n) {
 		fin >> course[i].endTime.hour >> course[i].endTime.minute;
 		fin.ignore(1000, '\n');
 		getline(fin, course[i].room);
+		fin >> course[i].isActive;
 	}
 }
 
@@ -1382,7 +1383,6 @@ void viewCourse()
 	system("pause");
 	system("CLS");
 }
-
 void viewAllLecturer()
 {
 	ifstream fin;
