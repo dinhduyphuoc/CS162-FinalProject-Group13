@@ -49,6 +49,7 @@ void LoadCourse(ifstream& fin, Course*& course, int n) {
 		fin >> course[i].endTime.hour >> course[i].endTime.minute;
 		fin.ignore(1000, '\n');
 		getline(fin, course[i].room);
+		fin >> course[i].isActive;
 	}
 }
 
@@ -690,7 +691,6 @@ void ChangeClass() {
 	system("pause");
 	system("CLS");
 	delete[] student;
-	//con đĩ
 }
 void viewclass() {
 	ifstream fin;
@@ -1285,11 +1285,15 @@ void removeCourse() {
 	ifstream fin;
 	ofstream fout;
 	Course* course;
-	string temp;
+	string temp,start,end,Class;
 	int n;
-	cout << "Enter name of the course that you want to remove: " << endl;
+	cout << "Enter name of the course that you want to remove: ";
 	cin >> temp;
-	fin.open("Data/Courses/2019-2020-HK2-Schedule-19APCS1.txt");
+	cout << "Enter academic year (Ex:2019 2020): ";
+	cin >> start >> end;
+	cout << "Enter class that attend to this course: ";
+	cin >> Class;
+	fin.open("Data/Courses/" + start + "-" + end + "-HK2-Schedule-" + Class + ".txt");
 	if (!fin.is_open()) {
 		cout << "Can not open this file! " << endl;
 		return;
@@ -1298,13 +1302,16 @@ void removeCourse() {
 	course = new Course[n];
 	LoadCourse(fin, course, n);
 	fin.close();
-	fout.open("Data/Courses/2019-2020-HK2-Schedule-19APCS1.txt");
+	fout.open("Data/Courses/" + start + "-" + end + "-HK2-Schedule-" + Class +".txt");
 	if (!fout.is_open()) {
 		cout << "Can not open this file!" << endl;
 		return;
 	}
 	fout << n-1;
 	for (int i = 0; i < n; ++i) {
+		if (course[i].course == temp) {
+			course[i].isActive = 0;
+		}
 		if (course[i].course != temp) {
 			fout << endl;
 			fout << endl;
@@ -1325,6 +1332,7 @@ void removeCourse() {
 	}
 	n - 1;
 	fout.close();
+	cout << "Removed successfully!" << endl;
 }
 void viewCourse()
 {
@@ -1422,4 +1430,60 @@ void viewAllLecturer()
 	cout << endl;
 	system("pause");
 	system("CLS");
+}
+void removeStudentfromCourse() {
+	ifstream fin;
+	ofstream fout;
+	string temp, start, end, Class;
+	int n;
+	cout << "Enter name of the course that you want to remove: ";
+	cin >> temp;
+	cout << "Enter academic year (Ex:2019 2020): ";
+	cin >> start >> end;
+	cout << "Enter class that attend to this course: ";
+	cin >> Class;
+	fin.open("Data/Courses/" + start + "-" + end + "-HK2-"+ Class + "-"+temp+"-Student.txt");
+	if (!fin.is_open()) {
+		cout << "Can not open this file! " << endl;
+		return;
+	}
+	fin >> n;
+	Student* student = new Student[n];
+	for (int i = 0; i < n; i++) {
+		fin.ignore(1000, '\n');
+		fin.get();
+		getline(fin, student[i].id, '\n');
+		getline(fin, student[i].password, '\n');
+		getline(fin, student[i].fullName, '\n');
+		fin >> student[i].birthday.year >> student[i].birthday.month >> student[i].birthday.day;
+		fin.ignore(1000, '\n');
+		getline(fin, student[i].Class, '\n');
+		fin >> student[i].isActive;
+	}
+	fin.close();
+	string ID;
+	cout << "Enter ID of student you want to remove: ";
+	cin >> ID;
+	fout.open("Data/Courses/" + start + "-" + end + "-HK2-" + Class + "-" + temp + "-Student.txt");
+	if (!fout.is_open()) {
+		cout << "Can not open this file! " << endl;
+		return;
+	}
+	fout << n--;
+	Student* student = new Student[n];
+	for (int i = 0; i < n-1; i++) {
+		if (student[i].id != ID) {
+			fout << endl;
+			fout << endl;
+			fout << student[i].id << endl;
+			fout << student[i].password << endl;
+			fout << student[i].fullName << endl;
+			fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
+			fout << student[i].Class << endl;
+			fout << student[i].isActive;
+		}
+	}
+	n--;
+	cout << "Student removed successfully!" << endl;
+
 }
