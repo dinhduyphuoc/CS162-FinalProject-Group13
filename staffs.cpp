@@ -1285,15 +1285,11 @@ void removeCourse() {
 	ifstream fin;
 	ofstream fout;
 	Course* course;
-	string temp,start,end,Class;
+	string temp;
 	int n;
-	cout << "Enter name of the course that you want to remove: ";
+	cout << "Enter name of the course that you want to remove: " << endl;
 	cin >> temp;
-	cout << "Enter academic year (Ex:2019 2020): ";
-	cin >> start >> end;
-	cout << "Enter class that attend to this course: ";
-	cin >> Class;
-	fin.open("Data/Courses/" + start + "-" + end + "-HK2-Schedule-" + Class + ".txt");
+	fin.open("Data/Courses/2019-2020-HK2-Schedule-19APCS1.txt");
 	if (!fin.is_open()) {
 		cout << "Can not open this file! " << endl;
 		return;
@@ -1302,16 +1298,13 @@ void removeCourse() {
 	course = new Course[n];
 	LoadCourse(fin, course, n);
 	fin.close();
-	fout.open("Data/Courses/" + start + "-" + end + "-HK2-Schedule-" + Class +".txt");
+	fout.open("Data/Courses/2019-2020-HK2-Schedule-19APCS1.txt");
 	if (!fout.is_open()) {
 		cout << "Can not open this file!" << endl;
 		return;
 	}
 	fout << n-1;
 	for (int i = 0; i < n; ++i) {
-		if (course[i].course == temp) {
-			course[i].isActive = 0;
-		}
 		if (course[i].course != temp) {
 			fout << endl;
 			fout << endl;
@@ -1332,7 +1325,6 @@ void removeCourse() {
 	}
 	n - 1;
 	fout.close();
-	cout << "Removed successfully!" << endl;
 }
 void viewCourse()
 {
@@ -1346,10 +1338,11 @@ void viewCourse()
 		return;
 	}
 	fin >> n;
+	fin.ignore(1000, '\n');
 	Course* Coursetmp = new Course[n];
 	for (int i = 0; i < n; i++)
 	{
-		fin.ignore(1000, '\n');
+		/*fin.ignore(1000, '\n');*/
 		fin.get();
 		getline(fin, Coursetmp[i].course);
 		getline(fin, Coursetmp[i].courseName);
@@ -1430,59 +1423,83 @@ void viewAllLecturer()
 	system("pause");
 	system("CLS");
 }
-void removeStudentfromCourse() {
+void viewCourseStudent()
+{
 	ifstream fin;
 	ofstream fout;
-	string temp, start, end, Class;
-	int n;
-	cout << "Enter name of the course that you want to remove: ";
-	cin >> temp;
-	cout << "Enter academic year (Ex:2019 2020): ";
-	cin >> start >> end;
-	cout << "Enter class that attend to this course: ";
-	cin >> Class;
-	fin.open("Data/Courses/" + start + "-" + end + "-HK2-"+ Class + "-"+temp+"-Student.txt");
+	int n = 0;
+	fin.open("Data/Courses/2019-2020-HK2-Schedule-19APCS1.txt");
 	if (!fin.is_open()) {
-		cout << "Can not open this file! " << endl;
+		cout << "Cannot open the file!" << endl;
 		return;
 	}
 	fin >> n;
-	Student* student = new Student[n];
-	for (int i = 0; i < n; i++) {
-		fin.ignore(1000, '\n');
+	fin.ignore(1000, '\n');
+	Course* Coursetmp = new Course[n];
+	for (int i = 0; i < n; i++)
+	{
+		/*fin.ignore(1000, '\n');*/
 		fin.get();
-		getline(fin, student[i].id, '\n');
-		getline(fin, student[i].password, '\n');
-		getline(fin, student[i].fullName, '\n');
-		fin >> student[i].birthday.year >> student[i].birthday.month >> student[i].birthday.day;
+		getline(fin, Coursetmp[i].course);
+		getline(fin, Coursetmp[i].courseName);
+		getline(fin, Coursetmp[i].Class);
+		getline(fin, Coursetmp[i].lecturerUser);
+		getline(fin, Coursetmp[i].lecturerName);
+		getline(fin, Coursetmp[i].education);
+		fin >> Coursetmp[i].gender;
+		fin >> Coursetmp[i].startDate.year >> Coursetmp[i].startDate.month >> Coursetmp[i].startDate.day;
+		fin >> Coursetmp[i].endDate.year >> Coursetmp[i].endDate.month >> Coursetmp[i].endDate.day;
+		fin >> Coursetmp[i].day;
+		fin >> Coursetmp[i].startTime.hour >> Coursetmp[i].startTime.minute;
+		fin >> Coursetmp[i].endTime.hour >> Coursetmp[i].endTime.minute;
 		fin.ignore(1000, '\n');
-		getline(fin, student[i].Class, '\n');
-		fin >> student[i].isActive;
+		getline(fin, Coursetmp[i].room);
 	}
 	fin.close();
-	string ID;
-	cout << "Enter ID of student you want to remove: ";
-	cin >> ID;
-	fout.open("Data/Courses/" + start + "-" + end + "-HK2-" + Class + "-" + temp + "-Student.txt");
-	if (!fout.is_open()) {
-		cout << "Can not open this file! " << endl;
-		return;
-	}
-	fout << n--;
-	Student* student = new Student[n];
-	for (int i = 0; i < n-1; i++) {
-		if (student[i].id != ID) {
-			fout << endl;
-			fout << endl;
-			fout << student[i].id << endl;
-			fout << student[i].password << endl;
-			fout << student[i].fullName << endl;
-			fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
-			fout << student[i].Class << endl;
-			fout << student[i].isActive;
+	string tmp;
+	viewCourse();
+	cout << "Which course do you want to view the student list ?: ";
+	cin >> tmp;
+	for (int i = 0; i < n; i++)
+	{
+		if (tmp == Coursetmp[i].course)
+		{
+			fin.open("Data/Courses/2019-2020-HK2-19APCS1-" + tmp + "-Student.txt");
+			if (!fin.is_open())
+			{
+				cout << "Cannot open the file!" << endl;
+				return;
+			}
+			fin >> n;
+			Student* studenttemp = new Student[n];			
+			for (int i = 0; i < n; i++)
+			{
+				fin.ignore(1000, '\n');
+				fin.get();
+				getline(fin, studenttemp[i].id);
+				getline(fin, studenttemp[i].password);
+				getline(fin, studenttemp[i].fullName);
+				fin >> studenttemp[i].birthday.year >> studenttemp[i].birthday.month >> studenttemp[i].birthday.day;
+				fin.ignore(1000, '\n');
+				getline(fin, studenttemp[i].Class);
+				fin >> studenttemp[i].isActive;
+			}
+			fin.close();
+			system("CLS");
+			cout << "List of students study " + tmp + ": " << endl;
+			cout << endl;
+			for (int i = 0; i < n; i++)
+			{
+				cout << studenttemp[i].id << endl;
+				cout << studenttemp[i].password << endl;
+				cout << studenttemp[i].fullName << endl;
+				cout << studenttemp[i].birthday.year << " " << studenttemp[i].birthday.month << " " << studenttemp[i].birthday.day << endl;
+				cout << studenttemp[i].Class << endl;
+				cout << studenttemp[i].isActive << endl;
+				cout << endl;
+			}
 		}
 	}
-	n--;
-	cout << "Student removed successfully!" << endl;
-
+	system("pause");
+	system("CLS");
 }
