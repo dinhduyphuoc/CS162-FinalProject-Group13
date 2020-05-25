@@ -49,7 +49,6 @@ void LoadCourse(ifstream& fin, Course*& course, int n) {
 		fin >> course[i].endTime.hour >> course[i].endTime.minute;
 		fin.ignore(1000, '\n');
 		getline(fin, course[i].room);
-		cin >> course[i].isActive;
 	}
 }
 
