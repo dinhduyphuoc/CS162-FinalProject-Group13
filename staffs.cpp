@@ -2,6 +2,15 @@
 #include "menu.h"
 
 //ALTERNATIVE FUNCTIONS
+int noOfRows(string address) {
+	ifstream file(address);
+	string data;
+	int count = 0;
+	while (getline(file, data)) {
+		count++;
+	}
+	return count;
+} //COUNT NUMBERS OF ROW IN CSV FILE
 void importStudentCSV(ifstream& fin, Student* student, int n) {
 	string tmp;
 	string line;
@@ -1440,6 +1449,87 @@ void removeStudentfromCourse() {
 	fout.close();
 	cout << "Student removed successfully!" << endl;
 
+}
+void viewCourseStudent()
+{
+	ifstream fin;
+	ofstream fout;
+	int n = 0;
+	fin.open("Data/Courses/Courses.txt");
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!" << endl;
+		return;
+	}
+	fin >> n;
+	/*fin.ignore(1000, '\n');*/
+	Course* Coursetmp = new Course[n];
+	for (int i = 0; i < n; i++)
+	{
+		fin.ignore(1000, '\n');
+		fin.get();
+		getline(fin, Coursetmp[i].course);
+		getline(fin, Coursetmp[i].courseName);
+		getline(fin, Coursetmp[i].Class);
+		getline(fin, Coursetmp[i].lecturerUser);
+		getline(fin, Coursetmp[i].lecturerName);
+		getline(fin, Coursetmp[i].education);
+		fin >> Coursetmp[i].gender;
+		fin >> Coursetmp[i].startDate.year >> Coursetmp[i].startDate.month >> Coursetmp[i].startDate.day;
+		fin >> Coursetmp[i].endDate.year >> Coursetmp[i].endDate.month >> Coursetmp[i].endDate.day;
+		fin >> Coursetmp[i].day;
+		fin >> Coursetmp[i].startTime.hour >> Coursetmp[i].startTime.minute;
+		fin >> Coursetmp[i].endTime.hour >> Coursetmp[i].endTime.minute;
+		fin.ignore(1000, '\n');
+		getline(fin, Coursetmp[i].room);
+		fin >> Coursetmp[i].isActive;
+	}
+	fin.close();
+	string tmp;
+	viewCourse();
+	cout << "Which course do you want to view the student list ?: ";
+	cin >> tmp;
+	for (int i = 0; i < n; i++)
+	{
+		if (tmp == Coursetmp[i].course)
+		{
+			fin.open("Data/Courses/2019-2020-HK2-19APCS1-" + tmp + "-Student.txt");
+			if (!fin.is_open())
+			{
+				cout << "Cannot open the file!" << endl;
+				return;
+			}
+			fin >> n;
+			Student* studenttemp = new Student[n];
+			for (int i = 0; i < n; i++)
+			{
+				fin.ignore(1000, '\n');
+				fin.get();
+				getline(fin, studenttemp[i].id);
+				getline(fin, studenttemp[i].password);
+				getline(fin, studenttemp[i].fullName);
+				fin >> studenttemp[i].birthday.year >> studenttemp[i].birthday.month >> studenttemp[i].birthday.day;
+				fin.ignore(1000, '\n');
+				getline(fin, studenttemp[i].Class);
+				fin >> studenttemp[i].isActive;
+			}
+			fin.close();
+			system("CLS");
+			cout << "List of students study " + tmp + ": " << endl;
+			cout << endl;
+			for (int i = 0; i < n; i++)
+			{
+				cout << studenttemp[i].id << endl;
+				cout << studenttemp[i].password << endl;
+				cout << studenttemp[i].fullName << endl;
+				cout << studenttemp[i].birthday.year << " " << studenttemp[i].birthday.month << " " << studenttemp[i].birthday.day << endl;
+				cout << studenttemp[i].Class << endl;
+				cout << studenttemp[i].isActive << endl;
+				cout << endl;
+			}
+		}
+	}
+	system("pause");
+	system("CLS");
 }
 
 //SCOREBOARD MANAGEMENT
