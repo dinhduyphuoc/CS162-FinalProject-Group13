@@ -65,6 +65,36 @@ struct AYear {
 	string semester;
 };
 
+//ALTERNATIVE FUNCTIONS
+int noOfRows(string address) {
+	ifstream file(address);
+	string data;
+	int count = 0;
+	while (getline(file, data)) {
+		count++;
+	}
+	return count;
+} //COUNT NUMBERS OF ROW IN CSV FILE
+void LoadCourse(ifstream& fin, Course*& course, int n) {
+	for (int i = 0; i < n; ++i) {
+		fin.ignore(1000, '\n');
+		fin.get();
+		getline(fin, course[i].course);
+		getline(fin, course[i].courseName);
+		getline(fin, course[i].Class);
+		getline(fin, course[i].lecturerUser);
+		getline(fin, course[i].lecturerName);
+		getline(fin, course[i].education);
+		fin >> course[i].gender;
+		fin >> course[i].startDate.year >> course[i].startDate.month >> course[i].startDate.day;
+		fin >> course[i].endDate.year >> course[i].endDate.month >> course[i].endDate.day;
+		fin >> course[i].day;
+		fin >> course[i].startTime.hour >> course[i].startTime.minute;
+		fin >> course[i].endTime.hour >> course[i].endTime.minute;
+		fin.ignore(1000, '\n');
+		getline(fin, course[i].room);
+	}
+}
 
 //Staff section
 void ImportStudents();
@@ -82,6 +112,7 @@ void EditCourse();
 void viewCourse();
 void viewAllLecturer();
 void viewAttendanceList();
+
 //Lecturer section
 
 //Student section
