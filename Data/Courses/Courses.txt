@@ -13,6 +13,7 @@ TS
 7 30
 11 30
 I42
+1	//0 - inactive, 1 - active
 
 CM101
 Communications
@@ -27,3 +28,4 @@ GS
 13 30
 17 30
 I23
+1
