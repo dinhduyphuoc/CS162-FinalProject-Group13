@@ -39,15 +39,6 @@ void readScoreboard(ifstream& fin, Scoreboard* board, int n) {
 		fin >> board[i].Midterm >> board[i].Final >> board[i].Bonus >> board[i].Total;
 	}
 }
-int noOfRows(string address) {
-	ifstream file(address);
-	string data;
-	int count = 0;
-	while (getline(file, data)) {
-		count++;
-	}
-	return count;
-} //COUNT NUMBERS OF ROW IN CSV FILE
 
 //CLASS MANAGEMENT
 void ImportStudents() {
@@ -1608,6 +1599,7 @@ void viewAttendanceList()
 	system("pause");
 	system("CLS");
 }
+
 //SCOREBOARD MANAGEMENT
 void ViewScoreboard() {
 	ifstream fin;

@@ -1,5 +1,4 @@
-#ifndef _MENU_H_
-#define _MENU_H_
+#pragma once
 #include "functions.h"
 
 //Login section
@@ -33,7 +32,6 @@ void StaffMenuClass(Staff*& staff, Staff& staffTmp);
 void StaffMenuCourse(Staff*& staff, Staff& staffTmp);
 void StaffMenuScoreboard(Staff*& staff, Staff& staffTmp);
 void StaffMenuAttendance(Staff*& staff, Staff& staffTmp);
-
 void LoadCourse(ifstream& fin, Course*& course, int n);
 
 //Lecturers Section
@@ -41,5 +39,3 @@ void LecturerMenu(Lecturer*& lecturer, Lecturer& lecturerTmp);
 
 //Students section
 void StudentMenu(Student*& student, Student& studentTmp);
-
-#endif
