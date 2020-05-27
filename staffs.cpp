@@ -1531,5 +1531,66 @@ void viewCourseStudent()
 	system("pause");
 	system("CLS");
 }
-
+void viewAttendanceList()
+{
+	string CourseClass, course;
+	int n, lesson;
+	ifstream fin;
+	ofstream fout;
+	cin.ignore(1000, '\n');
+	cout << "Enter the class: ";
+	getline(cin, CourseClass, '\n');
+	cout << "Enter the course: ";
+	getline(cin, course, '\n');
+	fin.open("Data/Courses/2019-2020-HK2-" + CourseClass + "-" + course + "-Student-Attendance.txt");
+	if (!fin.is_open())
+	{
+		cout << "Cannot open the file!" << endl;
+		return;
+	}
+	fin >> n;
+	Course* courseTmp = new Course[n];
+	Attendance* atd = new Attendance[11];
+	for (int i = 0; i < n; ++i)
+	{
+		fin.ignore(1000, '\n');
+		fin.get();
+		getline(fin, courseTmp[i].student.id, '\n');
+		getline(fin, courseTmp[i].student.password, '\n');
+		getline(fin, courseTmp[i].student.fullName, '\n');
+		fin >> courseTmp[i].student.birthday.year >> courseTmp[i].student.birthday.month >> courseTmp[i].student.birthday.day;
+		fin.ignore(1000, '\n');
+		getline(fin, courseTmp[i].Class, '\n');
+		fin >> courseTmp[i].isActive;
+		fin.ignore(1000, '\n');
+		fin >> courseTmp[i].midterm;
+		fin.ignore(1000, '\n');
+		fin >> courseTmp[i].final;
+		fin.ignore(1000, '\n');
+		fin >> courseTmp[i].bonus;
+		fin.ignore(1000, '\n');
+		fin >> courseTmp[i].total;
+		fin.ignore(1000, '\n');
+		for (int j = 0; j < 10; ++j)
+		{
+			fin >> atd[j].Date.year >> atd[j].Date.month >> atd[j].Date.day >> atd[j].startTime.hour >> atd[j].startTime.minute >> atd[j].endTime.hour >> atd[j].endTime.minute >> atd[j].attendance;
+		}
+	}
+	fin.close();
+	system("CLS");
+	cout << "Attendance list of the course: " << endl;
+	for (int i = 0; i < n; ++i)
+	{
+		cout << courseTmp[i].student.id << endl;
+		cout << courseTmp[i].student.fullName << endl;
+		for (int j = 0; j < 10; ++j)
+		{
+			cout << atd[j].Date.year << " " << atd[j].Date.month << " " << atd[j].Date.day << " " << atd[j].startTime.hour << " " << atd[j].startTime.minute << " " << atd[j].endTime.hour << " " << atd[j].endTime.minute << " " << atd[j].attendance << endl;
+		}
+		cout << endl;
+	}
+	cout << endl;
+	system("pause");
+	system("CLS");
+}
 //SCOREBOARD MANAGEMENT

@@ -57,12 +57,20 @@ struct Course {
 	Time endTime;
 	string room;
 	bool isActive;
+	float midterm, bonus, final, total;
 };
 
 struct AYear {
 	int startYear;
 	int endYear;
 	string semester;
+};
+
+struct Attendance {
+	int attendance;
+	DOB Date;
+	Time startTime, endTime;
+
 };
 
 //ALTERNATIVE FUNCTIONS

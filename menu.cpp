@@ -696,7 +696,8 @@ void StaffMenuCourse(Staff*& staff, Staff& staffTmp) {
 		break;
 	case 11:
 		system("CLS");
-		//function
+		viewAttendanceList();
+		StaffMenu(staff, staffTmp);
 		break;
 	case 12:
 		system("CLS");
