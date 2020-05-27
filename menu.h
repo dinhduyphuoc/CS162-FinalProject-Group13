@@ -1,3 +1,5 @@
+#ifndef _MENU_H_
+#define _MENU_H_
 #include "functions.h"
 
 //Login section
@@ -39,3 +41,5 @@ void LecturerMenu(Lecturer*& lecturer, Lecturer& lecturerTmp);
 
 //Students section
 void StudentMenu(Student*& student, Student& studentTmp);
+
+#endif

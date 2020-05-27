@@ -22,6 +22,23 @@ void importStudentCSV(ifstream& fin, Student* student, int n) {
 		i++;
 	}
 }
+void readScoreboard(ifstream& fin, Scoreboard* board, int n) {
+	for (int i = 0; i < n; i++) {
+		fin.ignore(1000, '\n');
+		fin.get();
+		getline(fin, board[i].ID, '\n');
+		fin >> board[i].Midterm >> board[i].Final >> board[i].Bonus >> board[i].Total;
+	}
+}
+int noOfRows(string address) {
+	ifstream file(address);
+	string data;
+	int count = 0;
+	while (getline(file, data)) {
+		count++;
+	}
+	return count;
+} //COUNT NUMBERS OF ROW IN CSV FILE
 
 //CLASS MANAGEMENT
 void ImportStudents() {
@@ -927,7 +944,6 @@ void ImportCourses() {
 	cout << "Import courses" << endl;
 	cout << endl;
 
-	Course* course;
 }
 void EditCourse() {
 	Course* course;
@@ -1245,7 +1261,7 @@ void AddCourseManually()
 	delete[] course;
 	delete[] studentImport;
 	delete[] student;
-} //Fixing
+} //Fixing //FIXING
 void removeCourse() {
 	ifstream fin;
 	ofstream fout;
@@ -1288,7 +1304,6 @@ void removeCourse() {
 			fout << course[i].room;
 		}
 	}
-	n - 1;
 	fout.close();
 }
 void viewCourse()
@@ -1443,3 +1458,24 @@ void removeStudentfromCourse() {
 }
 
 //SCOREBOARD MANAGEMENT
+void ViewScoreboard() {
+	ifstream fin;
+	ofstream fout;
+	Scoreboard* board;
+	string Class, course;
+	int n;
+	cout << "Enter class: ";
+	cin >> Class;
+	cout << "Enter course: ";
+	cin >> course;
+	fin.open("Data/Scoreboards/" + Class + "-" + course + "-Scoreboard.txt");
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fin >> n;
+	board = new Scoreboard[n];
+	readScoreboard(fin, board, n);
+	fin.close();
+	delete[] board;
+}

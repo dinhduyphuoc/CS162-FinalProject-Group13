@@ -1,6 +1,28 @@
 #include "functions.h"
 #include "menu.h"
 
+//LOADING
+void LoadCourse(ifstream& fin, Course*& course, int n) {
+	for (int i = 0; i < n; ++i) {
+		fin.ignore(1000, '\n');
+		fin.get();
+		getline(fin, course[i].course);
+		getline(fin, course[i].courseName);
+		getline(fin, course[i].Class);
+		getline(fin, course[i].lecturerUser);
+		getline(fin, course[i].lecturerName);
+		getline(fin, course[i].education);
+		fin >> course[i].gender;
+		fin >> course[i].startDate.year >> course[i].startDate.month >> course[i].startDate.day;
+		fin >> course[i].endDate.year >> course[i].endDate.month >> course[i].endDate.day;
+		fin >> course[i].day;
+		fin >> course[i].startTime.hour >> course[i].startTime.minute;
+		fin >> course[i].endTime.hour >> course[i].endTime.minute;
+		fin.ignore(1000, '\n');
+		getline(fin, course[i].room);
+	}
+}
+
 //Login section
 void LoadStaff(ifstream& fin, Staff*& staff, int n) {
 	for (int i = 0; i < n; i++) {
@@ -618,8 +640,8 @@ void StaffMenuCourse(Staff*& staff, Staff& staffTmp) {
 	cout << "8. Add a specific student to a course" << endl;
 	cout << "9. View list of courses in the current semester" << endl;
 	cout << "10. View list of students of a course" << endl;
-	cout << "11. View attendance list of a course." << endl;
-	cout << "12. Create / update / delete / view all lectures" << endl;
+	cout << "11. View attendance list of a course" << endl;
+	cout << "12. View all lecturers" << endl;
 	cout << endl;
 	cout << "Please select option (0-12): ";
 	cin >> option;
@@ -639,7 +661,8 @@ void StaffMenuCourse(Staff*& staff, Staff& staffTmp) {
 		break;
 	case 3:
 		system("CLS");
-		//function
+		ImportCourses();
+		StaffMenu(staff, staffTmp);
 		break;
 	case 4:
 		system("CLS");
@@ -653,11 +676,13 @@ void StaffMenuCourse(Staff*& staff, Staff& staffTmp) {
 		break;
 	case 6:
 		system("CLS");
-		//function
+		removeCourse();
+		StaffMenu(staff, staffTmp);
 		break;
 	case 7:
 		system("CLS");
-		//function
+		removeStudentfromCourse();
+		StaffMenu(staff, staffTmp);
 		break;
 	case 8:
 		system("CLS");
@@ -670,7 +695,8 @@ void StaffMenuCourse(Staff*& staff, Staff& staffTmp) {
 		break;
 	case 10:
 		system("CLS");
-		//function
+		viewStudentofCourse();
+		StaffMenu(staff, staffTmp);
 		break;
 	case 11:
 		system("CLS");
@@ -708,7 +734,8 @@ void StaffMenuScoreboard(Staff*& staff, Staff& staffTmp) {
 		break;
 	case 2:
 		system("CLS");
-		//function
+		ViewScoreboard();
+		StaffMenu(staff, staffTmp);
 		break;
 	case 3:
 		system("CLS");

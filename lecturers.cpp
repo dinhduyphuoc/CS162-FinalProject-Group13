@@ -1,4 +1,5 @@
 #include "functions.h"
+#include "menu.h"
 
 void viewCourseofSemester() {
 	ifstream fin;
