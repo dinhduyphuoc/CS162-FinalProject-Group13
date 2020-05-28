@@ -67,7 +67,7 @@ struct AYear {
 };
 
 struct Scoreboard {
-	string ID;
+	string ID, name;
 	float Midterm, Final, Bonus, Total;
 };
 
@@ -104,6 +104,7 @@ void ViewScoreboard();
 
 //Lecturer section
 void viewCourseofSemester();
+void exportScoreboardCSV();
 
 //Student section
 

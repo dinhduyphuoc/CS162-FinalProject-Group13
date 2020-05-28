@@ -447,15 +447,18 @@ void LecturerMenu(Lecturer*& lecturer, Lecturer& lecturerTmp) {
 		break;
 	case 1:
 		system("CLS");
-		//function
+		viewCourseofSemester();
+		LecturerMenu(lecturer, lecturerTmp);
 		break;
 	case 2:
 		system("CLS");
-		//function
+		viewStudentofCourse();
+		LecturerMenu(lecturer, lecturerTmp);
 		break;
 	case 3:
 		system("CLS");
-		//function
+		viewAttendanceList();
+		LecturerMenu(lecturer, lecturerTmp);
 		break;
 	case 4:
 		system("CLS");
@@ -470,7 +473,8 @@ void LecturerMenu(Lecturer*& lecturer, Lecturer& lecturerTmp) {
 		//function
 	case 7:
 		system("CLS");
-		//function
+		ViewScoreboard();
+		LecturerMenu(lecturer, lecturerTmp);
 		break;
 	default:
 		cout << "Invalid option, please select again: ";
@@ -738,7 +742,8 @@ void StaffMenuScoreboard(Staff*& staff, Staff& staffTmp) {
 		break;
 	case 3:
 		system("CLS");
-		//function
+		exportScoreboardCSV();
+		StaffMenu(staff, staffTmp);
 		break;
 	default:
 		cout << "Invalid option, please select again: ";

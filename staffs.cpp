@@ -1,4 +1,4 @@
-﻿#include "functions.h"
+﻿ #include "functions.h"
 #include "menu.h"
 
 //ALTERNATIVE FUNCTIONS
@@ -36,6 +36,8 @@ void readScoreboard(ifstream& fin, Scoreboard* board, int n) {
 		fin.ignore(1000, '\n');
 		fin.get();
 		getline(fin, board[i].ID, '\n');
+		getline(fin, board[i].name, '\n');
+		//fin.ignore(1000, '\n');
 		fin >> board[i].Midterm >> board[i].Final >> board[i].Bonus >> board[i].Total;
 	}
 }
@@ -1603,15 +1605,46 @@ void viewAttendanceList()
 //SCOREBOARD MANAGEMENT
 void ViewScoreboard() {
 	ifstream fin;
+	Scoreboard* board;
+	string Class, course;
+	int n;
+	cin.ignore();
+	cout << "Enter class: ";
+	getline(cin, Class, '\n');
+	cout << "Enter course: ";
+	getline(cin, course, '\n');
+	string filename = "Data/Scoreboards/" + Class + "-" + course + "-Scoreboard.txt";
+	fin.open(filename);
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fin >> n; 
+	board = new Scoreboard[n];
+	readScoreboard(fin, board, n);
+	fin.close();
+	cout << "ID\tStudent name\tMidterm\tFinal\tBonus\tTotal" << endl;
+	for (int i = 0; i < n; i++) {
+		cout << board[i].ID << '\t' << board[i].name << '\t' << board[i].Midterm << '\t' << board[i].Final << '\t' << board[i].Bonus << '\t' << board[i].Total << endl;
+	}
+	cout << endl;
+	system("pause");
+	system("CLS");
+	delete[] board;
+}
+void exportScoreboardCSV() {
+	ifstream fin;
 	ofstream fout;
 	Scoreboard* board;
 	string Class, course;
 	int n;
+	cin.ignore();
 	cout << "Enter class: ";
-	cin >> Class;
+	getline(cin, Class, '\n');
 	cout << "Enter course: ";
-	cin >> course;
-	fin.open("Data/Scoreboards/" + Class + "-" + course + "-Scoreboard.txt");
+	getline(cin, course, '\n');
+	string filename = "Data/Scoreboards/" + Class + "-" + course + "-Scoreboard.txt";
+	fin.open(filename);
 	if (!fin.is_open()) {
 		cout << "Cannot open the file!";
 		return;
@@ -1620,5 +1653,20 @@ void ViewScoreboard() {
 	board = new Scoreboard[n];
 	readScoreboard(fin, board, n);
 	fin.close();
-	delete[] board;
+	fout.open("Data/Scoreboards/" + Class + "-" + course + "-Scoreboard.csv");
+	if (!fout.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fin >> n;
+	fout << "ID,StudentName,Midterm,Final,Bonus,Total" << endl;
+	for (int i = 0; i < n; i++) {
+		fout << board[i].ID << "," << board[i].name << "," << board[i].Midterm << "," << board[i].Final << "," << board[i].Bonus << "," << board[i].Total << endl;
+	}
+	fout.close();
+	cout << endl;
+	cout << "File exported successfully!" << endl;
+	system("pause");
+	system("CLS");
 }
+//ATTENDANCE MANAGEMENT
