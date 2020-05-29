@@ -30,6 +30,7 @@ void readAttendance(ifstream& fin, Course*& course, Attendance*& atd, int i) {
 	fin >> course[i].bonus;
 	fin.ignore(1000, '\n');
 	fin >> course[i].total;
+	fin.ignore(1000, '\n');
 	for (int j = 0; j < 10; ++j)
 	{
 		fin >> atd[j].Date.year >> atd[j].Date.month >> atd[j].Date.day >> atd[j].startTime.hour >> atd[j].startTime.minute >> atd[j].endTime.hour >> atd[j].endTime.minute >> atd[j].attendance;
@@ -64,6 +65,21 @@ void LoadCourse(ifstream& fin, Course*& course, int n) {
 		fin.ignore(100, '\n');
 		fin >> course[i].isActive;
 	}
+}
+void writeCourse(ofstream& fout, Course*& course, int i) {
+	fout << course[i].course << endl;
+	fout << course[i].courseName << endl;
+	fout << course[i].Class << endl;
+	fout << course[i].lecturerUser << endl;
+	fout << course[i].lecturerName << endl;
+	fout << course[i].education << endl;
+	fout << course[i].gender << endl;
+	fout << course[i].startDate.year << setw(2) << setfill('0') << course[i].startDate.month << setw(2) << setfill('0') << course[i].startDate.day << endl;
+	fout << course[i].endDate.year << setw(2) << setfill('0') << course[i].endDate.month << setw(2) << setfill('0') << course[i].endDate.day << endl;
+	fout << course[i].startTime.hour << setw(2) << setfill('0') << course[i].startTime.minute << endl;
+	fout << course[i].endTime.hour << setw(2) << setfill('0') << course[i].endTime.minute << endl;
+	fout << course[i].room << endl;
+	fout << course[i].isActive;
 }
 void importStudentCSV(ifstream& fin, Student* student, int n) {
 	string tmp;

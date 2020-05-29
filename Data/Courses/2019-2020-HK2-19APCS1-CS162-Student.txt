@@ -5,7 +5,7 @@
 Trinh Van Minh
 2001 04 01
 19APCS1
-0           // status => 0: inactive; 1: active
+0
 
 19127001
 20200401

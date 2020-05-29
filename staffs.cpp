@@ -1,47 +1,6 @@
 ﻿ #include "functions.h"
 #include "menu.h"
 
-//ALTERNATIVE FUNCTIONS
-int noOfRows(string address) {
-	ifstream file(address);
-	string data;
-	int count = 0;
-	while (getline(file, data)) {
-		count++;
-	}
-	return count;
-} //COUNT NUMBERS OF ROW IN CSV FILE
-void importStudentCSV(ifstream& fin, Student* student, int n) {
-	string tmp;
-	string line;
-	int i = 0;
-	while (getline(fin, line)) {
-		stringstream ss(line);
-		getline(ss, student[i].id, ',');
-		getline(ss, student[i].fullName, ',');
-		getline(ss, tmp, '/');
-		student[i].birthday.day = stoi(tmp);
-		getline(ss, tmp, '/');
-		student[i].birthday.month = stoi(tmp);
-		getline(ss, tmp, ',');
-		student[i].birthday.year = stoi(tmp);
-		getline(ss, student[i].Class, ',');
-		getline(ss, tmp, '\n');
-		student[i].isActive = stoi(tmp);
-		i++;
-	}
-}
-void readScoreboard(ifstream& fin, Scoreboard* board, int n) {
-	for (int i = 0; i < n; i++) {
-		fin.ignore(1000, '\n');
-		fin.get();
-		getline(fin, board[i].ID, '\n');
-		getline(fin, board[i].name, '\n');
-		//fin.ignore(1000, '\n');
-		fin >> board[i].Midterm >> board[i].Final >> board[i].Bonus >> board[i].Total;
-	}
-}
-
 //CLASS MANAGEMENT
 void ImportStudents() {
 	int nImport, n;
@@ -62,9 +21,9 @@ void ImportStudents() {
 	getline(cin, Class, '\n');
 	cout << "File address: ";
 	getline(cin, address, '\n');
-	fin.open(address);
 
 	//IMPORT FROM CSV FILE
+	fin.open(address);
 	if (!fin.is_open()) {
 		cout << "Cannot open the file!";
 		return;
@@ -87,7 +46,7 @@ void ImportStudents() {
 
 	//MERGE OLD AND NEW STUDENTS
 	int j = 0;
-	for (int i = n; i < n + nImport; i++) {
+	for (int i = n; i < n + nImport; ++i) {
 		student[i].id = studentImport[j].id;
 		student[i].fullName = studentImport[j].fullName;
 		student[i].birthday = studentImport[j].birthday;
@@ -103,15 +62,10 @@ void ImportStudents() {
 		return;
 	}
 	fout << n + nImport;
-	for (int i = 0; i < n + nImport; i++) {
+	for (int i = 0; i < n + nImport; ++i) {
 		fout << endl;
 		fout << endl;
-		fout << student[i].id << endl;
-		fout << student[i].birthday.year << setw(2) << setfill('0') << student[i].birthday.month << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].fullName << endl;
-		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].Class << endl;
-		fout << student[i].isActive;
+		writeStudent(fout, student, i);
 	}
 	fout.close();
 
@@ -125,7 +79,7 @@ void ImportStudents() {
 	student = new Student[n + nImport];
 	LoadStudent(fin, student, n);
 	fin.close();
-	for (int i = n; i < n + nImport; i++) {
+	for (int i = n; i < n + nImport; ++i) {
 		int j = 0;
 		student[i].id = studentImport[j].id;
 		student[i].password = studentImport[j].password;
@@ -143,15 +97,10 @@ void ImportStudents() {
 		return;
 	}
 	fout << n + nImport;
-	for (int i = 0; i < n + nImport; i++) {
+	for (int i = 0; i < n + nImport; ++i) {
 		fout << endl;
 		fout << endl;
-		fout << student[i].id << endl;
-		fout << student[i].birthday.year << setw(2) << setfill('0') << student[i].birthday.month << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].fullName << endl;
-		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].Class << endl;
-		fout << student[i].isActive;
+		writeStudent(fout, student, i);
 	}
 	fout.close();
 
@@ -183,7 +132,7 @@ void AddStudentManually() {
 	}
 	fin >> n;
 	string* tmp = new string[n];
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fin >> tmp[i];
 		cout << i + 1 << " " << tmp[i] << endl;
 	}
@@ -206,7 +155,7 @@ void AddStudentManually() {
 	getline(cin, studentTmp.Class, '\n');
 	cout << "ID: ";
 	getline(cin, studentTmp.id, '\n');
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		while (studentTmp.id.compare(student[i].id) == 0) {
 			cout << "ID existed, please try again." << endl;
 			cout << "ID: ";
@@ -226,15 +175,10 @@ void AddStudentManually() {
 	}
 	fout << n + 1;
 	if (n >= 2) {
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n; ++i) {
 			fout << endl;
 			fout << endl;
-			fout << student[i].id << endl;
-			fout << student[i].birthday.year << setw(2) << setfill('0') << student[i].birthday.month << setw(2) << setfill('0') << student[i].birthday.day << endl;
-			fout << student[i].fullName << endl;
-			fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
-			fout << student[i].Class << endl;
-			fout << student[i].isActive;
+			writeStudent(fout, student, i);
 		}
 		fout << endl;
 		fout << endl;
@@ -273,15 +217,10 @@ void AddStudentManually() {
 		cout << "Cannot open the file!";
 	}
 	fout << n + 1;
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fout << endl;
 		fout << endl;
-		fout << student[i].id << endl;
-		fout << student[i].birthday.year << setw(2) << setfill('0') << student[i].birthday.month << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].fullName << endl;
-		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].Class << endl;
-		fout << student[i].isActive;
+		writeStudent(fout, student, i);
 	}
 	fout << endl;
 	fout << endl;
@@ -312,20 +251,6 @@ void EditStudent() {
 	cout << "Edit an existing student" << endl;
 	cout << endl;
 
-	//COUT CLASSES LIST
-	//cout << "Classes list: " << endl;
-	//fin.open("Data/Classes/Class.txt");
-	//if (!fin.is_open()) {
-	//	cout << "Cannot open the file!" << endl;
-	//}
-	//fin >> n;
-	//string* tmp = new string[n];
-	//for (int i = 0; i < n; i++) {
-	//	fin >> tmp[i];
-	//	cout << i + 1 << " " << tmp[i] << endl;
-	//}
-	//fin.close();
-
 	//LET USER INPUT EXISTING STUDENT
 	cin.ignore();
 	cout << "Enter student ID: ";
@@ -341,7 +266,7 @@ void EditStudent() {
 	student = new Student[n];
 	LoadStudent(fin, student, n);
 	fin.close();
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		if (student[i].id == studentTmp.id) {
 			cout << "Student name: ";
 			cout << student[i].fullName << endl;
@@ -367,7 +292,7 @@ void EditStudent() {
 	getline(cin, studentTmp.fullName, '\n');
 	cout << "Enter new birth date (yyyy/mm/dd): ";
 	cin >> studentTmp.birthday.year >> studentTmp.birthday.month >> studentTmp.birthday.day;
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		if (student[i].id == studentTmp.id) {
 			student[i].fullName = studentTmp.fullName;
 			student[i].birthday = studentTmp.birthday;
@@ -380,15 +305,10 @@ void EditStudent() {
 		return;
 	}
 	fout << n;
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fout << endl;
 		fout << endl;
-		fout << student[i].id << endl;
-		fout << student[i].birthday.year << setw(2) << setfill('0') << student[i].birthday.month << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].fullName << endl;
-		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].Class << endl;
-		fout << student[i].isActive;
+		writeStudent(fout, student, i);
 	}
 	fout.close();
 
@@ -399,15 +319,9 @@ void EditStudent() {
 		return;
 	}
 	fout << n;
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fout << endl;
-		fout << endl;
-		fout << student[i].id << endl;
-		fout << student[i].birthday.year << setw(2) << setfill('0') << student[i].birthday.month << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].fullName << endl;
-		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].Class << endl;
-		fout << student[i].isActive;
+		writeStudent(fout, student, i);
 	}
 	fout.close();
 
@@ -445,7 +359,7 @@ void RemoveStudent()
 	cout << "Enter student ID to remove: ";
 	getline(cin, id, '\n');
 	int count = 0;;
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		if (id.compare(student[i].id) != 0)
 			count++;
 		else {
@@ -457,7 +371,7 @@ void RemoveStudent()
 		cout << "ID doesn't exist, please try again: ";
 		getline(cin, id, '\n');
 		count = 0;
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n; ++i) {
 			if (id.compare(student[i].id) != 0)
 				count++;
 			else {
@@ -468,7 +382,7 @@ void RemoveStudent()
 	}
 
 	//CHANGE STUDENT STATUS
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < n; ++i)
 	{
 		if (student[i].id == id) {
 			student[i].isActive = 0;
@@ -483,15 +397,10 @@ void RemoveStudent()
 		return;
 	}
 	fout << n;
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fout << endl;
 		fout << endl;
-		fout << student[i].id << endl;
-		fout << student[i].birthday.year << setw(2) << setfill('0') << student[i].birthday.month << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].fullName << endl;
-		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].Class << endl;
-		fout << student[i].isActive;
+		writeStudent(fout, student, i);
 	}
 	fout.close();
 
@@ -502,15 +411,10 @@ void RemoveStudent()
 		return;
 	}
 	fout << n;
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fout << endl;
 		fout << endl;
-		fout << student[i].id << endl;
-		fout << student[i].birthday.year << setw(2) << setfill('0') << student[i].birthday.month << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].fullName << endl;
-		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].Class << endl;
-		fout << student[i].isActive;
+		writeStudent(fout, student, i);
 	}
 	fout.close();
 
@@ -547,7 +451,7 @@ void ChangeClass() {
 	}
 	fin >> n;
 	Student* student = new Student[n];
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fin.ignore(1000, '\n');
 		fin.get();
 		getline(fin, student[i].id, '\n');
@@ -559,7 +463,7 @@ void ChangeClass() {
 		fin >> student[i].isActive;
 	}
 	fin.close();
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		if (student[i].id == ID) {
 			if (student[i].Class == Class) {
 				cout << "The class hasn't been changed!" << endl;
@@ -577,7 +481,7 @@ void ChangeClass() {
 		cout << "Cannot open the file!" << endl;
 	}
 	fout << n;
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fout << endl;
 		fout << endl;
 		fout << student[i].id << endl;
@@ -597,7 +501,7 @@ void ChangeClass() {
 	}
 	fin >> n;
 	Student* studenttemp = new Student[n];
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fin.ignore(1000, '\n');
 		fin.get();
 		getline(fin, studenttemp[i].id);
@@ -614,7 +518,7 @@ void ChangeClass() {
 		cout << "Cannot open the file!" << endl;
 	}
 	fout << n;
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fout << endl;
 		fout << endl;
 		fout << studenttemp[i].id << endl;
@@ -642,7 +546,7 @@ void ChangeClass() {
 	}
 	fin >> n;
 	Student* studenttemp1 = new Student[n];
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fin.ignore(1000, '\n');
 		fin.get();
 		getline(fin, studenttemp1[i].id, '\n');
@@ -660,7 +564,7 @@ void ChangeClass() {
 		cout << "Cannot open the file!" << endl;
 	}
 	fout << n;
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		if (studenttemp1[i].id != temp.id) {
 			fout << endl;
 			fout << endl;
@@ -693,12 +597,12 @@ void viewclass() {
 	}
 	fin >> n;
 	string* Classes = new string[n];
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fin >> Classes[i];
 	}
 	fin.close();
 	cout << "Classes list: " << endl;
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		cout << Classes[i] << endl;
 	}
 	cout << endl;
@@ -716,7 +620,7 @@ void viewStudent() {
 	}
 	fin >> n;
 	string* Classes = new string[n];
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fin >> Classes[i];
 	}
 	fin.close();
@@ -724,7 +628,7 @@ void viewStudent() {
 	viewclass();
 	cout << "Which class do you want to view ?: ";
 	cin >> temp;
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		if (temp == Classes[i]) {
 			fin.open("Data/Classes/Student-" + temp + ".txt");
 			if (!fin.is_open()) {
@@ -734,7 +638,7 @@ void viewStudent() {
 			}
 			fin >> n;
 			Student* studenttemp = new Student[n];
-			for (int i = 0; i < n; i++) {
+			for (int i = 0; i < n; ++i) {
 				fin.ignore(1000, '\n');
 				fin.get();
 				getline(fin, studenttemp[i].id);
@@ -748,7 +652,7 @@ void viewStudent() {
 			fin.close();
 			system("CLS");
 			cout << "Students in class " + temp + ": " << endl;
-			for (int i = 0; i < n; i++) {
+			for (int i = 0; i < n; ++i) {
 				cout << studenttemp[i].id << endl;
 				cout << studenttemp[i].password << endl;
 				cout << studenttemp[i].fullName << endl;
@@ -791,7 +695,7 @@ void EditAcademicYears() {
 	}
 	fin >> n;
 	ayear = new AYear[n];
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fin.get();
 		fin >> ayear[i].startYear >> ayear[i].endYear;
 		fin.ignore(1000, '\n');
@@ -811,7 +715,7 @@ void EditAcademicYears() {
 		return;
 	}
 	fout << n + 1;
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fout << endl;
 		fout << endl;
 		fout << ayear[i].startYear << " " << ayear[i].endYear << endl;
@@ -852,7 +756,7 @@ void EditAcademicYears() {
 	}
 	fin >> n;
 	AYear* ayear = new AYear[n];
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fin.get();
 		fin >> ayear[i].startYear >> ayear[i].endYear;
 		fin.ignore(1000, '\n');
@@ -870,7 +774,7 @@ void EditAcademicYears() {
 		return;
 	}
 	fout << n;
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fout << endl;
 		fout << ayear[i].startYear << " " << ayear[i].endYear << endl;
 		fout << ayear[i].semester << endl;
@@ -894,7 +798,7 @@ void EditAcademicYears() {
 	}
 	fin >> n;
 	AYear* ayear = new AYear[n];
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fin.get();
 		fin >> ayear[i].startYear >> ayear[i].endYear;
 		fin.ignore(1000, '\n');
@@ -907,7 +811,7 @@ void EditAcademicYears() {
 		return;
 	}
 	fout << n--;
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		if (ayear[i].startYear != temp.startYear && ayear[i].endYear != temp.endYear && ayear[i].semester != temp.semester) {
 			fout << endl;
 			fout << ayear[i].startYear << " " << ayear[i].endYear << endl;
@@ -925,7 +829,7 @@ void EditAcademicYears() {
 	}
 	fin >> n;
 	AYear* ayear = new AYear[n];
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		fin.get();
 		fin >> ayear[i].startYear >> ayear[i].endYear;
 		fin.ignore(1000, '\n');
@@ -933,7 +837,7 @@ void EditAcademicYears() {
 	}
 	fin.close();
 	cout << "List of academic years: " << endl;
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; ++i) {
 		cout << endl;
 		cout << ayear[i].startYear << " " << ayear[i].endYear << endl;
 		cout << ayear[i].semester << endl;
@@ -942,10 +846,31 @@ void EditAcademicYears() {
 	}
 }
 void ImportCourses() {
+	ifstream fin;
+	ofstream fout;
+	string address, className, semester;
+	int startYear, endYear;
+
 	//FUNCTION NAME
 	cout << "Import courses" << endl;
 	cout << endl;
 
+	//LET USER ENTER THE FILE ADDRESS
+	cout << "Enter academic year: ";
+	cin >> startYear >> endYear;
+	cout << "Enter semester: ";
+	cin >> semester;
+	cout << "Enter class: ";
+	cin >> className;
+	cout << "Enter the file address you want to import: ";
+	getline(cin, address, '\n');
+	
+	//IMPORT FROM CSV FILE
+	fin.open(address);
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
 }
 void EditCourse() {
 	Course* course;
@@ -1043,19 +968,7 @@ void EditCourse() {
 	for (int i = 0; i < n; ++i) {
 		fout << endl;
 		fout << endl;
-		fout << course[i].course << endl;
-		fout << course[i].courseName << endl;
-		fout << course[i].Class << endl;
-		fout << course[i].lecturerUser << endl;
-		fout << course[i].lecturerName << endl;
-		fout << course[i].education << endl;
-		fout << course[i].gender << endl;
-		fout << course[i].startDate.year << " " << setw(2) << setfill('0') << course[i].startDate.month << " " << setw(2) << setfill('0') << course[i].startDate.day << endl;
-		fout << course[i].endDate.year << " " << setw(2) << setfill('0') << course[i].endDate.month << " " << setw(2) << setfill('0') << course[i].endDate.day << endl;
-		fout << course[i].day;
-		fout << course[i].startTime.hour << " " << setw(2) << setfill('0') << course[i].startTime.minute << endl;
-		fout << course[i].endTime.hour << " " << setw(2) << setfill('0') << course[i].endTime.minute << endl;
-		fout << course[i].room;
+		writeCourse(fout, course, i);
 	}
 	fout.close();
 	//END THE FUNCTION
@@ -1123,22 +1036,10 @@ void AddCourseManually()
 	}
 	fout << n + 1;
 	if (n >= 2) {
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n; ++i) {
 			fout << endl;
 			fout << endl;
-			fout << course[i].course << endl;
-			fout << course[i].courseName << endl;
-			fout << course[i].Class << endl;
-			fout << course[i].lecturerUser << endl;
-			fout << course[i].lecturerName << endl;
-			fout << course[i].education << endl;
-			fout << course[i].gender << endl;
-			fout << course[i].startDate.year << setw(2) << setfill('0') << course[i].startDate.month << setw(2) << setfill('0') << course[i].startDate.day << endl;
-			fout << course[i].endDate.year << setw(2) << setfill('0') << course[i].endDate.month << setw(2) << setfill('0') << course[i].endDate.day << endl;
-			fout << course[i].startTime.hour << setw(2) << setfill('0') << course[i].startTime.minute << endl;
-			fout << course[i].endTime.hour << setw(2) << setfill('0') << course[i].endTime.minute << endl;
-			fout << course[i].room;
-			
+			writeCourse(fout, course, i);
 		}
 		fout << endl;
 		fout << endl;
@@ -1153,7 +1054,8 @@ void AddCourseManually()
 		fout << courseTmp.endDate.year << setw(2) << setfill('0') << courseTmp.endDate.month << setw(2) << setfill('0') << courseTmp.endDate.day << endl;
 		fout << courseTmp.startTime.hour << setw(2) << setfill('0') << courseTmp.startTime.minute << endl;
 		fout << courseTmp.endTime.hour << setw(2) << setfill('0') << courseTmp.endTime.minute << endl;
-		fout << courseTmp.room;
+		fout << courseTmp.room << endl;
+		fout << 1;
 	}
 	else {
 		fout << endl;
@@ -1169,7 +1071,8 @@ void AddCourseManually()
 		fout << courseTmp.endDate.year << setw(2) << setfill('0') << courseTmp.endDate.month << setw(2) << setfill('0') << courseTmp.endDate.day << endl;
 		fout << courseTmp.startTime.hour << setw(2) << setfill('0') << courseTmp.startTime.minute << endl;
 		fout << courseTmp.endTime.hour << setw(2) << setfill('0') << courseTmp.endTime.minute << endl;
-		fout << courseTmp.room;
+		fout << courseTmp.room << endl;
+		fout << 1;
 	}
 	fout.close();
 	
@@ -1180,22 +1083,10 @@ void AddCourseManually()
 	}
 	fout << n + 1;
 	if (n >= 2) {
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n; ++i) {
 			fout << endl;
 			fout << endl;
-			fout << course[i].course << endl;
-			fout << course[i].courseName << endl;
-			fout << course[i].Class << endl;
-			fout << course[i].lecturerUser << endl;
-			fout << course[i].lecturerName << endl;
-			fout << course[i].education << endl;
-			fout << course[i].gender << endl;
-			fout << course[i].startDate.year << setw(2) << setfill('0') << course[i].startDate.month << setw(2) << setfill('0') << course[i].startDate.day << endl;
-			fout << course[i].endDate.year << setw(2) << setfill('0') << course[i].endDate.month << setw(2) << setfill('0') << course[i].endDate.day << endl;
-			fout << course[i].startTime.hour << setw(2) << setfill('0') << course[i].startTime.minute << endl;
-			fout << course[i].endTime.hour << setw(2) << setfill('0') << course[i].endTime.minute << endl;
-			fout << course[i].room;
-
+			writeCourse(fout, course, i);
 		}
 		fout << endl;
 		fout << endl;
@@ -1210,7 +1101,8 @@ void AddCourseManually()
 		fout << courseTmp.endDate.year << setw(2) << setfill('0') << courseTmp.endDate.month << setw(2) << setfill('0') << courseTmp.endDate.day << endl;
 		fout << courseTmp.startTime.hour << setw(2) << setfill('0') << courseTmp.startTime.minute << endl;
 		fout << courseTmp.endTime.hour << setw(2) << setfill('0') << courseTmp.endTime.minute << endl;
-		fout << courseTmp.room;
+		fout << courseTmp.room << endl;
+		fout << 1;
 	}
 	else {
 		fout << endl;
@@ -1226,7 +1118,8 @@ void AddCourseManually()
 		fout << courseTmp.endDate.year << setw(2) << setfill('0') << courseTmp.endDate.month << setw(2) << setfill('0') << courseTmp.endDate.day << endl;
 		fout << courseTmp.startTime.hour << setw(2) << setfill('0') << courseTmp.startTime.minute << endl;
 		fout << courseTmp.endTime.hour << setw(2) << setfill('0') << courseTmp.endTime.minute << endl;
-		fout << courseTmp.room;
+		fout << courseTmp.room << endl;
+		fout << 1;
 	}
 	fout.close();
 	fin.open("Data/Classes/Student-" + courseTmp.Class + ".txt");
@@ -1245,15 +1138,10 @@ void AddCourseManually()
 		return;
 	}
 	fout << n + nImport;
-	for (int i = 0; i < n + nImport; i++) {
+	for (int i = 0; i < n + nImport; ++i) {
 		fout << endl;
 		fout << endl;
-		fout << student[i].id << endl;
-		fout << student[i].birthday.year << setw(2) << setfill('0') << student[i].birthday.month << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].fullName << endl;
-		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].Class << endl;
-		fout << student[i].isActive;
+		writeStudent(fout, student, i);
 	}
 	fout.close();
 	cout << endl;
@@ -1263,7 +1151,7 @@ void AddCourseManually()
 	delete[] course;
 	delete[] studentImport;
 	delete[] student;
-} //Fixing //FIXING
+} //Fixing  
 void removeCourse() {
 	ifstream fin;
 	ofstream fout;
@@ -1291,19 +1179,7 @@ void removeCourse() {
 		if (course[i].course != temp) {
 			fout << endl;
 			fout << endl;
-			fout << course[i].course << endl;
-			fout << course[i].courseName << endl;
-			fout << course[i].Class << endl;
-			fout << course[i].lecturerUser << endl;
-			fout << course[i].lecturerName << endl;
-			fout << course[i].education << endl;
-			fout << course[i].gender << endl;
-			fout << course[i].startDate.year << " " << setw(2) << setfill('0') << course[i].startDate.month << " " << setw(2) << setfill('0') << course[i].startDate.day << endl;
-			fout << course[i].endDate.year << " " << setw(2) << setfill('0') << course[i].endDate.month << " " << setw(2) << setfill('0') << course[i].endDate.day << endl;
-			fout << course[i].day;
-			fout << course[i].startTime.hour << " " << setw(2) << setfill('0') << course[i].startTime.minute << endl;
-			fout << course[i].endTime.hour << " " << setw(2) << setfill('0') << course[i].endTime.minute << endl;
-			fout << course[i].room;
+			writeCourse(fout, course, i);
 		}
 	}
 	fout.close();
@@ -1321,29 +1197,11 @@ void viewCourse()
 	}
 	fin >> n;
 	Course* Coursetmp = new Course[n];
-	for (int i = 0; i < n; i++)
-	{
-		fin.ignore(1000, '\n');
-		fin.get();
-		getline(fin, Coursetmp[i].course);
-		getline(fin, Coursetmp[i].courseName);
-		getline(fin, Coursetmp[i].Class);
-		getline(fin, Coursetmp[i].lecturerUser);
-		getline(fin, Coursetmp[i].lecturerName);
-		getline(fin, Coursetmp[i].education);
-		fin >> Coursetmp[i].gender;
-		fin >> Coursetmp[i].startDate.year >> Coursetmp[i].startDate.month >> Coursetmp[i].startDate.day;
-		fin >> Coursetmp[i].endDate.year >> Coursetmp[i].endDate.month >> Coursetmp[i].endDate.day;
-		fin >> Coursetmp[i].day;
-		fin >> Coursetmp[i].startTime.hour >> Coursetmp[i].startTime.minute;
-		fin >> Coursetmp[i].endTime.hour >> Coursetmp[i].endTime.minute;
-		fin.ignore(1000, '\n');
-		getline(fin, Coursetmp[i].room);
-	}
+	LoadCourse(fin, Coursetmp, n);
 	fin.close();
 	system("CLS");
 	cout << "List of courses: " << endl;
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < n; ++i)
 	{
 		cout << Coursetmp[i].course << endl;
 		cout << Coursetmp[i].courseName << endl;
@@ -1358,6 +1216,7 @@ void viewCourse()
 		cout << Coursetmp[i].startTime.hour << " " << Coursetmp[i].startTime.minute << endl;
 		cout << Coursetmp[i].endTime.hour << " " << Coursetmp[i].endTime.minute << endl;
 		cout << Coursetmp[i].room << endl;
+		cout << Coursetmp[i].isActive << endl;
 		cout << endl;
 	}
 	cout << endl;
@@ -1377,15 +1236,7 @@ void viewAllLecturer()
 	}
 	fin >> n;
 	Lecturer* lecturerTmp = new Lecturer[n];
-	for (int i = 0; i < n; ++i) {
-		fin.ignore(1000, '\n');
-		fin.get();
-		getline(fin, lecturerTmp[i].username);
-		getline(fin, lecturerTmp[i].password);
-		getline(fin, lecturerTmp[i].fullName);
-		getline(fin, lecturerTmp[i].education);
-		fin >> lecturerTmp[i].gender;
-	}
+	LoadLecturer(fin, lecturerTmp, n);
 	fin.close();
 	system("CLS");
 	cout << "List of all lecturers: " << endl;
@@ -1420,17 +1271,7 @@ void removeStudentfromCourse() {
 	}
 	fin >> n;
 	Student* student = new Student[n];
-	for (int i = 0; i < n; i++) {
-		fin.ignore(1000, '\n');
-		fin.get();
-		getline(fin, student[i].id, '\n');
-		getline(fin, student[i].password, '\n');
-		getline(fin, student[i].fullName, '\n');
-		fin >> student[i].birthday.year >> student[i].birthday.month >> student[i].birthday.day;
-		fin.ignore(1000, '\n');
-		getline(fin, student[i].Class, '\n');
-		fin >> student[i].isActive;
-	}
+	LoadStudent(fin, student, n);
 	fin.close();
 	string ID;
 	cout << "Enter ID of student you want to remove: ";
@@ -1441,23 +1282,18 @@ void removeStudentfromCourse() {
 		return;
 	}
 	fout << n--;
-	for (int i = 0; i < n - 1; i++) {
+	for (int i = 0; i < n - 1; ++i) {
 		if (student[i].id != ID) {
 			fout << endl;
 			fout << endl;
-			fout << student[i].id << endl;
-			fout << student[i].password << endl;
-			fout << student[i].fullName << endl;
-			fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
-			fout << student[i].Class << endl;
-			fout << student[i].isActive;
+			writeStudent(fout, student, i);
 		}
 	}
-	n--;
 	fout.close();
 	cout << "Student removed successfully!" << endl;
 
-}
+	delete[] student;
+} //Lỗi
 void viewCourseStudent()
 {
 	ifstream fin;
@@ -1471,32 +1307,13 @@ void viewCourseStudent()
 	fin >> n;
 	/*fin.ignore(1000, '\n');*/
 	Course* Coursetmp = new Course[n];
-	for (int i = 0; i < n; i++)
-	{
-		fin.ignore(1000, '\n');
-		fin.get();
-		getline(fin, Coursetmp[i].course);
-		getline(fin, Coursetmp[i].courseName);
-		getline(fin, Coursetmp[i].Class);
-		getline(fin, Coursetmp[i].lecturerUser);
-		getline(fin, Coursetmp[i].lecturerName);
-		getline(fin, Coursetmp[i].education);
-		fin >> Coursetmp[i].gender;
-		fin >> Coursetmp[i].startDate.year >> Coursetmp[i].startDate.month >> Coursetmp[i].startDate.day;
-		fin >> Coursetmp[i].endDate.year >> Coursetmp[i].endDate.month >> Coursetmp[i].endDate.day;
-		fin >> Coursetmp[i].day;
-		fin >> Coursetmp[i].startTime.hour >> Coursetmp[i].startTime.minute;
-		fin >> Coursetmp[i].endTime.hour >> Coursetmp[i].endTime.minute;
-		fin.ignore(1000, '\n');
-		getline(fin, Coursetmp[i].room);
-		fin >> Coursetmp[i].isActive;
-	}
+	LoadCourse(fin, Coursetmp, n);
 	fin.close();
 	string tmp;
 	viewCourse();
 	cout << "Which course do you want to view the student list ?: ";
 	cin >> tmp;
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < n; ++i)
 	{
 		if (tmp == Coursetmp[i].course)
 		{
@@ -1508,23 +1325,12 @@ void viewCourseStudent()
 			}
 			fin >> n;
 			Student* studenttemp = new Student[n];
-			for (int i = 0; i < n; i++)
-			{
-				fin.ignore(1000, '\n');
-				fin.get();
-				getline(fin, studenttemp[i].id);
-				getline(fin, studenttemp[i].password);
-				getline(fin, studenttemp[i].fullName);
-				fin >> studenttemp[i].birthday.year >> studenttemp[i].birthday.month >> studenttemp[i].birthday.day;
-				fin.ignore(1000, '\n');
-				getline(fin, studenttemp[i].Class);
-				fin >> studenttemp[i].isActive;
-			}
+			LoadStudent(fin, studenttemp, n);
 			fin.close();
 			system("CLS");
 			cout << "List of students study " + tmp + ": " << endl;
 			cout << endl;
-			for (int i = 0; i < n; i++)
+			for (int i = 0; i < n; ++i)
 			{
 				cout << studenttemp[i].id << endl;
 				cout << studenttemp[i].password << endl;
@@ -1538,7 +1344,9 @@ void viewCourseStudent()
 	}
 	system("pause");
 	system("CLS");
-}
+
+	delete[] Coursetmp;
+} //array studenttemp
 void viewAttendanceList()
 {
 	string CourseClass, course;
@@ -1561,28 +1369,7 @@ void viewAttendanceList()
 	Attendance* atd = new Attendance[11];
 	for (int i = 0; i < n; ++i)
 	{
-		fin.ignore(1000, '\n');
-		fin.get();
-		getline(fin, courseTmp[i].student.id, '\n');
-		getline(fin, courseTmp[i].student.password, '\n');
-		getline(fin, courseTmp[i].student.fullName, '\n');
-		fin >> courseTmp[i].student.birthday.year >> courseTmp[i].student.birthday.month >> courseTmp[i].student.birthday.day;
-		fin.ignore(1000, '\n');
-		getline(fin, courseTmp[i].Class, '\n');
-		fin >> courseTmp[i].isActive;
-		fin.ignore(1000, '\n');
-		fin >> courseTmp[i].midterm;
-		fin.ignore(1000, '\n');
-		fin >> courseTmp[i].final;
-		fin.ignore(1000, '\n');
-		fin >> courseTmp[i].bonus;
-		fin.ignore(1000, '\n');
-		fin >> courseTmp[i].total;
-		fin.ignore(1000, '\n');
-		for (int j = 0; j < 10; ++j)
-		{
-			fin >> atd[j].Date.year >> atd[j].Date.month >> atd[j].Date.day >> atd[j].startTime.hour >> atd[j].startTime.minute >> atd[j].endTime.hour >> atd[j].endTime.minute >> atd[j].attendance;
-		}
+		readAttendance(fin, courseTmp, atd, i);
 	}
 	fin.close();
 	system("CLS");
@@ -1605,7 +1392,6 @@ void viewAttendanceList()
 //SCOREBOARD MANAGEMENT
 void ViewScoreboard() {
 	ifstream fin;
-	Scoreboard* board;
 	string Class, course;
 	int n;
 	cin.ignore();
@@ -1613,46 +1399,58 @@ void ViewScoreboard() {
 	getline(cin, Class, '\n');
 	cout << "Enter course: ";
 	getline(cin, course, '\n');
-	string filename = "Data/Scoreboards/" + Class + "-" + course + "-Scoreboard.txt";
+	string filename = "Data/Courses/2019-2020-HK2-" + Class + "-" + course + "-Student-Attendance.txt";
 	fin.open(filename);
 	if (!fin.is_open()) {
 		cout << "Cannot open the file!";
 		return;
 	}
 	fin >> n; 
-	board = new Scoreboard[n];
-	readScoreboard(fin, board, n);
+	Course* courses = new Course[n];
+	Attendance* atd = new Attendance[11];
+	for (int i = 0; i < n; i++) {
+		readAttendance(fin, courses, atd, i);
+	}
 	fin.close();
 	cout << "ID\tStudent name\tMidterm\tFinal\tBonus\tTotal" << endl;
-	for (int i = 0; i < n; i++) {
-		cout << board[i].ID << '\t' << board[i].name << '\t' << board[i].Midterm << '\t' << board[i].Final << '\t' << board[i].Bonus << '\t' << board[i].Total << endl;
+	for (int i = 0; i < n; ++i) {
+		cout << courses[i].student.id << '\t' << courses[i].student.fullName << '\t' << courses[i].midterm << '\t' << courses[i].final << '\t' << courses[i].bonus << '\t' << courses[i].total << endl;
 	}
 	cout << endl;
 	system("pause");
 	system("CLS");
-	delete[] board;
+	delete[] courses;
+	delete[] atd;
 }
 void exportScoreboardCSV() {
 	ifstream fin;
 	ofstream fout;
-	Scoreboard* board;
 	string Class, course;
 	int n;
 	cin.ignore();
+
+	//LET USER ENTER CLASS AND COURSE NAME
 	cout << "Enter class: ";
 	getline(cin, Class, '\n');
 	cout << "Enter course: ";
 	getline(cin, course, '\n');
-	string filename = "Data/Scoreboards/" + Class + "-" + course + "-Scoreboard.txt";
+	string filename = "Data/Courses/2019-2020-HK2-" + Class + "-" + course + "-Student-Attendance.txt";
 	fin.open(filename);
+
+	//READ ATTENDANCE FILE
 	if (!fin.is_open()) {
 		cout << "Cannot open the file!";
 		return;
 	}
 	fin >> n;
-	board = new Scoreboard[n];
-	readScoreboard(fin, board, n);
+	Course* courses = new Course[n];
+	Attendance* atd = new Attendance[11];
+	for (int i = 0; i < n; i++) {
+		readAttendance(fin, courses, atd, i);
+	}
 	fin.close();
+
+	//EXPORT CSV FILE
 	fout.open("Data/Scoreboards/" + Class + "-" + course + "-Scoreboard.csv");
 	if (!fout.is_open()) {
 		cout << "Cannot open the file!";
@@ -1660,13 +1458,17 @@ void exportScoreboardCSV() {
 	}
 	fin >> n;
 	fout << "ID,StudentName,Midterm,Final,Bonus,Total" << endl;
-	for (int i = 0; i < n; i++) {
-		fout << board[i].ID << "," << board[i].name << "," << board[i].Midterm << "," << board[i].Final << "," << board[i].Bonus << "," << board[i].Total << endl;
+	for (int i = 0; i < n; ++i) {
+		fout << courses[i].student.id << "," << courses[i].student.fullName << "," << courses[i].midterm << "," << courses[i].final << "," << courses[i].bonus << "," << courses[i].total << endl;
 	}
 	fout.close();
 	cout << endl;
 	cout << "File exported successfully!" << endl;
 	system("pause");
 	system("CLS");
+
+	delete[] courses;
+	delete[] atd;
 }
+
 //ATTENDANCE MANAGEMENT
