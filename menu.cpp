@@ -2,26 +2,6 @@
 #include "menu.h"
 
 //Login section
-void LoadCourse(ifstream& fin, Course*& course, int n) {
-	for (int i = 0; i < n; ++i) {
-		fin.ignore(1000, '\n');
-		fin.get();
-		getline(fin, course[i].course);
-		getline(fin, course[i].courseName);
-		getline(fin, course[i].Class);
-		getline(fin, course[i].lecturerUser);
-		getline(fin, course[i].lecturerName);
-		getline(fin, course[i].education);
-		fin >> course[i].gender;
-		fin >> course[i].startDate.year >> course[i].startDate.month >> course[i].startDate.day;
-		fin >> course[i].endDate.year >> course[i].endDate.month >> course[i].endDate.day;
-		fin >> course[i].day;
-		fin >> course[i].startTime.hour >> course[i].startTime.minute;
-		fin >> course[i].endTime.hour >> course[i].endTime.minute;
-		fin.ignore(1000, '\n');
-		getline(fin, course[i].room);
-	}
-}
 void LoadStaff(ifstream& fin, Staff*& staff, int n) {
 	for (int i = 0; i < n; i++) {
 		fin.ignore(1000, '\n');

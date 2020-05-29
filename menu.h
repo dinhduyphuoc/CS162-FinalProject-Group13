@@ -32,7 +32,6 @@ void StaffMenuClass(Staff*& staff, Staff& staffTmp);
 void StaffMenuCourse(Staff*& staff, Staff& staffTmp);
 void StaffMenuScoreboard(Staff*& staff, Staff& staffTmp);
 void StaffMenuAttendance(Staff*& staff, Staff& staffTmp);
-void LoadCourse(ifstream& fin, Course*& course, int n);
 
 //Lecturers Section
 void LecturerMenu(Lecturer*& lecturer, Lecturer& lecturerTmp);

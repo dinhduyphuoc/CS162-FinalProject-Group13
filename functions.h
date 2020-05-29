@@ -78,6 +78,14 @@ struct Attendance {
 
 };
 
+//ALTERNATIVE FUNCTIONS
+void writeStudent(ofstream& fout, Student*& student, int i);
+void LoadCourse(ifstream& fin, Course*& course, int n);
+int noOfRows(string address);
+void importStudentCSV(ifstream& fin, Student* student, int n);
+void readScoreboard(ifstream& fin, Scoreboard* board, int n);
+void readAttendance(ifstream& fin, Course*& course, Attendance*& atd, int i);
+
 //Staff section
 void ImportStudents();
 void AddStudentManually();
