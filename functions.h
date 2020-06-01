@@ -1,5 +1,5 @@
 #pragma once
-
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -84,7 +84,7 @@ void LoadCourse(ifstream& fin, Course*& course, int n);
 int noOfRows(string address);
 void importStudentCSV(ifstream& fin, Student* student, int n);
 void readScoreboard(ifstream& fin, Scoreboard* board, int n);
-void readAttendance(ifstream& fin, Course*& course, Attendance*& atd, int i);
+void readAttendance(ifstream& fin, Course*& course, Attendance**& atd, int i);
 void writeCourse(ofstream& fout, Course*& course, int i);
 
 //Staff section
@@ -114,7 +114,6 @@ void ViewScoreboard();
 //Lecturer section
 void viewCourseofSemester();
 void exportScoreboardCSV();
-
+void editAttendance();
 //Student section
-
-
+void checkin();

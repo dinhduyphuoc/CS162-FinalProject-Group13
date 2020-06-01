@@ -12,7 +12,7 @@ void writeStudent(ofstream& fout, Student*& student, int i) {
 	fout << student[i].Class << endl;
 	fout << student[i].isActive;
 }
-void readAttendance(ifstream& fin, Course*& course, Attendance*& atd, int i) {
+void readAttendance(ifstream& fin, Course*& course, Attendance**& atd, int i) {
 	fin.ignore(1000, '\n');
 	fin.get();
 	getline(fin, course[i].student.id, '\n');
@@ -33,7 +33,7 @@ void readAttendance(ifstream& fin, Course*& course, Attendance*& atd, int i) {
 	fin.ignore(1000, '\n');
 	for (int j = 0; j < 10; ++j)
 	{
-		fin >> atd[j].Date.year >> atd[j].Date.month >> atd[j].Date.day >> atd[j].startTime.hour >> atd[j].startTime.minute >> atd[j].endTime.hour >> atd[j].endTime.minute >> atd[j].attendance;
+		fin >> atd[i][j].Date.year >> atd[i][j].Date.month >> atd[i][j].Date.day >> atd[i][j].startTime.hour >> atd[i][j].startTime.minute >> atd[i][j].endTime.hour >> atd[i][j].endTime.minute >> atd[i][j].attendance;
 	}
 	fin.ignore(1000, '\n');
 	fin >> course[i].isActive;

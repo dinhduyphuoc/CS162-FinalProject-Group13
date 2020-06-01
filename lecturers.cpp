@@ -18,28 +18,20 @@ void viewCourseofSemester() {
 	course = new Course[n];
 	LoadCourse(fin, course, n);
 	fin.close();
-	fout.open("Data/Courses/2019-2020-HK2-Schedule-" + Class + ".txt");
-	if (!fout.is_open()) {
-		cout << "Can not open this file!" << endl;
-		return;
-	}
-	fout << n - 1;
 	for (int i = 0; i < n; ++i) {
-		fout << endl;
-		fout << endl;
-		fout << course[i].course << endl;
-		fout << course[i].courseName << endl;
-		fout << course[i].Class << endl;
-		fout << course[i].lecturerUser << endl;
-		fout << course[i].lecturerName << endl;
-		fout << course[i].education << endl;
-		fout << course[i].gender << endl;
-		fout << course[i].startDate.year << " " << setw(2) << setfill('0') << course[i].startDate.month << " " << setw(2) << setfill('0') << course[i].startDate.day << endl;
-		fout << course[i].endDate.year << " " << setw(2) << setfill('0') << course[i].endDate.month << " " << setw(2) << setfill('0') << course[i].endDate.day << endl;
-		fout << course[i].day;
-		fout << course[i].startTime.hour << " " << setw(2) << setfill('0') << course[i].startTime.minute << endl;
-		fout << course[i].endTime.hour << " " << setw(2) << setfill('0') << course[i].endTime.minute << endl;
-		fout << course[i].room;
+		cout << course[i].course << endl;
+		cout << course[i].courseName << endl;
+		cout << course[i].Class << endl;
+		cout << course[i].lecturerUser << endl;
+		cout << course[i].lecturerName << endl;
+		cout << course[i].education << endl;
+		cout << course[i].gender << endl;
+		cout << course[i].startDate.year << " " << setw(2) << setfill('0') << course[i].startDate.month << " " << setw(2) << setfill('0') << course[i].startDate.day << endl;
+		cout << course[i].endDate.year << " " << setw(2) << setfill('0') << course[i].endDate.month << " " << setw(2) << setfill('0') << course[i].endDate.day << endl;
+		cout << course[i].day;
+		cout << course[i].startTime.hour << " " << setw(2) << setfill('0') << course[i].startTime.minute << endl;
+		cout << course[i].endTime.hour << " " << setw(2) << setfill('0') << course[i].endTime.minute << endl;
+		cout << course[i].room;
 	}
 	fout.close();
 }
@@ -71,21 +63,14 @@ void viewStudentofCourse() {
 		fin >> student[i].isActive;
 	}
 	fin.close();
-	fout.open("Data/Courses/2019-2020-HK2-" + Class + "-" + temp + "-Student.txt");
-	if (!fout.is_open()) {
-		cout << "Can not open this file! " << endl;
-		return;
-	}
-	fout << n;
 	for (int i = 0; i < n; i++) {
-		fout << endl;
-		fout << endl;
-		fout << student[i].id << endl;
-		fout << student[i].password << endl;
-		fout << student[i].fullName << endl;
-		fout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		fout << student[i].Class << endl;
-		fout << student[i].isActive;
+		cout << student[i].id << endl;
+		cout << student[i].password << endl;
+		cout << student[i].fullName << endl;
+		cout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
+		cout << student[i].Class << endl;
+		cout << student[i].isActive << endl;
+		cout << endl;
 	}
 	fout.close();
 }

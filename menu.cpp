@@ -442,7 +442,8 @@ void LecturerMenu(Lecturer*& lecturer, Lecturer& lecturerTmp) {
 		break;
 	case 4:
 		system("CLS");
-		//function
+		editAttendance();
+		LecturerMenu(lecturer, lecturerTmp);
 		break;
 	case 5:
 		system("CLS");
@@ -481,7 +482,8 @@ void StudentMenu(Student*& student, Student& studentTmp) {
 		break;
 	case 1:
 		system("CLS");
-		//function
+		checkin();
+		mainMenu(student, studentTmp);
 		break;
 	case 2:
 		system("CLS");
