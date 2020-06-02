@@ -115,5 +115,8 @@ void ViewScoreboard();
 void viewCourseofSemester();
 void exportScoreboardCSV();
 void editAttendance();
+void importScoreboardCSV();
+
 //Student section
-void checkin();
+void checkin(Student& student);
+void viewCheckin(Student& student);

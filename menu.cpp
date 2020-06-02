@@ -482,12 +482,13 @@ void StudentMenu(Student*& student, Student& studentTmp) {
 		break;
 	case 1:
 		system("CLS");
-		checkin();
+		checkin(studentTmp);
 		mainMenu(student, studentTmp);
 		break;
 	case 2:
 		system("CLS");
-		//function
+		viewCheckin(studentTmp);
+		StudentMenu(student, studentTmp);
 		break;
 	case 3:
 		system("CLS");
