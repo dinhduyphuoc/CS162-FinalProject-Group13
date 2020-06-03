@@ -76,7 +76,7 @@ void viewStudentofCourse() {
 }
 void editAttendance() {
 	string CourseClass, course;
-	int n, lesson;
+	int n;
 	ifstream fin;
 	ofstream fout;
 	cin.ignore(1000, '\n');

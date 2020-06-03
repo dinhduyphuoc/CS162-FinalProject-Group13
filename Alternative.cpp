@@ -74,12 +74,55 @@ void writeCourse(ofstream& fout, Course*& course, int i) {
 	fout << course[i].lecturerName << endl;
 	fout << course[i].education << endl;
 	fout << course[i].gender << endl;
-	fout << course[i].startDate.year << setw(2) << setfill('0') << course[i].startDate.month << setw(2) << setfill('0') << course[i].startDate.day << endl;
-	fout << course[i].endDate.year << setw(2) << setfill('0') << course[i].endDate.month << setw(2) << setfill('0') << course[i].endDate.day << endl;
+	fout << course[i].startDate.year << " " << setw(2) << setfill('0') << course[i].startDate.month << " " << setw(2) << setfill('0') << course[i].startDate.day << endl;
+	fout << course[i].endDate.year << " " << setw(2) << setfill('0') << course[i].endDate.month << " " << setw(2) << setfill('0') << course[i].endDate.day << endl;
+	fout << course[i].day << endl;
 	fout << course[i].startTime.hour << setw(2) << setfill('0') << course[i].startTime.minute << endl;
 	fout << course[i].endTime.hour << setw(2) << setfill('0') << course[i].endTime.minute << endl;
 	fout << course[i].room << endl;
 	fout << course[i].isActive;
+}
+void importCourseCSV(ifstream& fin, Course* course, int n) {
+	string tmp;
+	string line;
+	int i = 0;
+	while (getline(fin, line)) {
+		stringstream ss(line);
+		getline(ss, course[i].course, ',');
+		getline(ss, course[i].courseName, ',');
+		getline(ss, course[i].Class, ',');
+		getline(ss, course[i].lecturerUser, ',');
+		getline(ss, course[i].lecturerName, ',');
+		getline(ss, course[i].education, ',');
+		getline(ss, tmp, ',');
+		course[i].gender = stoi(tmp);
+		getline(ss, tmp, '/');
+		course[i].startDate.day = stoi(tmp);
+		getline(ss, tmp, '/');
+		course[i].startDate.month = stoi(tmp);
+		getline(ss, tmp, ',');
+		course[i].startDate.year = stoi(tmp);
+		getline(ss, tmp, '/');
+		course[i].endDate.day = stoi(tmp);
+		getline(ss, tmp, '/');
+		course[i].endDate.month = stoi(tmp);
+		getline(ss, tmp, ',');
+		course[i].endDate.year = stoi(tmp);
+		getline(ss, tmp, ',');
+		course[i].day = stoi(tmp);
+		getline(ss, tmp, ',');
+		course[i].startTime.hour = stoi(tmp);
+		getline(ss, tmp, ',');
+		course[i].startTime.minute = stoi(tmp);
+		getline(ss, tmp, ',');
+		course[i].endTime.hour = stoi(tmp);
+		getline(ss, tmp, ',');
+		course[i].endTime.minute = stoi(tmp);
+		getline(ss, course[i].room, ',');
+		getline(ss, tmp, '\n');
+		course[i].isActive = stoi(tmp);
+		i++;
+	}
 }
 void importStudentCSV(ifstream& fin, Student* student, int n) {
 	string tmp;

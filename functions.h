@@ -5,6 +5,7 @@
 #include <string>
 #include <iomanip>
 #include <sstream>
+#include <conio.h>
 
 using namespace std;
 
@@ -86,6 +87,7 @@ void importStudentCSV(ifstream& fin, Student* student, int n);
 void readScoreboard(ifstream& fin, Scoreboard* board, int n);
 void readAttendance(ifstream& fin, Course*& course, Attendance**& atd, int i);
 void writeCourse(ofstream& fout, Course*& course, int i);
+void importCourseCSV(ifstream& fin, Course* course, int n);
 
 //Staff section
 void ImportStudents();
@@ -108,14 +110,14 @@ void viewAllLecturer();
 void viewAttendanceList();
 void removeStudentfromCourse();
 void viewStudentofCourse();
-void AddStuToCourse();
+//void AddStuToCourse();
 
 void ViewScoreboard();
 
 //Lecturer section
 void viewCourseofSemester();
 void exportScoreboardCSV();
-void editAttendance();
+//void editAttendance();
 void importScoreboardCSV();
 
 //Student section

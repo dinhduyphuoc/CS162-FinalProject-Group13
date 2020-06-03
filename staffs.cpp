@@ -849,6 +849,7 @@ void ImportCourses() {
 	ofstream fout;
 	string address, className, semester;
 	int startYear, endYear;
+	int n;
 
 	//FUNCTION NAME
 	cout << "Import courses" << endl;
@@ -857,19 +858,98 @@ void ImportCourses() {
 	//LET USER ENTER THE FILE ADDRESS
 	cout << "Enter academic year: ";
 	cin >> startYear >> endYear;
+	cin.ignore();
 	cout << "Enter semester: ";
-	cin >> semester;
+	getline(cin, semester, '\n');
 	cout << "Enter class: ";
-	cin >> className;
+	getline(cin, className, '\n');
 	cout << "Enter the file address you want to import: ";
 	getline(cin, address, '\n');
-	
+
 	//IMPORT FROM CSV FILE
 	fin.open(address);
 	if (!fin.is_open()) {
 		cout << "Cannot open the file!";
 		return;
 	}
+	int nImport = noOfRows(address);
+	Course* courseImport = new Course[nImport];
+	importCourseCSV(fin, courseImport, nImport);
+	fin.close();
+
+	//READ COURSE FILE 
+	fin.open("Data/Courses/Courses.txt");
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fin >> n;
+	Course* course = new Course[n + nImport];
+	LoadCourse(fin, course, n);
+	fin.close();
+
+	//MERGE OLD AND NEW COURSES
+	int j = 0;
+	for (int i = n; i < n + nImport; ++i) {
+		course[i].course = courseImport[j].course;
+		course[i].courseName = courseImport[j].courseName;
+		course[i].Class = courseImport[j].Class;
+		course[i].lecturerUser = courseImport[j].lecturerUser;
+		course[i].lecturerName = courseImport[j].lecturerName;
+		course[i].education = courseImport[j].education;
+		course[i].gender = courseImport[j].gender;
+		course[i].startDate.year = courseImport[j].startDate.year;
+		course[i].startDate.month = courseImport[j].startDate.month;
+		course[i].startDate.day = courseImport[j].startDate.day;
+		course[i].endDate.year = courseImport[j].endDate.year;
+		course[i].endDate.month = courseImport[j].endDate.month;
+		course[i].endDate.day = courseImport[j].endDate.day;
+		course[i].day = courseImport[j].day;
+		course[i].startTime.hour = courseImport[j].startTime.hour;
+		course[i].startTime.minute = courseImport[j].startTime.minute;
+		course[i].endTime.hour = courseImport[j].endTime.hour;
+		course[i].endTime.minute = courseImport[j].endTime.minute;
+		course[i].room = courseImport[j].room;
+		course[i].isActive = courseImport[j].isActive;
+		j++;
+	}
+
+	//WRITE NEW COURSES LIST TO THE COURSES FILE
+	fout.open("Data/Courses/Courses2.txt");
+	if (!fout.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fout << n + nImport;
+	for (int i = 0; i < n + nImport; ++i) {
+		fout << endl;
+		fout << endl;
+		writeCourse(fout, course, i);
+	}
+	fout.close();
+
+	//CREATE NEW STUDENTS LIST OF ADDED COURSES
+	for (int i = 0; i < n + nImport; i++) {
+		fin.open("Data/Students/Student-" + course[i].Class + ".txt");
+		if (!fin.is_open()) {
+			cout << "Cannot open the file!";
+			return;
+		}
+		int nStudent;
+		fin >> nStudent;
+		Student* student = new Student[nStudent];
+		LoadStudent(fin, student, nStudent);
+		fin.close();
+		fout.open("Data/Courses/" + to_string(startYear) + "-" + to_string(endYear) + "-" + semester + "-" + className + "-" + course[i].course + "-Student.txt");
+		fout << n;
+		for (int i = 0; i < nStudent; ++i) {
+			writeStudent(fout, student, i);
+		}
+		fout.close();		
+	}
+
+	delete[] course;
+	delete[] courseImport;
 }
 void EditCourse() {
 	Course* course;
@@ -1480,300 +1560,206 @@ void exportScoreboardCSV() {
 }
 
 //ATTENDANCE MANAGEMENT
-<<<<<<< HEAD
 
-=======
-void checkin() {
-	time_t now = time(0);
-	tm* t = localtime(&now);
-	int day = t->tm_mday;
-	int month = t->tm_mon + 1;
-	int year = t->tm_year + 1900;
-	int hour = t->tm_hour;
-	int min = t->tm_min;
-	string CourseClass, course;
-	int n;
-	ifstream fin;
-	ofstream fout;
-	cin.ignore(1000, '\n');
-	cout << "Enter the class: ";
-	getline(cin, CourseClass, '\n');
-	cout << "Enter the course: ";
-	getline(cin, course, '\n');
-	fin.open("Data/Courses/2019-2020-HK2-" + CourseClass + "-" + course + "-Student-Attendance.txt");
-	if (!fin.is_open())
-	{
-		cout << "Cannot open the file!" << endl;
-		return;
-	}
-	fin >> n;
-	Course* courseTmp = new Course[n];
-	Attendance** atd = new Attendance * [n];
-	for (int i = 0; i < n; i++) {
-		atd[i] = new Attendance[11];
-	}
-	for (int i = 0; i < n; ++i)
-	{
-		readAttendance(fin, courseTmp, atd, i);
-	}
-	fin.close();
-	int check;
-	string ID;
-	cout << "Enter your student ID: ";
-	cin >> ID;
-	cout << "Enter 1 to check in" << endl;
-	cin >> check;
-	for (int i = 0; i < n; i++) {
-		if (courseTmp[i].student.id == ID) {
-			for (int j = 0; j < 10; j++) {
-				if (atd[i][j].Date.year == year && atd[i][j].Date.month == month && atd[i][j].Date.day == day) {
-					if ((atd[i][j].startTime.hour * 3600 + atd[i][j].startTime.minute * 60 < hour * 3600 + min * 60) && (atd[i][j].endTime.hour * 3600 + atd[i][j].endTime.minute * 60 > hour * 3600 + min * 60)) {
-						atd[i][j].attendance = 1;
-						cout << "Check in successfully!" << endl;
-						fout.open("Data/Courses/2019-2020-HK2-" + CourseClass + "-" + course + "-Student-Attendance.txt");
-						if (!fout.is_open())
-						{
-							cout << "Cannot open the file!" << endl;
-							return;
-						}
-						fout << n;
-						for (int i = 0; i < n; ++i)
-						{
-							fout << endl;
-							fout << endl;
-							fout << courseTmp[i].student.id << endl;
-							fout << courseTmp[i].student.password << endl;
-							fout << courseTmp[i].student.fullName << endl;
-							fout << courseTmp[i].student.birthday.year << " " << courseTmp[i].student.birthday.month << " " << courseTmp[i].student.birthday.day << endl;
-							fout << courseTmp[i].Class << endl;
-							fout << courseTmp[i].isActive << endl;
-							fout << courseTmp[i].midterm << endl;
-							fout << courseTmp[i].final << endl;
-							fout << courseTmp[i].bonus << endl;
-							fout << courseTmp[i].total << endl;
-							for (int j = 0; j < 10; ++j)
-							{
-								fout << atd[i][j].Date.year << " " << atd[i][j].Date.month << " " << atd[i][j].Date.day << " " << atd[i][j].startTime.hour << " " << atd[i][j].startTime.minute << " " << atd[i][j].endTime.hour << " " << atd[i][j].endTime.minute << " " << atd[i][j].attendance << endl;
-							}
-							fout << courseTmp[i].isActive;
-						}
-						break;
-					}
-					else {
-						cout << "Check in failed!" << endl;
-						break;
-					}
-				}
-				else {
-					cout << "Check in failed!" << endl;
-					break;
-				}
-			}
-		}
-	}
-	system("pause");
-	system("CLS");
-}
-void editAttendance() {
-	string CourseClass, course;
-	int n;
-	ifstream fin;
-	ofstream fout;
-	cin.ignore(1000, '\n');
-	cout << "Enter the class: ";
-	getline(cin, CourseClass, '\n');
-	cout << "Enter the course: ";
-	getline(cin, course, '\n');
-	fin.open("Data/Courses/2019-2020-HK2-" + CourseClass + "-" + course + "-Student-Attendance.txt");
-	if (!fin.is_open())
-	{
-		cout << "Cannot open the file!" << endl;
-		return;
-	}
-	fin >> n;
-	Course* courseTmp = new Course[n];
-	Attendance** atd = new Attendance * [n];
-	for (int i = 0; i < n; i++) {
-		atd[i] = new Attendance[11];
-	}
-	for (int i = 0; i < n; ++i)
-	{
-		readAttendance(fin, courseTmp, atd, i);
-	}
-	fin.close();
-	string ID;
-	int check, day, month, year,choose;
-	cout << "Enter student's ID: ";
-	cin >> ID;
-	cout << "Enter the date (ex:8 9 2020): ";
-	cin >> day >> month >> year;
-	for (int i = 0; i < n; i++) {
-		if (courseTmp[i].student.id == ID) {
-			for (int j = 0; j < 10; j++) {
-				if (atd[i][j].Date.day == day && atd[i][j].Date.month == month && atd[i][j].Date.year == year) {
-					cout << "Enter 1 to check in or enter -1 to check absent!" << endl;
-					cin >> check;
-					atd[i][j].attendance = check;
-					fout.open("Data/Courses/2019-2020-HK2-" + CourseClass + "-" + course + "-Student-Attendance.txt");
-					if (!fout.is_open())
-					{
-						cout << "Cannot open the file!" << endl;
-						return;
-					}
-					fout << n;
-					for (int i = 0; i < n; ++i)
-					{
-						fout << endl;
-						fout << endl;
-						fout << courseTmp[i].student.id << endl;
-						fout << courseTmp[i].student.password << endl;
-						fout << courseTmp[i].student.fullName << endl;
-						fout << courseTmp[i].student.birthday.year << " " << courseTmp[i].student.birthday.month << " " << courseTmp[i].student.birthday.day << endl;
-						fout << courseTmp[i].Class << endl;
-						fout << courseTmp[i].isActive << endl;
-						fout << courseTmp[i].midterm << endl;
-						fout << courseTmp[i].final << endl;
-						fout << courseTmp[i].bonus << endl;
-						fout << courseTmp[i].total << endl;
-						for (int j = 0; j < 10; ++j)
-						{
-							fout << atd[i][j].Date.year << " " << atd[i][j].Date.month << " " << atd[i][j].Date.day << " " << atd[i][j].startTime.hour << " " << atd[i][j].startTime.minute << " " << atd[i][j].endTime.hour << " " << atd[i][j].endTime.minute << " " << atd[i][j].attendance << endl;
-						}
-						fout << courseTmp[i].isActive;
-					}
-					cout << "Edit successfully!" << endl;
-					cout << "Enter 1 to edit more, enter 0 to back to menu:" << endl;
-					cin >> choose;
-					if (choose == 1) {
-						editAttendance();
-					}
-					else break;
-				}
-			}
 
-		}
-	}
-	system("pause");
-	system("CLS");
-}
-
-// ADD STUDENT TO A COURSE
-void AddStuToCourse()
-{
-	string Class, StuID, Course1;
-	string ClassTmp, Course2;
-	ifstream fin;
-	ofstream fout;
-	int n, k;
-	cin.ignore(1000, '\n');
-	cout << "Enter the class: ";
-	getline(cin, Class, '\n');
-	cout << "Enter the student ID: ";
-	getline(cin, StuID, '\n');
-	fin.open("Data/Classes/Student-" + Class + ".txt");
-	//READ STUDENT FILE
-	if (!fin.is_open()) {
-		cout << "Can not open this file !" << endl;
-		return;
-	}
-	else {
-		fin >> n;
-		Student* StudentTmp = new Student[n];
-		LoadStudent(fin, StudentTmp, n);
-		fin.close();
-		for (int i = 0; i < n; i++)
-		{
-			if (StudentTmp[i].id == StuID)
-			{
-				cin.ignore(1000, '\n');
-				cout << "Enter the class: ";
-				getline(cin, ClassTmp, '\n');
-				cout << "Enter the course: ";
-				getline(cin, Course2, '\n');
-				fin.open("Data/Courses/2019-2020-HK2-" + ClassTmp + "-" + Course2 + "-Student-Attendance.txt");
-				if (!fin.is_open())
-				{
-					cout << "Can not open this file!" << endl;
-				}
-				else {
-					fin >> k;
-					Course* CourseTmp = new Course[k];
-					Attendance** atd = new Attendance *[k];
-					readAttendance(fin, CourseTmp, atd, k);
-					fin.close();
-
-					fout.open("Data/Courses/2019-2020-HK2-" + ClassTmp + "-" + Course2 + "-Student-Attendance.txt");
-					if (!fout.is_open())
-					{
-						cout << "Can not open this file!" << endl;
-					}
-					else {
-						fout << k + 1;
-						if (k >= 2) {
-							for (int i = 0; i < k; ++i) {
-								fout << endl;
-								fout << endl;
-								fout << CourseTmp[i].student.id << endl;
-								fout << CourseTmp[i].student.password << endl;
-								fout << CourseTmp[i].student.fullName << endl;
-								fout << CourseTmp[i].student.birthday.year << CourseTmp[i].student.birthday.month << CourseTmp[i].student.birthday.day << endl;
-								fout << CourseTmp[i].Class << endl;
-								fout << CourseTmp[i].isActive << endl;
-								fout << CourseTmp[i].midterm << endl;
-								fout << CourseTmp[i].final << endl;
-								fout << CourseTmp[i].bonus << endl;
-								fout << CourseTmp[i].total << endl;
-								for (int j = 0; j < 10; ++j)
-								{
-									fout << atd[i][j].Date.year << atd[i][j].Date.month << atd[i][j].Date.day << atd[i][j].startTime.hour << atd[i][j].startTime.minute << atd[i][j].endTime.hour << atd[i][j].endTime.minute << atd[i][j].attendance << endl;
-								}
-								fout << CourseTmp[i].isActive;
-							}
-							fout << endl;
-							fout << endl;
-							fout << StudentTmp[i].id << endl;
-							fout << StudentTmp[i].password << endl;
-							fout << StudentTmp[i].fullName << endl;
-							fout << StudentTmp[i].birthday.year << StudentTmp[i].birthday.month << StudentTmp[i].birthday.day << endl;
-							fout << ClassTmp << endl;
-							CourseTmp[k].isActive = 0;
-							fout << CourseTmp[k].isActive << endl;
-							fout << "-1" << endl;
-							fout << "-1" << endl;
-							fout << "-1" << endl;
-							fout << "-1" << endl;
-							for (int j = 0; j < 10; ++j)
-							{
-								fout << atd[k][j].Date.year << atd[k][j].Date.month << atd[k][j].Date.day << atd[k][j].startTime.hour << atd[k][j].startTime.minute << atd[k][j].endTime.hour << atd[k][j].endTime.minute << "-1" << endl;
-							}
-							fout << CourseTmp[k].isActive << endl;
-						}
-						else {
-							fout << endl;
-							fout << endl;
-							fout << StudentTmp[i].id << endl;
-							fout << StudentTmp[i].password << endl;
-							fout << StudentTmp[i].fullName << endl;
-							fout << StudentTmp[i].birthday.year << StudentTmp[i].birthday.month << StudentTmp[i].birthday.day << endl;
-							fout << ClassTmp << endl;
-							CourseTmp[k].isActive = 0;
-							fout << CourseTmp[k].isActive << endl;
-							fout << "-1" << endl;
-							fout << "-1" << endl;
-							fout << "-1" << endl;
-							fout << "-1" << endl;
-							for (int j = 0; j < 10; ++j)
-							{
-								fout << atd[k][j].Date.year << atd[k][j].Date.month << atd[k][j].Date.day << atd[k][j].startTime.hour << atd[k][j].startTime.minute << atd[k][j].endTime.hour << atd[k][j].endTime.minute << "-1" << endl;
-							}
-							fout << CourseTmp[k].isActive << endl;
-						}
-					}
-					fout.close();
-				}				
-			}
-		}
-	}
-}
-
->>>>>>> fa725ca0704ec4bfc0a712bc6629bd1a05c8672f
+//void editAttendance() {
+//	string CourseClass, course;
+//	int n;
+//	ifstream fin;
+//	ofstream fout;
+//	cin.ignore(1000, '\n');
+//	cout << "Enter the class: ";
+//	getline(cin, CourseClass, '\n');
+//	cout << "Enter the course: ";
+//	getline(cin, course, '\n');
+//	fin.open("Data/Courses/2019-2020-HK2-" + CourseClass + "-" + course + "-Student-Attendance.txt");
+//	if (!fin.is_open())
+//	{
+//		cout << "Cannot open the file!" << endl;
+//		return;
+//	}
+//	fin >> n;
+//	Course* courseTmp = new Course[n];
+//	Attendance** atd = new Attendance * [n];
+//	for (int i = 0; i < n; i++) {
+//		atd[i] = new Attendance[11];
+//	}
+//	for (int i = 0; i < n; ++i)
+//	{
+//		readAttendance(fin, courseTmp, atd, i);
+//	}
+//	fin.close();
+//	string ID;
+//	int check, day, month, year,choose;
+//	cout << "Enter student's ID: ";
+//	cin >> ID;
+//	cout << "Enter the date (ex:8 9 2020): ";
+//	cin >> day >> month >> year;
+//	for (int i = 0; i < n; i++) {
+//		if (courseTmp[i].student.id == ID) {
+//			for (int j = 0; j < 10; j++) {
+//				if (atd[i][j].Date.day == day && atd[i][j].Date.month == month && atd[i][j].Date.year == year) {
+//					cout << "Enter 1 to check in or enter -1 to check absent!" << endl;
+//					cin >> check;
+//					atd[i][j].attendance = check;
+//					fout.open("Data/Courses/2019-2020-HK2-" + CourseClass + "-" + course + "-Student-Attendance.txt");
+//					if (!fout.is_open())
+//					{
+//						cout << "Cannot open the file!" << endl;
+//						return;
+//					}
+//					fout << n;
+//					for (int i = 0; i < n; ++i)
+//					{
+//						fout << endl;
+//						fout << endl;
+//						fout << courseTmp[i].student.id << endl;
+//						fout << courseTmp[i].student.password << endl;
+//						fout << courseTmp[i].student.fullName << endl;
+//						fout << courseTmp[i].student.birthday.year << " " << courseTmp[i].student.birthday.month << " " << courseTmp[i].student.birthday.day << endl;
+//						fout << courseTmp[i].Class << endl;
+//						fout << courseTmp[i].isActive << endl;
+//						fout << courseTmp[i].midterm << endl;
+//						fout << courseTmp[i].final << endl;
+//						fout << courseTmp[i].bonus << endl;
+//						fout << courseTmp[i].total << endl;
+//						for (int j = 0; j < 10; ++j)
+//						{
+//							fout << atd[i][j].Date.year << " " << atd[i][j].Date.month << " " << atd[i][j].Date.day << " " << atd[i][j].startTime.hour << " " << atd[i][j].startTime.minute << " " << atd[i][j].endTime.hour << " " << atd[i][j].endTime.minute << " " << atd[i][j].attendance << endl;
+//						}
+//						fout << courseTmp[i].isActive;
+//					}
+//					cout << "Edit successfully!" << endl;
+//					cout << "Enter 1 to edit more, enter 0 to back to menu:" << endl;
+//					cin >> choose;
+//					if (choose == 1) {
+//						editAttendance();
+//					}
+//					else break;
+//				}
+//			}
+//
+//		}
+//	}
+//	system("pause");
+//	system("CLS");
+//}
+//
+//// ADD STUDENT TO A COURSE
+//void AddStuToCourse()
+//{
+//	string Class, StuID, Course1;
+//	string ClassTmp, Course2;
+//	ifstream fin;
+//	ofstream fout;
+//	int n, k;
+//	cin.ignore(1000, '\n');
+//	cout << "Enter the class: ";
+//	getline(cin, Class, '\n');
+//	cout << "Enter the student ID: ";
+//	getline(cin, StuID, '\n');
+//	fin.open("Data/Classes/Student-" + Class + ".txt");
+//	//READ STUDENT FILE
+//	if (!fin.is_open()) {
+//		cout << "Can not open this file !" << endl;
+//		return;
+//	}
+//	else {
+//		fin >> n;
+//		Student* StudentTmp = new Student[n];
+//		LoadStudent(fin, StudentTmp, n);
+//		fin.close();
+//		for (int i = 0; i < n; i++)
+//		{
+//			if (StudentTmp[i].id == StuID)
+//			{
+//				cin.ignore(1000, '\n');
+//				cout << "Enter the class: ";
+//				getline(cin, ClassTmp, '\n');
+//				cout << "Enter the course: ";
+//				getline(cin, Course2, '\n');
+//				fin.open("Data/Courses/2019-2020-HK2-" + ClassTmp + "-" + Course2 + "-Student-Attendance.txt");
+//				if (!fin.is_open())
+//				{
+//					cout << "Can not open this file!" << endl;
+//				}
+//				else {
+//					fin >> k;
+//					Course* CourseTmp = new Course[k];
+//					Attendance** atd = new Attendance *[k];
+//					readAttendance(fin, CourseTmp, atd, k);
+//					fin.close();
+//
+//					fout.open("Data/Courses/2019-2020-HK2-" + ClassTmp + "-" + Course2 + "-Student-Attendance.txt");
+//					if (!fout.is_open())
+//					{
+//						cout << "Can not open this file!" << endl;
+//					}
+//					else {
+//						fout << k + 1;
+//						if (k >= 2) {
+//							for (int i = 0; i < k; ++i) {
+//								fout << endl;
+//								fout << endl;
+//								fout << CourseTmp[i].student.id << endl;
+//								fout << CourseTmp[i].student.password << endl;
+//								fout << CourseTmp[i].student.fullName << endl;
+//								fout << CourseTmp[i].student.birthday.year << CourseTmp[i].student.birthday.month << CourseTmp[i].student.birthday.day << endl;
+//								fout << CourseTmp[i].Class << endl;
+//								fout << CourseTmp[i].isActive << endl;
+//								fout << CourseTmp[i].midterm << endl;
+//								fout << CourseTmp[i].final << endl;
+//								fout << CourseTmp[i].bonus << endl;
+//								fout << CourseTmp[i].total << endl;
+//								for (int j = 0; j < 10; ++j)
+//								{
+//									fout << atd[i][j].Date.year << atd[i][j].Date.month << atd[i][j].Date.day << atd[i][j].startTime.hour << atd[i][j].startTime.minute << atd[i][j].endTime.hour << atd[i][j].endTime.minute << atd[i][j].attendance << endl;
+//								}
+//								fout << CourseTmp[i].isActive;
+//							}
+//							fout << endl;
+//							fout << endl;
+//							fout << StudentTmp[i].id << endl;
+//							fout << StudentTmp[i].password << endl;
+//							fout << StudentTmp[i].fullName << endl;
+//							fout << StudentTmp[i].birthday.year << StudentTmp[i].birthday.month << StudentTmp[i].birthday.day << endl;
+//							fout << ClassTmp << endl;
+//							CourseTmp[k].isActive = 0;
+//							fout << CourseTmp[k].isActive << endl;
+//							fout << "-1" << endl;
+//							fout << "-1" << endl;
+//							fout << "-1" << endl;
+//							fout << "-1" << endl;
+//							for (int j = 0; j < 10; ++j)
+//							{
+//								fout << atd[k][j].Date.year << atd[k][j].Date.month << atd[k][j].Date.day << atd[k][j].startTime.hour << atd[k][j].startTime.minute << atd[k][j].endTime.hour << atd[k][j].endTime.minute << "-1" << endl;
+//							}
+//							fout << CourseTmp[k].isActive << endl;
+//						}
+//						else {
+//							fout << endl;
+//							fout << endl;
+//							fout << StudentTmp[i].id << endl;
+//							fout << StudentTmp[i].password << endl;
+//							fout << StudentTmp[i].fullName << endl;
+//							fout << StudentTmp[i].birthday.year << StudentTmp[i].birthday.month << StudentTmp[i].birthday.day << endl;
+//							fout << ClassTmp << endl;
+//							CourseTmp[k].isActive = 0;
+//							fout << CourseTmp[k].isActive << endl;
+//							fout << "-1" << endl;
+//							fout << "-1" << endl;
+//							fout << "-1" << endl;
+//							fout << "-1" << endl;
+//							for (int j = 0; j < 10; ++j)
+//							{
+//								fout << atd[k][j].Date.year << atd[k][j].Date.month << atd[k][j].Date.day << atd[k][j].startTime.hour << atd[k][j].startTime.minute << atd[k][j].endTime.hour << atd[k][j].endTime.minute << "-1" << endl;
+//							}
+//							fout << CourseTmp[k].isActive << endl;
+//						}
+//					}
+//					fout.close();
+//				}				
+//			}
+//		}
+//	}
+//}

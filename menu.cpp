@@ -38,11 +38,34 @@ void LoadStudent(ifstream& fin, Student*& student, int n) {
 }
 int Login(Staff*& staff, Staff& staffTmp, Lecturer*& lecturer, Lecturer& lecturerTmp, Student*& student, Student& studentTmp, int nStaff, int nLecturer, int nStudent) {
 	string username;
-	string password;
+	char password[32], a;
+	int count = 0;
 	cout << "Username: ";
 	getline(cin, username);
 	cout << "Password: ";
-	getline(cin, password);
+	for (count = 0;;)//infinite loop
+	{
+		a = _getch();//stores char typed in a
+		if ((a >= 'a' && a <= 'z') || (a >= 'A' && a <= 'Z') || (a >= '0' && a <= '9'))
+			//check if a is numeric or alphabet
+		{
+			password[count] = a;//stores a in pass
+			++count;
+			cout << "*";
+		}
+		if (a == '\b' && count >= 1)//if user typed backspace
+			//i should be greater than 1.
+		{
+			cout << "\b \b";//rub the character behind the cursor.
+			--count;
+		}
+		if (a == '\r')//if enter is pressed
+		{
+			password[count] = '\0';//null means end of string.
+			break;//break the loop
+		}
+	}
+	cout << endl;
 
 	for (int i = 0; i < nStudent; i++) {
 		if (student[i].id == username && student[i].password == password) {
@@ -442,7 +465,7 @@ void LecturerMenu(Lecturer*& lecturer, Lecturer& lecturerTmp) {
 		break;
 	case 4:
 		system("CLS");
-		editAttendance();
+		//editAttendance();
 		LecturerMenu(lecturer, lecturerTmp);
 		break;
 	case 5:
@@ -671,7 +694,7 @@ void StaffMenuCourse(Staff*& staff, Staff& staffTmp) {
 		break;
 	case 8:
 		system("CLS");
-		AddStuToCourse();
+		//AddStuToCourse();
 		StaffMenu(staff, staffTmp);
 		break;
 	case 9:
