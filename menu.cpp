@@ -38,11 +38,20 @@ void LoadStudent(ifstream& fin, Student*& student, int n) {
 }
 int Login(Staff*& staff, Staff& staffTmp, Lecturer*& lecturer, Lecturer& lecturerTmp, Student*& student, Student& studentTmp, int nStaff, int nLecturer, int nStudent) {
 	string username;
-	string password;
+	char password[33];
 	cout << "Username: ";
 	getline(cin, username);
 	cout << "Password: ";
-	getline(cin, password);
+	/*getline(cin, password);*/
+	for (int i = 0; i < 32; i++) {
+		password[i] = _getch();
+		if (password[i] == 13) {
+			break;
+		}
+		else {
+			_putch('*');
+		}
+	}
 
 	for (int i = 0; i < nStudent; i++) {
 		if (student[i].id == username && student[i].password == password) {
@@ -442,7 +451,7 @@ void LecturerMenu(Lecturer*& lecturer, Lecturer& lecturerTmp) {
 		break;
 	case 4:
 		system("CLS");
-		editAttendance();
+		//editAttendance();
 		LecturerMenu(lecturer, lecturerTmp);
 		break;
 	case 5:
@@ -671,7 +680,7 @@ void StaffMenuCourse(Staff*& staff, Staff& staffTmp) {
 		break;
 	case 8:
 		system("CLS");
-		AddStuToCourse();
+		//AddStuToCourse();
 		StaffMenu(staff, staffTmp);
 		break;
 	case 9:
