@@ -208,5 +208,91 @@ void editScore() {
 	delete[] board;
 }
 void importScoreboardCSV() {
-	
+	Scoreboard* board;
+	string address, CourseClass, course;
+	ifstream fin;
+	int n;
+	ofstream fout;
+
+	//LET USER ENTER CLASS, COURSE AND ADDRESS
+	cin.ignore(1000, '\n');
+	cout << "Enter the class: ";
+	getline(cin, CourseClass, '\n');
+	cout << "Enter the course: ";
+	getline(cin, course, '\n');
+	cout << "Enter file address you want to import: ";
+	getline(cin, address, '\n');
+
+	//OPEN IMPORT FILE
+	fin.open(address);
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	int nImport = noOfRows(address);
+	importScoreboardCSV(fin, board);
+	fin.close();
+
+	//OPEN COURSE FILE
+	fin.open("Data/Courses/2019-2020-HK2-" + CourseClass + "-" + course + "-Student-Attendance.txt");
+	if (!fin.is_open())
+	{
+		cout << "Cannot open the file!" << endl;
+		return;
+	}
+	fin >> n;
+	Course* courseTmp = new Course[n];
+	Attendance** atd = new Attendance * [n];
+	for (int i = 0; i < n; i++) {
+		atd[i] = new Attendance[11];
+	}
+	for (int i = 0; i < n; ++i)
+	{
+		readAttendance(fin, courseTmp, atd, i);
+	}
+	fin.close();
+
+	for (int i = 0; i < n; ++i) {
+		for (int j = 0; j < nImport; j++) {
+			if (courseTmp[i].student.id == board[j].ID) {
+				courseTmp[i].midterm = board[j].Midterm;
+				courseTmp[i].final = board[j].Final;
+				courseTmp[i].bonus = board[j].Bonus;
+				courseTmp[i].total = board[j].Total;
+			}
+		}
+	}
+
+	fout.open("Data/Courses/2019-2020-HK2-" + CourseClass + "-" + course + "-Student-Attendance.txt");
+	if (!fout.is_open())
+	{
+		cout << "Cannot open the file!" << endl;
+		return;
+	}
+	fout << n;
+	for (int i = 0; i < n; ++i)
+	{
+		fout << endl;
+		fout << endl;
+		fout << courseTmp[i].student.id << endl;
+		fout << courseTmp[i].student.password << endl;
+		fout << courseTmp[i].student.fullName << endl;
+		fout << courseTmp[i].student.birthday.year << " " << courseTmp[i].student.birthday.month << " " << courseTmp[i].student.birthday.day << endl;
+		fout << courseTmp[i].Class << endl;
+		fout << courseTmp[i].isActive << endl;
+		fout << courseTmp[i].midterm << endl;
+		fout << courseTmp[i].final << endl;
+		fout << courseTmp[i].bonus << endl;
+		fout << courseTmp[i].total << endl;
+		for (int j = 0; j < 10; ++j)
+		{
+			fout << atd[i][j].Date.year << " " << atd[i][j].Date.month << " " << atd[i][j].Date.day << " " << atd[i][j].startTime.hour << " " << atd[i][j].startTime.minute << " " << atd[i][j].endTime.hour << " " << atd[i][j].endTime.minute << " " << atd[i][j].attendance << endl;
+		}
+		fout << courseTmp[i].isActive;
+	}
+	fout.close();
+
+	delete[] courseTmp;
+	delete[] atd;
+	delete[] board;
 }

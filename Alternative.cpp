@@ -144,6 +144,25 @@ void importStudentCSV(ifstream& fin, Student* student, int n) {
 		i++;
 	}
 }
+void importScoreboardCSV(ifstream& fin, Scoreboard* board) {
+	string tmp;
+	string line;
+	int i = 0;
+	while (getline(fin, line)) {
+		stringstream ss(line);
+		getline(ss, board[i].ID, ',');
+		getline(ss, board[i].name, ',');
+		getline(ss, tmp, ',');
+		board[i].Midterm = stoi(tmp);
+		getline(ss, tmp, ',');
+		board[i].Final = stoi(tmp);
+		getline(ss, tmp, ',');
+		board[i].Bonus = stoi(tmp);
+		getline(ss, tmp, '\n');
+		board[i].Total = stoi(tmp);
+		i++;
+	}
+}
 void readScoreboard(ifstream& fin, Scoreboard* board, int n) {
 	for (int i = 0; i < n; i++) {
 		fin.ignore(1000, '\n');
