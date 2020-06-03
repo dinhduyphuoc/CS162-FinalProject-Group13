@@ -87,7 +87,8 @@ void importStudentCSV(ifstream& fin, Student* student, int n);
 void readScoreboard(ifstream& fin, Scoreboard* board, int n);
 void readAttendance(ifstream& fin, Course*& course, Attendance**& atd, int i);
 void writeCourse(ofstream& fout, Course*& course, int i);
-void importCourseCSV(ifstream& fin, Course* course, int n);
+void importCourseCSV(ifstream& fin, Course* course);
+void importScoreboardCSV(ifstream& fin, Scoreboard* board);
 
 //Staff section
 void ImportStudents();

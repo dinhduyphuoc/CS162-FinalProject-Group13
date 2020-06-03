@@ -874,7 +874,7 @@ void ImportCourses() {
 	}
 	int nImport = noOfRows(address);
 	Course* courseImport = new Course[nImport];
-	importCourseCSV(fin, courseImport, nImport);
+	importCourseCSV(fin, courseImport);
 	fin.close();
 
 	//READ COURSE FILE 
@@ -940,13 +940,19 @@ void ImportCourses() {
 		Student* student = new Student[nStudent];
 		LoadStudent(fin, student, nStudent);
 		fin.close();
-		fout.open("Data/Courses/" + to_string(startYear) + "-" + to_string(endYear) + "-" + semester + "-" + className + "-" + course[i].course + "-Student.txt");
-		fout << n;
+		address = "Data/Courses/" + to_string(startYear) + "-" + to_string(endYear) + "-" + semester + "-" + className + "-" + course[i].course + "-Student.txt";
+		fout.open(address);
+		fout << nStudent;
 		for (int i = 0; i < nStudent; ++i) {
 			writeStudent(fout, student, i);
 		}
 		fout.close();		
+		address = "Data/Courses/" + to_string(startYear) + "-" + to_string(endYear) + "-" + semester + "-" + className + "-" + course[i].course + "-Student-Attendance.txt";
+		fout.open(address);
+		fout << nStudent;
 	}
+
+
 
 	delete[] course;
 	delete[] courseImport;

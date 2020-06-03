@@ -230,6 +230,7 @@ void importScoreboardCSV() {
 		return;
 	}
 	int nImport = noOfRows(address);
+	board = new Scoreboard[nImport];
 	importScoreboardCSV(fin, board);
 	fin.close();
 

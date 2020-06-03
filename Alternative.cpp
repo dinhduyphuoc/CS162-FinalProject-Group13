@@ -74,15 +74,15 @@ void writeCourse(ofstream& fout, Course*& course, int i) {
 	fout << course[i].lecturerName << endl;
 	fout << course[i].education << endl;
 	fout << course[i].gender << endl;
-	fout << course[i].startDate.year << " " << setw(2) << setfill('0') << course[i].startDate.month << " " << setw(2) << setfill('0') << course[i].startDate.day << endl;
-	fout << course[i].endDate.year << " " << setw(2) << setfill('0') << course[i].endDate.month << " " << setw(2) << setfill('0') << course[i].endDate.day << endl;
+	fout << course[i].startDate.year << " " << course[i].startDate.month << " " << course[i].startDate.day << endl;
+	fout << course[i].endDate.year << " " << course[i].endDate.month << " " << course[i].endDate.day << endl;
 	fout << course[i].day << endl;
-	fout << course[i].startTime.hour << setw(2) << setfill('0') << course[i].startTime.minute << endl;
-	fout << course[i].endTime.hour << setw(2) << setfill('0') << course[i].endTime.minute << endl;
+	fout << course[i].startTime.hour << " " << course[i].startTime.minute << endl;
+	fout << course[i].endTime.hour << " " << course[i].endTime.minute << endl;
 	fout << course[i].room << endl;
 	fout << course[i].isActive;
 }
-void importCourseCSV(ifstream& fin, Course* course, int n) {
+void importCourseCSV(ifstream& fin, Course* course) {
 	string tmp;
 	string line;
 	int i = 0;
@@ -153,13 +153,13 @@ void importScoreboardCSV(ifstream& fin, Scoreboard* board) {
 		getline(ss, board[i].ID, ',');
 		getline(ss, board[i].name, ',');
 		getline(ss, tmp, ',');
-		board[i].Midterm = stoi(tmp);
+		board[i].Midterm = stof(tmp);
 		getline(ss, tmp, ',');
-		board[i].Final = stoi(tmp);
+		board[i].Final = stof(tmp);
 		getline(ss, tmp, ',');
-		board[i].Bonus = stoi(tmp);
+		board[i].Bonus = stof(tmp);
 		getline(ss, tmp, '\n');
-		board[i].Total = stoi(tmp);
+		board[i].Total = stof(tmp);
 		i++;
 	}
 }
