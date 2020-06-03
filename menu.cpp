@@ -779,11 +779,13 @@ void StaffMenuAttendance(Staff*& staff, Staff& staffTmp) {
 		break;
 	case 2:
 		system("CLS");
-		//function
+		ViewAttendance();
+		StaffMenu(staff, staffTmp);
 		break;
 	case 3:
 		system("CLS");
-		//function
+		exportattendanceCSV();
+		StaffMenu(staff, staffTmp);
 		break;
 	default:
 		cout << "Invalid option, please select again: ";

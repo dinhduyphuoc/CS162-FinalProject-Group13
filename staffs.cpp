@@ -1566,7 +1566,104 @@ void exportScoreboardCSV() {
 }
 
 //ATTENDANCE MANAGEMENT
+void ViewAttendance()
+{
+	ifstream fin;
+	string Class, course;
+	int n;
+	cin.ignore();
+	cout << "Enter class: ";
+	getline(cin, Class, '\n');
+	cout << "Enter course:";
+	getline(cin, course, '\n');
+	string filename = "Data/Courses/2019-2020-HK2-" + Class + "-" + course + "-Student-Attendance.txt";
+	fin.open(filename);
+	if (!fin.is_open())
+	{
+		cout << "Cannot open the file!";
+		return;
+	}
+	fin >> n;
+	Course* courseTmp = new Course[n];
+	Attendance** atd = new Attendance * [n];
+	for (int i = 0; i < n; i++)
+	{
+		atd[i] = new Attendance[11];
+	}
+	for (int i = 0; i < n; i++)
+	{
+		readAttendance(fin, courseTmp, atd, i);
+	}
+	fin.close();
+	system("CLS");
+	cout << Class << " attendance list in " << course << ": " << endl;
+	cout << endl;
+	for (int i = 0; i < n; ++i)
+	{
+		cout << courseTmp[i].student.id << endl;
+		cout << courseTmp[i].student.fullName << endl;
+		for (int j = 0; j < 10; ++j)
+		{
+			cout << atd[i][j].Date.year << " " << atd[i][j].Date.month << " " << atd[i][j].Date.day << " " << atd[i][j].startTime.hour << " " << atd[i][j].startTime.minute << " " << atd[i][j].endTime.hour << " " << atd[i][j].endTime.minute << " " << atd[i][j].attendance << endl;
+		}
+		cout << endl;
+	}
+	cout << endl;
+	system("pause");
+	system("CLS");
+}
+void exportattendanceCSV()
+{
+	ifstream fin;
+	ofstream fout;
+	string Class, course;
+	int n;
+	cin.ignore();
+	cout << "Enter class: ";
+	getline(cin, Class, '\n');
+	cout << "Enter course: ";
+	getline(cin, course, '\n');
+	string filename = "Data/Courses/2019-2020-HK2-" + Class + "-" + course + "-Student-Attendance.txt";
+	fin.open(filename);
 
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fin >> n;
+	Attendance** atd = new Attendance * [n];
+	Course* courseTmp = new Course[n];
+	for (int i = 0; i < n; i++)
+	{
+		atd[i] = new Attendance[11];
+	}
+	for (int i = 0; i < n; i++)
+	{
+		readAttendance(fin, courseTmp, atd, i);
+	}
+	fin.close();
+
+	fout.open("Data/Courses/2019-2020-HK2-" + Class + "-" + course + "-Student-Attendance.csv");
+	if (!fout.is_open())
+	{
+		cout << "Cannot open the file!";
+		return;
+	}
+	fin >> n;
+	fout << "ID,StudentName,Year,Month,Day,Start hour,minute,End hour,minute,CheckIn " << endl;
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			fout << courseTmp[i].student.id << "," << courseTmp[i].student.fullName << "," << atd[i][j].Date.year << "," << atd[i][j].Date.month << "," << atd[i][j].Date.day << "," << atd[i][j].startTime.hour << "," << atd[i][j].startTime.minute << "," << atd[i][j].endTime.hour << "," << atd[i][j].endTime.minute << "," << atd[i][j].attendance << endl;
+		}
+	}
+	fout.close();
+	cout << endl;
+	cout << "File exported successfully!" << endl;
+	system("pause");
+	system("CLS");
+}
 
 //void editAttendance() {
 //	string CourseClass, course;
