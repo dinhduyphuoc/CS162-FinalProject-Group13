@@ -779,7 +779,7 @@ void StaffMenuAttendance(Staff*& staff, Staff& staffTmp) {
 		break;
 	case 2:
 		system("CLS");
-		ViewAttendance();
+		viewAttendanceList();
 		StaffMenu(staff, staffTmp);
 		break;
 	case 3:

@@ -1,4 +1,4 @@
-3
+2
 
 19125001
 20010401
@@ -8,15 +8,8 @@ Co Minh Hieu
 1
 
 19126001
-19APCS2
+20010201
 Trinh Van Minh
 2001 04 01
-19APCS2
-1
-
-19127002
-19APCS1
-Do Vuong Phuc Hoi Nhieu
-2002 01 01
 19APCS2
 1

@@ -115,7 +115,6 @@ void viewStudentofCourse();
 
 void ViewScoreboard();
 
-void ViewAttendance();
 void exportattendanceCSV();
 
 //Lecturer section

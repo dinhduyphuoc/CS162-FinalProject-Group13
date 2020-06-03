@@ -929,30 +929,31 @@ void ImportCourses() {
 	fout.close();
 
 	//CREATE NEW STUDENTS LIST OF ADDED COURSES
-	for (int i = 0; i < n + nImport; i++) {
-		address = "Data/Classes/Student-" + className + ".txt";
-		fin.open(address);
-		if (!fin.is_open()) {
-			cout << "Cannot open the file!";
-			return;
-		}
-		int nStudent;
-		fin >> nStudent;
-		Student* student = new Student[nStudent];
-		LoadStudent(fin, student, nStudent);
-		fin.close();
-		address = "Data/Courses/" + to_string(startYear) + "-" + to_string(endYear) + "-" + semester + "-" + className + "-" + course[i].course + "-Student.txt";
+	address = "Data/Classes/Student-" + className + ".txt";
+	fin.open(address);
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	int nStudent;
+	fin >> nStudent;
+	Student* student = new Student[nStudent];
+	LoadStudent(fin, student, nStudent);
+	fin.close();
+	for (int i = 0; i < nImport; i++) {
+		address = "Data/Courses/" + to_string(startYear) + "-" + to_string(endYear) + "-" + semester + "-" + className + "-" + course[i].course + "-Student2.txt";
 		fout.open(address);
 		fout << nStudent;
-		for (int i = 0; i < nStudent; ++i) {
+		for (int i = 0; i < nImport; i++) {
+			fout << endl;
+			fout << endl;
 			writeStudent(fout, student, i);
 		}
 		fout.close();
-		address = "Data/Courses/" + to_string(startYear) + "-" + to_string(endYear) + "-" + semester + "-" + className + "-" + course[i].course + "-Student-Attendance.txt";
+		address = "Data/Courses/" + to_string(startYear) + "-" + to_string(endYear) + "-" + semester + "-" + className + "-" + course[i].course + "-Student-Attendance2.txt";
 		fout.open(address);
 		fout << nStudent;
 	}
-
 	delete[] course;
 	delete[] courseImport;
 }
@@ -1565,6 +1566,58 @@ void exportScoreboardCSV() {
 }
 
 //ATTENDANCE MANAGEMENT
+void exportattendanceCSV()
+{
+	ifstream fin;
+	ofstream fout;
+	string Class, course;
+	int n;
+	cin.ignore();
+	cout << "Enter class: ";
+	getline(cin, Class, '\n');
+	cout << "Enter course: ";
+	getline(cin, course, '\n');
+	string filename = "Data/Courses/2019-2020-HK2-" + Class + "-" + course + "-Student-Attendance.txt";
+	fin.open(filename);
+
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fin >> n;
+	Attendance** atd = new Attendance * [n];
+	Course* courseTmp = new Course[n];
+	for (int i = 0; i < n; i++)
+	{
+		atd[i] = new Attendance[11];
+	}
+	for (int i = 0; i < n; i++)
+	{
+		readAttendance(fin, courseTmp, atd, i);
+	}
+	fin.close();
+
+	fout.open("Data/Courses/2019-2020-HK2-" + Class + "-" + course + "-Student-Attendance.csv");
+	if (!fout.is_open())
+	{
+		cout << "Cannot open the file!";
+		return;
+	}
+	fin >> n;
+	fout << "ID,StudentName,Year,Month,Day,Start hour,minute,End hour,minute,CheckIn " << endl;
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			fout << courseTmp[i].student.id << "," << courseTmp[i].student.fullName << "," << atd[i][j].Date.year << "," << atd[i][j].Date.month << "," << atd[i][j].Date.day << "," << atd[i][j].startTime.hour << "," << atd[i][j].startTime.minute << "," << atd[i][j].endTime.hour << "," << atd[i][j].endTime.minute << "," << atd[i][j].attendance << endl;
+		}
+	}
+	fout.close();
+	cout << endl;
+	cout << "File exported successfully!" << endl;
+	system("pause");
+	system("CLS");
+}
 
 //void AddStuToCourse()
 //{
