@@ -519,7 +519,8 @@ void StudentMenu(Student*& student, Student& studentTmp) {
 		break;
 	case 4:
 		system("CLS");
-		//function
+		ViewScoreOfCourse();
+		mainMenu(student, studentTmp);
 		break;
 	default:
 		cout << "Invalid option, please select again: ";
