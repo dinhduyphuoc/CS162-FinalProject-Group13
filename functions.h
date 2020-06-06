@@ -127,3 +127,4 @@ void importScoreboardCSV();
 void checkin(Student& student);
 void viewCheckin(Student& student);
 void ViewScoreOfCourse();
+void ViewSchedule();

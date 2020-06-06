@@ -515,7 +515,8 @@ void StudentMenu(Student*& student, Student& studentTmp) {
 		break;
 	case 3:
 		system("CLS");
-		//function
+		ViewSchedule();
+		StudentMenu(student, studentTmp);
 		break;
 	case 4:
 		system("CLS");

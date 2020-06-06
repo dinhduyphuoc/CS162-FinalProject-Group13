@@ -147,3 +147,95 @@ void viewCheckin(Student& student) {
 	delete[] courseTmp;
 	delete[] atd;
 }
+void ViewScoreOfCourse()
+{
+	ifstream fin;
+	string Class, course, StuID;
+	int n;
+	cin.ignore();
+	cout << "Enter class: ";
+	getline(cin, Class, '\n');
+	cout << "Enter course: ";
+	getline(cin, course, '\n');
+	string filename = "Data/Courses/2019-2020-HK2-" + Class + "-" + course + "-Student-Attendance.txt";
+	fin.open(filename);
+	if (!fin.is_open()) {
+		cout << "Cannot open the file!";
+		return;
+	}
+	fin >> n;
+	Course* courses = new Course[n];
+	Attendance** atd = new Attendance * [n];
+	for (int i = 0; i < n; i++) {
+		atd[i] = new Attendance[11];
+	}
+	for (int i = 0; i < n; i++) {
+		readAttendance(fin, courses, atd, i);
+	}
+	fin.close();
+	cin.ignore();
+	cout << "Enter your student ID: ";
+	getline(cin, StuID, '\n');
+	cout << "ID\tStudent name\tMidterm\tFinal\tBonus\tTotal" << endl;
+	for (int i = 0; i < n; i++)
+	{
+		if (courses[i].student.id == StuID)
+		{
+			cout << courses[i].student.id << '\t' << courses[i].student.fullName << '\t' << courses[i].midterm << '\t' << courses[i].final << '\t' << courses[i].bonus << '\t' << courses[i].total << endl;
+		}
+	}
+	cout << endl;
+	system("pause");
+	system("CLS");
+	delete[] courses;
+	delete[] atd;
+}
+
+void ViewSchedule()
+{
+	ifstream fin;
+	string Class;
+	int n;
+	cin.ignore();
+	cout << "Enter class: ";
+	getline(cin, Class, '\n');
+	fin.open("Data/Courses/" + Class + "-Schedule.txt");
+	if (!fin.is_open())
+	{
+		cout << "Can not open this file!" << endl;
+		return;
+	}
+	else {
+		fin >> n;
+		Course* courses = new Course[n];
+		Attendance** atd = new Attendance * [n];
+		for (int i = 0; i < n; i++) {
+			atd[i] = new Attendance[11];
+		}
+		for (int i = 0; i < n; i++) {
+			fin.ignore(1000, '\n');
+			fin.get();
+			getline(fin, courses[i].courseName,'\n');
+			for (int j = 0; j < 10; ++j)
+			{
+				fin >> atd[i][j].Date.year >> atd[i][j].Date.month >> atd[i][j].Date.day >> atd[i][j].startTime.hour >> atd[i][j].startTime.minute >> atd[i][j].endTime.hour >> atd[i][j].endTime.minute;
+			}
+			/*fin.ignore(1000, '\n');*/
+		}
+		fin.close();
+		system("CLS");
+		cout << "The " << Class << "-Schedule: " << endl;
+		for (int i = 0; i < n; i++)
+		{
+			cout << courses[i].courseName << endl;
+			for (int j = 0; j < 10; ++j)
+			{
+				cout << atd[i][j].Date.year << " " << atd[i][j].Date.month << " " << atd[i][j].Date.day << " " << atd[i][j].startTime.hour << " " << atd[i][j].startTime.minute << " " << atd[i][j].endTime.hour << " " << atd[i][j].endTime.minute << endl;
+			}
+			cout << endl;
+		}
+		cout << endl;
+		system("pause");
+		system("CLS");
+	}
+}
