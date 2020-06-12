@@ -465,12 +465,13 @@ void LecturerMenu(Lecturer*& lecturer, Lecturer& lecturerTmp) {
 		break;
 	case 4:
 		system("CLS");
-		//editAttendance();
+		editAttendance();
 		LecturerMenu(lecturer, lecturerTmp);
 		break;
 	case 5:
 		system("CLS");
-		//function
+		importScoreboardCSV();
+		LecturerMenu(lecturer, lecturerTmp);
 		break;
 	case 6:
 		system("CLS");
