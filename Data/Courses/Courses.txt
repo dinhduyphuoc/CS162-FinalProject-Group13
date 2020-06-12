@@ -6,7 +6,7 @@ Introduction to Programming
 dbtien
 Dinh Ba Tien
 TS
-0
+1
 2020 04 01
 2020 06 01
 1
@@ -21,7 +21,7 @@ Communications
 dnvu
 Duong Nguyen Vu
 GS
-0
+1
 2020 04 01
 2020 06 01
 1
@@ -29,4 +29,3 @@ GS
 17 30
 I21
 1
-

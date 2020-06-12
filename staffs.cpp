@@ -968,7 +968,7 @@ void ImportCourses() {
 	}
 
 	//WRITE NEW COURSES LIST TO THE COURSES FILE
-	fout.open("Data/Courses/Courses2.txt");
+	fout.open("Data/Courses/Courses.txt");
 	if (!fout.is_open()) {
 		cout << "Cannot open the file!";
 		return;
