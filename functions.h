@@ -112,7 +112,7 @@ void viewAllLecturer();
 void viewAttendanceList();
 void removeStudentfromCourse();
 void viewStudentofCourse();
-//void AddStuToCourse();
+void AddStuToCourse();
 
 void ViewScoreboard();
 

@@ -698,7 +698,7 @@ void StaffMenuCourse(Staff*& staff, Staff& staffTmp) {
 		break;
 	case 8:
 		system("CLS");
-		//AddStuToCourse();
+		AddStuToCourse();
 		StaffMenu(staff, staffTmp);
 		break;
 	case 9:

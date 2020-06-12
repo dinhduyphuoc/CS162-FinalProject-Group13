@@ -1643,121 +1643,121 @@ void exportattendanceCSV()
 	system("pause");
 	system("CLS");
 }
-//void AddStuToCourse()
-//{
-//	string Class, StuID, Course1;
-//	string ClassTmp, Course2;
-//	ifstream fin;
-//	ofstream fout;
-//	int n, k;
-//	cin.ignore(1000, '\n');
-//	cout << "Enter the class: ";
-//	getline(cin, Class, '\n');
-//	cout << "Enter the student ID: ";
-//	getline(cin, StuID, '\n');
-//	fin.open("Data/Classes/Student-" + Class + ".txt");
-//	//READ STUDENT FILE
-//	if (!fin.is_open()) {
-//		cout << "Can not open this file !" << endl;
-//		return;
-//	}
-//	else {
-//		fin >> n;
-//		Student* StudentTmp = new Student[n];
-//		LoadStudent(fin, StudentTmp, n);
-//		fin.close();
-//		for (int i = 0; i < n; i++)
-//		{
-//			if (StudentTmp[i].id == StuID)
-//			{
-//				cin.ignore(1000, '\n');
-//				cout << "Enter the class: ";
-//				getline(cin, ClassTmp, '\n');
-//				cout << "Enter the course: ";
-//				getline(cin, Course2, '\n');
-//				fin.open("Data/Courses/2019-2020-HK2-" + ClassTmp + "-" + Course2 + "-Student-Attendance.txt");
-//				if (!fin.is_open())
-//				{
-//					cout << "Can not open this file!" << endl;
-//				}
-//				else {
-//					fin >> k;
-//					Course* CourseTmp = new Course[k];
-//					Attendance** atd = new Attendance *[k];
-//					readAttendance(fin, CourseTmp, atd, k);
-//					fin.close();
-//
-//					fout.open("Data/Courses/2019-2020-HK2-" + ClassTmp + "-" + Course2 + "-Student-Attendance.txt");
-//					if (!fout.is_open())
-//					{
-//						cout << "Can not open this file!" << endl;
-//					}
-//					else {
-//						fout << k + 1;
-//						if (k >= 2) {
-//							for (int i = 0; i < k; ++i) {
-//								fout << endl;
-//								fout << endl;
-//								fout << CourseTmp[i].student.id << endl;
-//								fout << CourseTmp[i].student.password << endl;
-//								fout << CourseTmp[i].student.fullName << endl;
-//								fout << CourseTmp[i].student.birthday.year << CourseTmp[i].student.birthday.month << CourseTmp[i].student.birthday.day << endl;
-//								fout << CourseTmp[i].Class << endl;
-//								fout << CourseTmp[i].isActive << endl;
-//								fout << CourseTmp[i].midterm << endl;
-//								fout << CourseTmp[i].final << endl;
-//								fout << CourseTmp[i].bonus << endl;
-//								fout << CourseTmp[i].total << endl;
-//								for (int j = 0; j < 10; ++j)
-//								{
-//									fout << atd[i][j].Date.year << atd[i][j].Date.month << atd[i][j].Date.day << atd[i][j].startTime.hour << atd[i][j].startTime.minute << atd[i][j].endTime.hour << atd[i][j].endTime.minute << atd[i][j].attendance << endl;
-//								}
-//								fout << CourseTmp[i].isActive;
-//							}
-//							fout << endl;
-//							fout << endl;
-//							fout << StudentTmp[i].id << endl;
-//							fout << StudentTmp[i].password << endl;
-//							fout << StudentTmp[i].fullName << endl;
-//							fout << StudentTmp[i].birthday.year << StudentTmp[i].birthday.month << StudentTmp[i].birthday.day << endl;
-//							fout << ClassTmp << endl;
-//							CourseTmp[k].isActive = 0;
-//							fout << CourseTmp[k].isActive << endl;
-//							fout << "-1" << endl;
-//							fout << "-1" << endl;
-//							fout << "-1" << endl;
-//							fout << "-1" << endl;
-//							for (int j = 0; j < 10; ++j)
-//							{
-//								fout << atd[k][j].Date.year << atd[k][j].Date.month << atd[k][j].Date.day << atd[k][j].startTime.hour << atd[k][j].startTime.minute << atd[k][j].endTime.hour << atd[k][j].endTime.minute << "-1" << endl;
-//							}
-//							fout << CourseTmp[k].isActive << endl;
-//						}
-//						else {
-//							fout << endl;
-//							fout << endl;
-//							fout << StudentTmp[i].id << endl;
-//							fout << StudentTmp[i].password << endl;
-//							fout << StudentTmp[i].fullName << endl;
-//							fout << StudentTmp[i].birthday.year << StudentTmp[i].birthday.month << StudentTmp[i].birthday.day << endl;
-//							fout << ClassTmp << endl;
-//							CourseTmp[k].isActive = 0;
-//							fout << CourseTmp[k].isActive << endl;
-//							fout << "-1" << endl;
-//							fout << "-1" << endl;
-//							fout << "-1" << endl;
-//							fout << "-1" << endl;
-//							for (int j = 0; j < 10; ++j)
-//							{
-//								fout << atd[k][j].Date.year << atd[k][j].Date.month << atd[k][j].Date.day << atd[k][j].startTime.hour << atd[k][j].startTime.minute << atd[k][j].endTime.hour << atd[k][j].endTime.minute << "-1" << endl;
-//							}
-//							fout << CourseTmp[k].isActive << endl;
-//						}
-//					}
-//					fout.close();
-//				}				
-//			}
-//		}
-//	}
-//}
+void AddStuToCourse()
+{
+	string Class, StuID, Course1;
+	string ClassTmp, Course2;
+	ifstream fin;
+	ofstream fout;
+	int n, k;
+	cin.ignore(1000, '\n');
+	cout << "Enter the class: ";
+	getline(cin, Class, '\n');
+	cout << "Enter the student ID: ";
+	getline(cin, StuID, '\n');
+	fin.open("Data/Classes/Student-" + Class + ".txt");
+	//READ STUDENT FILE
+	if (!fin.is_open()) {
+		cout << "Can not open this file !" << endl;
+		return;
+	}
+	else {
+		fin >> n;
+		Student* StudentTmp = new Student[n];
+		LoadStudent(fin, StudentTmp, n);
+		fin.close();
+		for (int i = 0; i < n; i++)
+		{
+			if (StudentTmp[i].id == StuID)
+			{
+				cin.ignore(1000, '\n');
+				cout << "Enter the class: ";
+				getline(cin, ClassTmp, '\n');
+				cout << "Enter the course: ";
+				getline(cin, Course2, '\n');
+				fin.open("Data/Courses/2019-2020-HK2-" + ClassTmp + "-" + Course2 + "-Student-Attendance.txt");
+				if (!fin.is_open())
+				{
+					cout << "Can not open this file!" << endl;
+				}
+				else {
+					fin >> k;
+					Course* CourseTmp = new Course[k];
+					Attendance** atd = new Attendance *[k];
+					readAttendance(fin, CourseTmp, atd, k);
+					fin.close();
+
+					fout.open("Data/Courses/2019-2020-HK2-" + ClassTmp + "-" + Course2 + "-Student-Attendance.txt");
+					if (!fout.is_open())
+					{
+						cout << "Can not open this file!" << endl;
+					}
+					else {
+						fout << k + 1;
+						if (k >= 2) {
+							for (int i = 0; i < k; ++i) {
+								fout << endl;
+								fout << endl;
+								fout << CourseTmp[i].student.id << endl;
+								fout << CourseTmp[i].student.password << endl;
+								fout << CourseTmp[i].student.fullName << endl;
+								fout << CourseTmp[i].student.birthday.year << CourseTmp[i].student.birthday.month << CourseTmp[i].student.birthday.day << endl;
+								fout << CourseTmp[i].Class << endl;
+								fout << CourseTmp[i].isActive << endl;
+								fout << CourseTmp[i].midterm << endl;
+								fout << CourseTmp[i].final << endl;
+								fout << CourseTmp[i].bonus << endl;
+								fout << CourseTmp[i].total << endl;
+								for (int j = 0; j < 10; ++j)
+								{
+									fout << atd[i][j].Date.year << atd[i][j].Date.month << atd[i][j].Date.day << atd[i][j].startTime.hour << atd[i][j].startTime.minute << atd[i][j].endTime.hour << atd[i][j].endTime.minute << atd[i][j].attendance << endl;
+								}
+								fout << CourseTmp[i].isActive;
+							}
+							fout << endl;
+							fout << endl;
+							fout << StudentTmp[i].id << endl;
+							fout << StudentTmp[i].password << endl;
+							fout << StudentTmp[i].fullName << endl;
+							fout << StudentTmp[i].birthday.year << StudentTmp[i].birthday.month << StudentTmp[i].birthday.day << endl;
+							fout << ClassTmp << endl;
+							CourseTmp[k].isActive = 0;
+							fout << CourseTmp[k].isActive << endl;
+							fout << "-1" << endl;
+							fout << "-1" << endl;
+							fout << "-1" << endl;
+							fout << "-1" << endl;
+							for (int j = 0; j < 10; ++j)
+							{
+								fout << atd[k][j].Date.year << atd[k][j].Date.month << atd[k][j].Date.day << atd[k][j].startTime.hour << atd[k][j].startTime.minute << atd[k][j].endTime.hour << atd[k][j].endTime.minute << "-1" << endl;
+							}
+							fout << CourseTmp[k].isActive << endl;
+						}
+						else {
+							fout << endl;
+							fout << endl;
+							fout << StudentTmp[i].id << endl;
+							fout << StudentTmp[i].password << endl;
+							fout << StudentTmp[i].fullName << endl;
+							fout << StudentTmp[i].birthday.year << StudentTmp[i].birthday.month << StudentTmp[i].birthday.day << endl;
+							fout << ClassTmp << endl;
+							CourseTmp[k].isActive = 0;
+							fout << CourseTmp[k].isActive << endl;
+							fout << "-1" << endl;
+							fout << "-1" << endl;
+							fout << "-1" << endl;
+							fout << "-1" << endl;
+							for (int j = 0; j < 10; ++j)
+							{
+								fout << atd[k][j].Date.year << atd[k][j].Date.month << atd[k][j].Date.day << atd[k][j].startTime.hour << atd[k][j].startTime.minute << atd[k][j].endTime.hour << atd[k][j].endTime.minute << "-1" << endl;
+							}
+							fout << CourseTmp[k].isActive << endl;
+						}
+					}
+					fout.close();
+				}				
+			}
+		}
+	}
+}
 
