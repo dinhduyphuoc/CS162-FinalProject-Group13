@@ -7,9 +7,9 @@ void viewCourseofSemester() {
 	Course* course;
 	string Class;
 	int n;
-	cout << "Enter class that attend to this course: ";
-	cin >> Class;
-	fin.open("Data/Courses/2019-2020-HK2-Schedule-" + Class + ".txt");
+	cout << "Courses of this semester: " << endl;
+	cout << endl;
+	fin.open("Data/Courses/Courses.txt");
 	if (!fin.is_open()) {
 		cout << "Can not open this file! " << endl;
 		return;
@@ -19,21 +19,31 @@ void viewCourseofSemester() {
 	LoadCourse(fin, course, n);
 	fin.close();
 	for (int i = 0; i < n; ++i) {
-		cout << course[i].course << endl;
-		cout << course[i].courseName << endl;
-		cout << course[i].Class << endl;
-		cout << course[i].lecturerUser << endl;
-		cout << course[i].lecturerName << endl;
-		cout << course[i].education << endl;
-		cout << course[i].gender << endl;
-		cout << course[i].startDate.year << " " << setw(2) << setfill('0') << course[i].startDate.month << " " << setw(2) << setfill('0') << course[i].startDate.day << endl;
-		cout << course[i].endDate.year << " " << setw(2) << setfill('0') << course[i].endDate.month << " " << setw(2) << setfill('0') << course[i].endDate.day << endl;
-		cout << course[i].day;
-		cout << course[i].startTime.hour << " " << setw(2) << setfill('0') << course[i].startTime.minute << endl;
-		cout << course[i].endTime.hour << " " << setw(2) << setfill('0') << course[i].endTime.minute << endl;
-		cout << course[i].room;
+		cout << "Course ID: " << course[i].course << endl;
+		cout << "Course name: " << course[i].courseName << endl;
+		cout << "Class: " << course[i].Class << endl;
+		cout << "Lecturer username: " << course[i].lecturerUser << endl;
+		cout << "Lecturer name: " << course[i].lecturerName << endl;
+		cout << "Education: " << course[i].education << endl;
+		if (course[i].gender == 1)
+			cout << "Gender: Male" << endl;
+		else cout << "Gender: Female" << endl;
+		cout << "Start date: " << course[i].startDate.year << "/" << setw(2) << setfill('0') << course[i].startDate.month << "/" << setw(2) << setfill('0') << course[i].startDate.day << endl;
+		cout << "End date: " << course[i].endDate.year << "/" << setw(2) << setfill('0') << course[i].endDate.month << "/" << setw(2) << setfill('0') << course[i].endDate.day << endl;
+		cout << "Weekly classes: " << course[i].day << endl;
+		cout << "Start time: " << course[i].startTime.hour << "h" << setw(2) << setfill('0') << course[i].startTime.minute << endl;
+		cout << "End time: " << course[i].endTime.hour << "h" << setw(2) << setfill('0') << course[i].endTime.minute << endl;
+		cout << "Room: " << course[i].room << endl;
+		if (course[i].isActive == 1)
+			cout << "Status: Active" << endl;
+		else cout << "Status: Inactive" << endl;
+		cout << endl;
 	}
+
 	fout.close();
+	system("pause");
+	system("CLS");
+	delete[] course;
 }
 void viewStudentofCourse() {
 	ifstream fin;
@@ -64,17 +74,22 @@ void viewStudentofCourse() {
 	}
 	fin.close();
 	for (int i = 0; i < n; i++) {
-		cout << student[i].id << endl;
-		cout << student[i].password << endl;
-		cout << student[i].fullName << endl;
-		cout << student[i].birthday.year << " " << setw(2) << setfill('0') << student[i].birthday.month << " " << setw(2) << setfill('0') << student[i].birthday.day << endl;
-		cout << student[i].Class << endl;
-		cout << student[i].isActive << endl;
+		cout << student[i].id << '\t';
+		cout << student[i].fullName << '\t';
+		cout << student[i].birthday.year << "/" << setw(2) << setfill('0') << student[i].birthday.month << "/" << setw(2) << setfill('0') << student[i].birthday.day << '\t';
+		cout << student[i].Class << '\t';
+		if (student[i].isActive == 1)
+			cout << "Active" << '\t';
+		else cout << "Inactive" << '\t';
 		cout << endl;
 	}
 	fout.close();
+	system("pause");
+	system("CLS");
+	delete[] student;
 }
-void editAttendance() {
+void editAttendance()
+{
 	string CourseClass, course;
 	int n;
 	ifstream fin;
@@ -105,7 +120,7 @@ void editAttendance() {
 	int check, day, month, year, choose;
 	cout << "Enter student's ID: ";
 	cin >> ID;
-	cout << "Enter the date (ex:8 9 2020): ";
+	cout << "Enter attendance date (Ex: 8 9 2020): ";
 	cin >> day >> month >> year;
 	for (int i = 0; i < n; i++) {
 		if (courseTmp[i].student.id == ID) {
@@ -160,7 +175,7 @@ void editAttendance() {
 }
 void editScore() {
 	ifstream fin;
-	Scoreboard* board;
+	ofstream fout;
 	string Class, course, ID;
 	int n;
 	cin.ignore();
@@ -180,32 +195,65 @@ void editScore() {
 	cin >> bonus;
 	cout << "Total: ";
 	cin >> total;
-	string filename = "Data/Scoreboards/" + Class + "-" + course + "-Scoreboard.txt";
+	string filename = "Data/Courses/2019-2020-HK2-" + Class + "-" + course + "-Student-Attendance.txt";
 	fin.open(filename);
-	if (!fin.is_open()) {
-		cout << "Cannot open the file!";
+	if (!fin.is_open())
+	{
+		cout << "Cannot open the file!" << endl;
 		return;
 	}
 	fin >> n;
-	board = new Scoreboard[n];
-	readScoreboard(fin, board, n);
+	Course* courseTmp = new Course[n];
+	Attendance** atd = new Attendance * [n];
+	for (int i = 0; i < n; i++) {
+		atd[i] = new Attendance[11];
+	}
+	for (int i = 0; i < n; ++i)
+	{
+		readAttendance(fin, courseTmp, atd, i);
+	}
 	fin.close();
 	for (int i = 0; i < n; i++) {
-		if (board[i].ID == ID) {
-			board[i].Midterm = mid;
-			board[i].Final = Final;
-			board[i].Bonus = bonus;
-			board[i].Total = total;
+		if (courseTmp[i].student.id == ID) {
+			courseTmp[i].midterm = mid;
+			courseTmp[i].final = Final;
+			courseTmp[i].bonus = bonus;
+			courseTmp[i].total = total;
 		}
 	}
-	cout << "ID\tStudent name\tMidterm\tFinal\tBonus\tTotal" << endl;
-	for (int i = 0; i < n; i++) {
-		cout << board[i].ID << '\t' << board[i].name << '\t' << board[i].Midterm << '\t' << board[i].Final << '\t' << board[i].Bonus << '\t' << board[i].Total << endl;
+	fout.open(filename);
+	if (!fout.is_open()) {
+		cout << "Cannot open the file!";
+		return;
 	}
+	fout << n;
+	for (int i = 0; i < n; ++i)
+	{
+		fout << endl;
+		fout << endl;
+		fout << courseTmp[i].student.id << endl;
+		fout << courseTmp[i].student.password << endl;
+		fout << courseTmp[i].student.fullName << endl;
+		fout << courseTmp[i].student.birthday.year << " " << courseTmp[i].student.birthday.month << " " << courseTmp[i].student.birthday.day << endl;
+		fout << courseTmp[i].Class << endl;
+		fout << courseTmp[i].isActive << endl;
+		fout << courseTmp[i].midterm << endl;
+		fout << courseTmp[i].final << endl;
+		fout << courseTmp[i].bonus << endl;
+		fout << courseTmp[i].total << endl;
+		for (int j = 0; j < 10; ++j)
+		{
+			fout << atd[i][j].Date.year << " " << atd[i][j].Date.month << " " << atd[i][j].Date.day << " " << atd[i][j].startTime.hour << " " << atd[i][j].startTime.minute << " " << atd[i][j].endTime.hour << " " << atd[i][j].endTime.minute << " " << atd[i][j].attendance << endl;
+		}
+		fout << courseTmp[i].isActive;
+	}
+	fout.close();
+	cout << "Edited successfully!" << endl;
 	cout << endl;
 	system("pause");
 	system("CLS");
-	delete[] board;
+	delete[] courseTmp;
+	delete[] atd;
 }
 void importScoreboardCSV() {
 	Scoreboard* board;
@@ -292,6 +340,10 @@ void importScoreboardCSV() {
 		fout << courseTmp[i].isActive;
 	}
 	fout.close();
+
+	cout << endl;
+	system("pause");
+	system("CLS");
 
 	delete[] courseTmp;
 	delete[] atd;

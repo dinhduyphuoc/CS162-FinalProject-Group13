@@ -120,8 +120,9 @@ void exportattendanceCSV();
 //Lecturer section
 void viewCourseofSemester();
 void exportScoreboardCSV();
-//void editAttendance();
+void editAttendance();
 void importScoreboardCSV();
+void editScore();
 
 //Student section
 void checkin(Student& student);

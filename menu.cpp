@@ -438,7 +438,7 @@ void LecturerMenu(Lecturer*& lecturer, Lecturer& lecturerTmp) {
 	cout << "3. View attendance list of a course" << endl;
 	cout << "4. Edit an attendance" << endl;
 	cout << "5. Import scoreboard of a course (midterm, final, lab, bonus) from a csv file" << endl;
-	cout << "6. Edit grade of a student";
+	cout << "6. Edit grade of a student" << endl;
 	cout << "7. View a scoreboard";
 	cout << endl;
 	cout << "Please select option (0-7): ";
@@ -465,16 +465,18 @@ void LecturerMenu(Lecturer*& lecturer, Lecturer& lecturerTmp) {
 		break;
 	case 4:
 		system("CLS");
-		//editAttendance();
+		editAttendance();
 		LecturerMenu(lecturer, lecturerTmp);
 		break;
 	case 5:
 		system("CLS");
-		//function
+		importScoreboardCSV();
+		LecturerMenu(lecturer, lecturerTmp);
 		break;
 	case 6:
 		system("CLS");
-		//function
+		editScore();
+		LecturerMenu(lecturer, lecturerTmp);
 	case 7:
 		system("CLS");
 		ViewScoreboard();
