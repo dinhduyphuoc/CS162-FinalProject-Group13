@@ -118,7 +118,7 @@ void importCourseCSV(ifstream& fin, Course* course) {
 		i++;
 	}
 }
-void importStudentCSV(ifstream& fin, Student* student, int n) {
+void importStudentCSV(ifstream& fin, Student* student) {
 	string tmp;
 	string line;
 	int i = 0;
@@ -135,6 +135,31 @@ void importStudentCSV(ifstream& fin, Student* student, int n) {
 		getline(ss, student[i].Class, ',');
 		getline(ss, tmp, '\n');
 		student[i].isActive = stoi(tmp);
+		i++;
+	}
+}
+void importAttendanceCSV(ifstream& fin, Attendance* atd) {
+	string tmp;
+	string line;
+	int i = 0;
+	while (getline(fin, line)) {
+		stringstream ss(line);
+		getline(ss, tmp, ',');
+		atd[i].Date.year = stoi(tmp);
+		getline(ss, tmp, ',');
+		atd[i].Date.month = stoi(tmp);
+		getline(ss, tmp, ',');
+		atd[i].Date.day = stoi(tmp);
+		getline(ss, tmp, ',');
+		atd[i].startTime.hour = stoi(tmp);
+		getline(ss, tmp, ',');
+		atd[i].startTime.minute = stoi(tmp);
+		getline(ss, tmp, ',');
+		atd[i].endTime.hour = stoi(tmp);
+		getline(ss, tmp, ',');
+		atd[i].endTime.minute = stoi(tmp);
+		getline(ss, tmp, '\n');
+		atd[i].attendance = stoi(tmp);
 		i++;
 	}
 }

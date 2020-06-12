@@ -30,7 +30,7 @@ void ImportStudents() {
 	}
 	nImport = noOfRows(address);
 	studentImport = new Student[nImport];
-	importStudentCSV(fin, studentImport, nImport);
+	importStudentCSV(fin, studentImport);
 	fin.close();
 
 	//READ STUDENTS FILE FROM GIVING CLASS
@@ -840,8 +840,11 @@ void EditAcademicYears() {
 void ImportCourses() {
 	ifstream fin;
 	ofstream fout;
-	string address, className, semester;
-	int startYear, endYear;
+	string address, className;
+	Student* student;
+	Course* courseImport;
+	Course* course;
+	Attendance* atd;
 	int n;
 
 	//FUNCTION NAME
@@ -850,26 +853,82 @@ void ImportCourses() {
 
 	//LET USER ENTER THE FILE ADDRESS
 	cin.ignore(1000, '\n');
-	cout << "Enter academic year: ";
-	cin >> startYear >> endYear;
-	cin.ignore(1000, '\n');
-	cout << "Enter semester: ";
-	getline(cin, semester, '\n');
 	cout << "Enter class: ";
 	getline(cin, className, '\n');
-	cout << "Enter the file address you want to import: ";
-	getline(cin, address, '\n');
 
-	//IMPORT FROM CSV FILE
+	//IMPORT COURSE FROM CSV FILE
+	cout << "Enter the course file address: ";
+	getline(cin, address, '\n');
 	fin.open(address);
 	if (!fin.is_open()) {
 		cout << "Cannot open the file!";
 		return;
 	}
 	int nImport = noOfRows(address);
-	Course* courseImport = new Course[nImport];
+	courseImport = new Course[nImport];
 	importCourseCSV(fin, courseImport);
 	fin.close();
+
+	//IMPORT AND WRITE STUDENTS AND ATTENDANCE LIST OF AN IMPORTED COURSE
+	int nImportStudent;
+	for (int i = 0; i < nImport; ++i) {
+		cout << "Enter the attendance list import file of " + courseImport[i].course + ": ";
+		getline(cin, address, '\n');
+		fin.open(address);
+		if (!fin.is_open()) {
+			cout << "Cannot open the file!";
+			return;
+		}
+		int nImportAttendance = noOfRows(address);
+		atd = new Attendance[nImportAttendance];
+		importAttendanceCSV(fin, atd);
+		fin.close();
+
+		cout << "Enter the students import file of " + courseImport[i].course + ": ";
+		getline(cin, address, '\n');
+		fin.open(address);
+		if (!fin.is_open()) {
+			cout << "Cannot open the file!";
+			return;
+		}
+		nImportStudent = noOfRows(address);
+		student = new Student[nImportStudent];
+		importStudentCSV(fin, student);
+		fin.close();
+
+		//WRITE STUDENT IMPORT FILE
+		fout.open("Data/Courses/2019-2020-HK2-" + className + "-" + courseImport[i].course + "-Student.txt");
+		if (!fout.is_open()) {
+			cout << "Cannot open the file!";
+			return;
+		}
+		fout << nImportStudent;
+		for (int j = 0; j < nImportStudent; ++j) {
+			writeStudent(fout, student, j);
+		}
+		fout.close();
+
+		//WRITE ATTENDANCE LIST
+		fout.open("Data/Courses/2019-2020-HK2-" + className + "-" + courseImport[i].course + "-Student-Attendance.txt");
+		if (!fout.is_open()) {
+			cout << "Cannot open the file!";
+			return;
+		}
+		fout << nImportStudent;
+		for (int j = 0; j < nImportStudent; ++j) {
+			writeStudent(fout, student, j);
+			fout << endl;
+			fout << -1 << endl;
+			fout << -1 << endl;
+			fout << -1 << endl;
+			fout << -1 << endl;
+			for (int k = 0; k < 10; ++k) {
+				fout << atd[k].Date.year << " " << atd[k].Date.month << " " << atd[k].Date.day << " " << atd[k].startTime.hour << " " << atd[k].startTime.minute << " " << atd[k].endTime.hour << " " << atd[k].endTime.minute << " " << atd[k].attendance << endl;
+			}
+			fout << 1;
+		}
+		fout.close();
+	}
 
 	//READ COURSE FILE 
 	fin.open("Data/Courses/Courses.txt");
@@ -878,7 +937,7 @@ void ImportCourses() {
 		return;
 	}
 	fin >> n;
-	Course* course = new Course[n + nImport];
+	course = new Course[n + nImport];
 	LoadCourse(fin, course, n);
 	fin.close();
 
@@ -922,30 +981,6 @@ void ImportCourses() {
 	}
 	fout.close();
 
-	//CREATE NEW STUDENTS LIST OF ADDED COURSES
-	address = "Data/Classes/Student-" + className + ".txt";
-	fin.open(address);
-	if (!fin.is_open()) {
-		cout << "Cannot open the file!";
-		return;
-	}
-	int nStudent;
-	fin >> nStudent;
-	Student* student = new Student[nStudent];
-	LoadStudent(fin, student, nStudent);
-	fin.close();
-	for (int i = 0; i < nImport; i++) {
-		address = "Data/Courses/" + to_string(startYear) + "-" + to_string(endYear) + "-" + semester + "-" + className + "-" + course[i].course + "-Student2.txt";
-		fout.open(address);
-		fout << nStudent;
-		for (int i = 0; i < nImport; i++) {
-			writeStudent(fout, student, i);
-		}
-		fout.close();
-		address = "Data/Courses/" + to_string(startYear) + "-" + to_string(endYear) + "-" + semester + "-" + className + "-" + course[i].course + "-Student-Attendance2.txt";
-		fout.open(address);
-		fout << nStudent;
-	}
 	delete[] course;
 	delete[] courseImport;
 }

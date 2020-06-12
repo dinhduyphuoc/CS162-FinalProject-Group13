@@ -83,12 +83,13 @@ struct Attendance {
 void writeStudent(ofstream& fout, Student*& student, int i);
 void LoadCourse(ifstream& fin, Course*& course, int n);
 int noOfRows(string address);
-void importStudentCSV(ifstream& fin, Student* student, int n);
+void importStudentCSV(ifstream& fin, Student* student);
 void readScoreboard(ifstream& fin, Scoreboard* board, int n);
 void readAttendance(ifstream& fin, Course*& course, Attendance**& atd, int i);
 void writeCourse(ofstream& fout, Course*& course, int i);
 void importCourseCSV(ifstream& fin, Course* course);
 void importScoreboardCSV(ifstream& fin, Scoreboard* board);
+void importAttendanceCSV(ifstream& fin, Attendance* atd);
 
 //Staff section
 void ImportStudents();
