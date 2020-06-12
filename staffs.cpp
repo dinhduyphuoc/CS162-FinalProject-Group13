@@ -176,8 +176,6 @@ void AddStudentManually() {
 	fout << n + 1;
 	if (n >= 2) {
 		for (int i = 0; i < n; ++i) {
-			fout << endl;
-			fout << endl;
 			writeStudent(fout, student, i);
 		}
 		fout << endl;
@@ -197,6 +195,7 @@ void AddStudentManually() {
 		fout << studentTmp.fullName << endl;
 		fout << studentTmp.birthday.year << " " << setw(2) << setfill('0') << studentTmp.birthday.month << " " << setw(2) << setfill('0') << studentTmp.birthday.day << endl;
 		fout << studentTmp.Class << endl;
+		fout << 1;
 	}
 	fout.close();
 
@@ -218,8 +217,6 @@ void AddStudentManually() {
 	}
 	fout << n + 1;
 	for (int i = 0; i < n; ++i) {
-		fout << endl;
-		fout << endl;
 		writeStudent(fout, student, i);
 	}
 	fout << endl;
@@ -398,8 +395,6 @@ void RemoveStudent()
 	}
 	fout << n;
 	for (int i = 0; i < n; ++i) {
-		fout << endl;
-		fout << endl;
 		writeStudent(fout, student, i);
 	}
 	fout.close();
@@ -412,8 +407,6 @@ void RemoveStudent()
 	}
 	fout << n;
 	for (int i = 0; i < n; ++i) {
-		fout << endl;
-		fout << endl;
 		writeStudent(fout, student, i);
 	}
 	fout.close();
@@ -768,7 +761,7 @@ void EditAcademicYears() {
 	}
 	fin.close();
 	fout.open("Data/Courses/Academic-Years.txt");
-	if (!fin.is_open()) {
+	if (!fout.is_open()) {
 		cout << "Cannot open the file!";
 		return;
 	}
@@ -805,13 +798,13 @@ void EditAcademicYears() {
 	}
 	fin.close();
 	fout.open("Data/Courses/Academic-Years.txt");
-	if (!fin.is_open()) {
+	if (!fout.is_open()) {
 		cout << "Cannot open the file!";
 		return;
 	}
-	fout << n--;
+	fout << n-1;
 	for (int i = 0; i < n; ++i) {
-		if (ayear[i].startYear != temp.startYear && ayear[i].endYear != temp.endYear && ayear[i].semester != temp.semester) {
+		if (ayear[i].startYear != temp.startYear || ayear[i].endYear != temp.endYear || ayear[i].semester != temp.semester) {
 			fout << endl;
 			fout << ayear[i].startYear << " " << ayear[i].endYear << endl;
 			fout << ayear[i].semester << endl;
@@ -856,9 +849,10 @@ void ImportCourses() {
 	cout << endl;
 
 	//LET USER ENTER THE FILE ADDRESS
+	cin.ignore(1000, '\n');
 	cout << "Enter academic year: ";
 	cin >> startYear >> endYear;
-	cin.ignore();
+	cin.ignore(1000, '\n');
 	cout << "Enter semester: ";
 	getline(cin, semester, '\n');
 	cout << "Enter class: ";
@@ -945,8 +939,6 @@ void ImportCourses() {
 		fout.open(address);
 		fout << nStudent;
 		for (int i = 0; i < nImport; i++) {
-			fout << endl;
-			fout << endl;
 			writeStudent(fout, student, i);
 		}
 		fout.close();
@@ -1137,8 +1129,8 @@ void AddCourseManually()
 		fout << courseTmp.gender << endl;
 		fout << courseTmp.startDate.year << setw(2) << setfill('0') << courseTmp.startDate.month << setw(2) << setfill('0') << courseTmp.startDate.day << endl;
 		fout << courseTmp.endDate.year << setw(2) << setfill('0') << courseTmp.endDate.month << setw(2) << setfill('0') << courseTmp.endDate.day << endl;
-		fout << courseTmp.startTime.hour << setw(2) << setfill('0') << courseTmp.startTime.minute << endl;
-		fout << courseTmp.endTime.hour << setw(2) << setfill('0') << courseTmp.endTime.minute << endl;
+		fout << courseTmp.startTime.hour << " "<< setw(2) << setfill('0') << courseTmp.startTime.minute << endl;
+		fout << courseTmp.endTime.hour << " " <<setw(2) << setfill('0') << courseTmp.endTime.minute << endl;
 		fout << courseTmp.room << endl;
 		fout << 1;
 	}
@@ -1154,8 +1146,8 @@ void AddCourseManually()
 		fout << courseTmp.gender << endl;
 		fout << courseTmp.startDate.year << setw(2) << setfill('0') << courseTmp.startDate.month << setw(2) << setfill('0') << courseTmp.startDate.day << endl;
 		fout << courseTmp.endDate.year << setw(2) << setfill('0') << courseTmp.endDate.month << setw(2) << setfill('0') << courseTmp.endDate.day << endl;
-		fout << courseTmp.startTime.hour << setw(2) << setfill('0') << courseTmp.startTime.minute << endl;
-		fout << courseTmp.endTime.hour << setw(2) << setfill('0') << courseTmp.endTime.minute << endl;
+		fout << courseTmp.startTime.hour << " " << setw(2) << setfill('0') << courseTmp.startTime.minute << endl;
+		fout << courseTmp.endTime.hour << " " << setw(2) << setfill('0') << courseTmp.endTime.minute << endl;
 		fout << courseTmp.room << endl;
 		fout << 1;
 	}
@@ -1184,8 +1176,8 @@ void AddCourseManually()
 		fout << courseTmp.gender << endl;
 		fout << courseTmp.startDate.year << setw(2) << setfill('0') << courseTmp.startDate.month << setw(2) << setfill('0') << courseTmp.startDate.day << endl;
 		fout << courseTmp.endDate.year << setw(2) << setfill('0') << courseTmp.endDate.month << setw(2) << setfill('0') << courseTmp.endDate.day << endl;
-		fout << courseTmp.startTime.hour << setw(2) << setfill('0') << courseTmp.startTime.minute << endl;
-		fout << courseTmp.endTime.hour << setw(2) << setfill('0') << courseTmp.endTime.minute << endl;
+		fout << courseTmp.startTime.hour << " " << setw(2) << setfill('0') << courseTmp.startTime.minute << endl;
+		fout << courseTmp.endTime.hour << " " << setw(2) << setfill('0') << courseTmp.endTime.minute << endl;
 		fout << courseTmp.room << endl;
 		fout << 1;
 	}
@@ -1201,8 +1193,8 @@ void AddCourseManually()
 		fout << courseTmp.gender << endl;
 		fout << courseTmp.startDate.year << setw(2) << setfill('0') << courseTmp.startDate.month << setw(2) << setfill('0') << courseTmp.startDate.day << endl;
 		fout << courseTmp.endDate.year << setw(2) << setfill('0') << courseTmp.endDate.month << setw(2) << setfill('0') << courseTmp.endDate.day << endl;
-		fout << courseTmp.startTime.hour << setw(2) << setfill('0') << courseTmp.startTime.minute << endl;
-		fout << courseTmp.endTime.hour << setw(2) << setfill('0') << courseTmp.endTime.minute << endl;
+		fout << courseTmp.startTime.hour << " " << setw(2) << setfill('0') << courseTmp.startTime.minute << endl;
+		fout << courseTmp.endTime.hour << " " << setw(2) << setfill('0') << courseTmp.endTime.minute << endl;
 		fout << courseTmp.room << endl;
 		fout << 1;
 	}
@@ -1262,8 +1254,6 @@ void removeCourse() {
 	fout << n-1;
 	for (int i = 0; i < n; ++i) {
 		if (course[i].course != temp) {
-			fout << endl;
-			fout << endl;
 			writeCourse(fout, course, i);
 		}
 	}
