@@ -176,12 +176,12 @@ void ViewScoreOfCourse()
 	cin.ignore();
 	cout << "Enter your student ID: ";
 	getline(cin, StuID, '\n');
-	cout << "ID\tStudent name\tMidterm\tFinal\tBonus\tTotal" << endl;
+	cout << "ID\t\tStudent name\t" << "     " << "Midterm\tFinal\tBonus\tTotal" << endl;
 	for (int i = 0; i < n; i++)
 	{
 		if (courses[i].student.id == StuID)
 		{
-			cout << courses[i].student.id << '\t' << courses[i].student.fullName << '\t' << courses[i].midterm << '\t' << courses[i].final << '\t' << courses[i].bonus << '\t' << courses[i].total << endl;
+			cout << courses[i].student.id << '\t' << courses[i].student.fullName << " " << courses[i].midterm << '\t' << courses[i].final << '\t' << courses[i].bonus << '\t' << courses[i].total << endl;
 		}
 	}
 	cout << endl;
@@ -190,7 +190,6 @@ void ViewScoreOfCourse()
 	delete[] courses;
 	delete[] atd;
 }
-
 void ViewSchedule()
 {
 	ifstream fin;
@@ -228,9 +227,10 @@ void ViewSchedule()
 		for (int i = 0; i < n; i++)
 		{
 			cout << courses[i].courseName << endl;
+			cout << "Year" << " " << "Month" << " " << "Day" << " " << "StartHour" << " " << "StartMinute" << " " << "EndHour" << " " << "EndMinute" << endl;
 			for (int j = 0; j < 10; ++j)
 			{
-				cout << atd[i][j].Date.year << " " << atd[i][j].Date.month << " " << atd[i][j].Date.day << " " << atd[i][j].startTime.hour << " " << atd[i][j].startTime.minute << " " << atd[i][j].endTime.hour << " " << atd[i][j].endTime.minute << endl;
+				cout << atd[i][j].Date.year << "   " << atd[i][j].Date.month << "    " << atd[i][j].Date.day << "     " << atd[i][j].startTime.hour << "        " << atd[i][j].startTime.minute << "        " << atd[i][j].endTime.hour << "        " << atd[i][j].endTime.minute << endl;
 			}
 			cout << endl;
 		}
