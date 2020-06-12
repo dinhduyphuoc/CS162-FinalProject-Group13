@@ -510,7 +510,7 @@ void ChangeClass() {
 	if (!fout.is_open()) {
 		cout << "Cannot open the file!" << endl;
 	}
-	fout << n;
+	fout << n+1;
 	for (int i = 0; i < n; ++i) {
 		fout << endl;
 		fout << endl;
@@ -556,7 +556,7 @@ void ChangeClass() {
 	if (!fout.is_open()) {
 		cout << "Cannot open the file!" << endl;
 	}
-	fout << n;
+	fout << n-1;
 	for (int i = 0; i < n; ++i) {
 		if (studenttemp1[i].id != temp.id) {
 			fout << endl;
@@ -804,7 +804,7 @@ void EditAcademicYears() {
 	}
 	fout << n - 1;
 	for (int i = 0; i < n; ++i) {
-		if (ayear[i].startYear != temp.startYear || ayear[i].endYear != temp.endYear || ayear[i].semester != temp.semester) {
+		if ((ayear[i].startYear != temp.startYear) || (ayear[i].endYear != temp.endYear) || (ayear[i].semester != temp.semester)) {
 			fout << endl;
 			fout << ayear[i].startYear << " " << ayear[i].endYear << endl;
 			fout << ayear[i].semester << endl;
@@ -1356,7 +1356,7 @@ void removeStudentfromCourse() {
 		cout << "Can not open this file! " << endl;
 		return;
 	}
-	fout << n--;
+	fout << n-1;
 	for (int i = 0; i < n - 1; ++i) {
 		if (student[i].id != ID) {
 			fout << endl;
@@ -1368,7 +1368,7 @@ void removeStudentfromCourse() {
 	cout << "Student removed successfully!" << endl;
 
 	delete[] student;
-} //Lỗi
+}
 void viewCourseStudent()
 {
 	ifstream fin;
